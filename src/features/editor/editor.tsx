@@ -8,6 +8,7 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import Heading from "./extensions/heading";
 import { UndoRedo, TrailingNode, Placeholder } from "@tiptap/extensions";
+import { BulletList, OrderedList, ListItem } from "@tiptap/extension-list";
 
 function Editor() {
   const editor = useEditor({
@@ -23,6 +24,9 @@ function Editor() {
       Placeholder.configure({
         placeholder: "ここに入力",
       }),
+      BulletList,
+      OrderedList,
+      ListItem,
     ],
     content: "<p>Hello World!</p>",
   });
