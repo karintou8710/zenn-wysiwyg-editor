@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@radix-ui/react-slot": "^1.2.3",
     "@tailwindcss/vite": "^4.1.11",
     "@tiptap/extension-document": "^3.1.0",
     "@tiptap/extension-heading": "^3.1.0",

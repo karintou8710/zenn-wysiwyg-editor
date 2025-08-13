@@ -9,6 +9,7 @@ import Text from "@tiptap/extension-text";
 import Heading from "./extensions/heading";
 import { UndoRedo, TrailingNode, Placeholder } from "@tiptap/extensions";
 import { BulletList, OrderedList, ListItem } from "@tiptap/extension-list";
+import FixedMenu from "./components/fixed-menu";
 
 function Editor() {
   const editor = useEditor({
@@ -33,6 +34,7 @@ function Editor() {
 
   return (
     <>
+      <FixedMenu editor={editor} className="mb-4" />
       <EditorContent editor={editor} className="znc" />
     </>
   );
