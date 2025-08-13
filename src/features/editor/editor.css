@@ -1,0 +1,12 @@
+.tiptap {
+  margin: 2rem 0 10rem;
+  padding: 0 2rem;
+  border-radius: 10px;
+  outline: none;
+
+  img.ProseMirror-separator {
+    display: inline !important;
+    border: none !important;
+    margin: 0 !important;
+  }
+}

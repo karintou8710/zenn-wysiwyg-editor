@@ -11,13 +11,19 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.11",
+    "@tiptap/extension-document": "^3.1.0",
+    "@tiptap/extension-paragraph": "^3.1.0",
+    "@tiptap/extension-text": "^3.1.0",
+    "@tiptap/pm": "^3.1.0",
+    "@tiptap/react": "^3.1.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "lucide-react": "^0.539.0",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "tailwind-merge": "^3.3.1",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "zenn-content-css": "^0.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.33.0",
