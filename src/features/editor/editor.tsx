@@ -12,6 +12,7 @@ import { BulletList, OrderedList, ListItem } from "@tiptap/extension-list";
 import FixedMenu from "./components/fixed-menu";
 import { Link } from "./extensions/link";
 import Blockquote from "@tiptap/extension-blockquote";
+import HorizentalRule from "@tiptap/extension-horizontal-rule";
 
 function Editor() {
   const editor = useEditor({
@@ -34,6 +35,7 @@ function Editor() {
         autolink: false,
       }),
       Blockquote,
+      HorizentalRule,
     ],
     content: "<p>Hello World!</p>",
   });

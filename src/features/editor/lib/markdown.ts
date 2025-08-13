@@ -26,6 +26,10 @@ const markdownSerializer = new MarkdownSerializer(
     blockquote(state, node) {
       state.wrapBlock("> ", null, node, () => state.renderContent(node));
     },
+    horizontalRule(state, node) {
+      state.write(node.attrs.markup || "---");
+      state.closeBlock(node);
+    },
   },
   {
     link: {
