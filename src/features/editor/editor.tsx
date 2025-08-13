@@ -7,7 +7,7 @@ import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import Heading from "./extensions/heading";
-import { UndoRedo } from "@tiptap/extensions";
+import { UndoRedo, TrailingNode } from "@tiptap/extensions";
 
 function Editor() {
   const editor = useEditor({
@@ -19,6 +19,7 @@ function Editor() {
         levels: [1, 2, 3, 4],
       }),
       UndoRedo,
+      TrailingNode,
     ],
     content: "<p>Hello World!</p>",
   });
