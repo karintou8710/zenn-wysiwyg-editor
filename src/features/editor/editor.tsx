@@ -1,13 +1,13 @@
-// src/Tiptap.tsx
+// @ts-ignore
+import "zenn-content-css";
+import "./editor.css";
+
 import { useEditor, EditorContent } from "@tiptap/react";
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
-
-// @ts-ignore
-import "zenn-content-css";
-import "./editor.css";
 import Heading from "./extensions/heading";
+import { UndoRedo } from "@tiptap/extensions";
 
 function Editor() {
   const editor = useEditor({
@@ -18,6 +18,7 @@ function Editor() {
       Heading.configure({
         levels: [1, 2, 3, 4],
       }),
+      UndoRedo,
     ],
     content: "<p>Hello World!</p>",
   });

@@ -15,6 +15,7 @@
     "@tiptap/extension-heading": "^3.1.0",
     "@tiptap/extension-paragraph": "^3.1.0",
     "@tiptap/extension-text": "^3.1.0",
+    "@tiptap/extensions": "^3.1.0",
     "@tiptap/pm": "^3.1.0",
     "@tiptap/react": "^3.1.0",
     "class-variance-authority": "^0.7.1",
