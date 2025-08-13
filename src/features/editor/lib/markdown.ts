@@ -48,6 +48,29 @@ const markdownSerializer = new MarkdownSerializer(
       },
       mixable: true,
     },
+    bold: {
+      open: "**",
+      close: "**",
+      mixable: true,
+      expelEnclosingWhitespace: true,
+    },
+    code: {
+      open: "`",
+      close: "`",
+      escape: false,
+    },
+    italic: {
+      open: "*",
+      close: "*",
+      mixable: true,
+      expelEnclosingWhitespace: true,
+    },
+    strike: {
+      open: "~~",
+      close: "~~",
+      mixable: true,
+      expelEnclosingWhitespace: true,
+    },
   }
 );
 

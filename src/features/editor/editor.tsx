@@ -13,6 +13,10 @@ import FixedMenu from "./components/fixed-menu";
 import { Link } from "./extensions/link";
 import Blockquote from "@tiptap/extension-blockquote";
 import HorizentalRule from "@tiptap/extension-horizontal-rule";
+import Bold from "@tiptap/extension-bold";
+import Italic from "@tiptap/extension-italic";
+import Strike from "@tiptap/extension-strike";
+import Code from "@tiptap/extension-code";
 
 function Editor() {
   const editor = useEditor({
@@ -36,6 +40,10 @@ function Editor() {
       }),
       Blockquote,
       HorizentalRule,
+      Bold,
+      Italic,
+      Strike,
+      Code,
     ],
     content: "<p>Hello World!</p>",
   });
