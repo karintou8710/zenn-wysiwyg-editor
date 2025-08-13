@@ -30,6 +30,16 @@ const markdownSerializer = new MarkdownSerializer(
       state.write(node.attrs.markup || "---");
       state.closeBlock(node);
     },
+    message(state, node) {
+      const type = node.attrs.type === "message" ? "" : node.attrs.type;
+      state.write(`:::message ${type}\n`);
+      state.renderContent(node);
+      state.write("\n:::");
+      state.closeBlock(node);
+    },
+    hardBreak(state) {
+      state.write("\n");
+    },
   },
   {
     link: {

@@ -17,6 +17,8 @@ import Bold from "@tiptap/extension-bold";
 import Italic from "@tiptap/extension-italic";
 import Strike from "@tiptap/extension-strike";
 import Code from "@tiptap/extension-code";
+import { Message } from "./extensions/message";
+import HardBreak from "@tiptap/extension-hard-break";
 
 function Editor() {
   const editor = useEditor({
@@ -44,8 +46,14 @@ function Editor() {
       Italic,
       Strike,
       Code,
+      Message,
+      HardBreak,
     ],
-    content: "<p>Hello World!</p>",
+    content: `
+    <p>Hello World!</p>
+    <zenn-message data-type="message">Message</zenn-message>
+    <zenn-message data-type="alert">Alert</zenn-message>
+    `,
   });
 
   return (
