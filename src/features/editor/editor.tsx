@@ -11,6 +11,7 @@ import { UndoRedo, TrailingNode, Placeholder } from "@tiptap/extensions";
 import { BulletList, OrderedList, ListItem } from "@tiptap/extension-list";
 import FixedMenu from "./components/fixed-menu";
 import { Link } from "./extensions/link";
+import Blockquote from "@tiptap/extension-blockquote";
 
 function Editor() {
   const editor = useEditor({
@@ -32,6 +33,7 @@ function Editor() {
       Link.configure({
         autolink: false,
       }),
+      Blockquote,
     ],
     content: "<p>Hello World!</p>",
   });

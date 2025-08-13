@@ -23,6 +23,9 @@ const markdownSerializer = new MarkdownSerializer(
     text(state, node) {
       state.text(node.text!);
     },
+    blockquote(state, node) {
+      state.wrapBlock("> ", null, node, () => state.renderContent(node));
+    },
   },
   {
     link: {
