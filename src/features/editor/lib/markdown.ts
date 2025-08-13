@@ -37,6 +37,9 @@ const markdownSerializer = new MarkdownSerializer(
       state.write("\n:::");
       state.closeBlock(node);
     },
+    messageContent(state, node) {
+      state.renderInline(node);
+    },
     hardBreak(state) {
       state.write("\n");
     },
