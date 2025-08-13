@@ -1,8 +1,10 @@
 .tiptap {
-  margin: 2rem 0 10rem;
-  padding: 0 2rem;
+  margin: 5rem 0 10rem;
+  padding: 40px 2rem;
   border-radius: 10px;
   outline: none;
+  background: white;
+  min-height: 600px;
 
   img.ProseMirror-separator {
     display: inline !important;
