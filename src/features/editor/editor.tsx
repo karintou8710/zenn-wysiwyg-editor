@@ -7,7 +7,7 @@ import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import Heading from "./extensions/heading";
-import { UndoRedo, TrailingNode } from "@tiptap/extensions";
+import { UndoRedo, TrailingNode, Placeholder } from "@tiptap/extensions";
 
 function Editor() {
   const editor = useEditor({
@@ -20,6 +20,9 @@ function Editor() {
       }),
       UndoRedo,
       TrailingNode,
+      Placeholder.configure({
+        placeholder: "ここに入力",
+      }),
     ],
     content: "<p>Hello World!</p>",
   });
