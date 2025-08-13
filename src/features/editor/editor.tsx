@@ -20,6 +20,7 @@ import Code from "@tiptap/extension-code";
 import { Message } from "./extensions/message";
 import HardBreak from "@tiptap/extension-hard-break";
 import { MessageContent } from "./extensions/message/message-content";
+import CodeBlock from "@tiptap/extension-code-block";
 
 function Editor() {
   const editor = useEditor({
@@ -50,11 +51,16 @@ function Editor() {
       Message,
       MessageContent,
       HardBreak,
+      CodeBlock,
     ],
     content: `
     <p>Hello World!</p>
     <zenn-message data-type="message"><p data-message-content>Message</p></zenn-message>
     <zenn-message data-type="alert"><p data-message-content>Alert</p></zenn-message>
+    <pre><code># 見出し1
+## 見出し2
+### 見出し3
+#### 見出し4</code></pre>
     `,
   });
 
