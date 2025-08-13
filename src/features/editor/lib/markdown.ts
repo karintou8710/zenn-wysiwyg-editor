@@ -24,7 +24,24 @@ const markdownSerializer = new MarkdownSerializer(
       state.text(node.text!);
     },
   },
-  {}
+  {
+    link: {
+      open() {
+        return "[";
+      },
+      close(_, mark) {
+        return (
+          "](" +
+          mark.attrs.href.replace(/[\(\)"]/g, "\\$&") +
+          (mark.attrs.title
+            ? ` "${mark.attrs.title.replace(/"/g, '\\"')}"`
+            : "") +
+          ")"
+        );
+      },
+      mixable: true,
+    },
+  }
 );
 
 export { markdownSerializer };

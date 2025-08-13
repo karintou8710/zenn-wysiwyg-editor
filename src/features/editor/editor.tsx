@@ -10,6 +10,7 @@ import Heading from "./extensions/heading";
 import { UndoRedo, TrailingNode, Placeholder } from "@tiptap/extensions";
 import { BulletList, OrderedList, ListItem } from "@tiptap/extension-list";
 import FixedMenu from "./components/fixed-menu";
+import { Link } from "./extensions/link";
 
 function Editor() {
   const editor = useEditor({
@@ -28,6 +29,9 @@ function Editor() {
       BulletList,
       OrderedList,
       ListItem,
+      Link.configure({
+        autolink: false,
+      }),
     ],
     content: "<p>Hello World!</p>",
   });
