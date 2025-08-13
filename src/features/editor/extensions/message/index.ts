@@ -7,8 +7,9 @@ export interface MessageOptions {
 export const Message = Node.create({
   name: "message",
   group: "block",
-  content: "inline*",
+  content: "messageContent",
   defining: true,
+  isolating: true,
 
   addAttributes() {
     return {
@@ -32,39 +33,6 @@ export const Message = Node.create({
     return ["zenn-message", 0];
   },
 
-  addKeyboardShortcuts() {
-    return {
-      Enter: ({ editor }) => {
-        const { state } = this.editor.view;
-        const { $from } = state.selection;
-        if ($from.node().type.name !== this.name || !state.selection.empty)
-          return false;
-
-        if (
-          $from.nodeBefore &&
-          $from.nodeBefore.type.name === "hardBreak" &&
-          !$from.nodeAfter
-        ) {
-          const pos = $from.after();
-          editor
-            .chain()
-            .insertContentAt(pos, { type: "paragraph" })
-            .setTextSelection(pos + 1)
-            .deleteRange({
-              from: $from.pos - 1,
-              to: $from.pos,
-            })
-            .run();
-          return true;
-        } else {
-          editor.commands.setHardBreak();
-        }
-
-        return true;
-      },
-    };
-  },
-
   addNodeView() {
     return ({ node }) => {
       const dom = document.createElement("aside");
@@ -77,14 +45,11 @@ export const Message = Node.create({
 
       const contentWrapper = document.createElement("div");
       contentWrapper.className = "msg-content";
-      const content = document.createElement("p");
-      content.className = "code-line";
-      contentWrapper.appendChild(content);
       dom.appendChild(contentWrapper);
 
       return {
         dom,
-        contentDOM: content,
+        contentDOM: contentWrapper,
       };
     };
   },

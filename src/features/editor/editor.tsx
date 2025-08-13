@@ -19,6 +19,7 @@ import Strike from "@tiptap/extension-strike";
 import Code from "@tiptap/extension-code";
 import { Message } from "./extensions/message";
 import HardBreak from "@tiptap/extension-hard-break";
+import { MessageContent } from "./extensions/message/message-content";
 
 function Editor() {
   const editor = useEditor({
@@ -47,12 +48,13 @@ function Editor() {
       Strike,
       Code,
       Message,
+      MessageContent,
       HardBreak,
     ],
     content: `
     <p>Hello World!</p>
-    <zenn-message data-type="message">Message</zenn-message>
-    <zenn-message data-type="alert">Alert</zenn-message>
+    <zenn-message data-type="message"><p data-message-content>Message</p></zenn-message>
+    <zenn-message data-type="alert"><p data-message-content>Alert</p></zenn-message>
     `,
   });
 
