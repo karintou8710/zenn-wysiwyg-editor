@@ -47,6 +47,88 @@ function getHighlightNodes(html: string): ChildNode[] {
   return Array.from(doc.body.childNodes);
 }
 
+function highlightCode(code: string, language: string): string {
+  try {
+    const isDiff = language.startsWith("diff-");
+    const targetLanguage = isDiff ? "diff" : language;
+
+    return Prism.highlight(code, Prism.languages[targetLanguage], language);
+  } catch (err: any) {
+    console.warn(
+      `Language "${language}" not supported, falling back to plaintext`
+    );
+    return Prism.highlight(code, Prism.languages.plaintext, "plaintext");
+  }
+}
+
+function createStandardDecorations(
+  nodes: ChildNode[],
+  startPos: number
+): Decoration[] {
+  const decorations: Decoration[] = [];
+  let from = startPos;
+
+  parseNodes(nodes).forEach((node) => {
+    const to = from + node.text.length;
+
+    if (node.classes.length) {
+      const decoration = Decoration.inline(from, to, {
+        class: node.classes.join(" "),
+      });
+      decorations.push(decoration);
+    }
+
+    from = to;
+  });
+
+  return decorations;
+}
+
+function createDiffDecorations(
+  nodes: ChildNode[],
+  startPos: number
+): Decoration[] {
+  const decorations: Decoration[] = [];
+  let from = startPos;
+
+  // diff-highlightの構造がネストになってProseMirrorに対応不可なため、spanの構造をフラットにする
+  // diff色は各トークンに適用する
+  Array.from(nodes).forEach((diffNode) => {
+    let lineStart = from;
+    let to = from;
+
+    parseNodes(Array.from(diffNode.childNodes)).forEach((node) => {
+      to = from + node.text.length;
+
+      if (node.classes.length) {
+        const decoration = Decoration.inline(from, to, {
+          class: node.classes.join(" "),
+        });
+        decorations.push(decoration);
+      }
+
+      from = to;
+    });
+
+    if (diffNode instanceof Element) {
+      const isInserted = (diffNode as HTMLElement).classList.contains(
+        "inserted"
+      );
+      const isDeleted = (diffNode as HTMLElement).classList.contains("deleted");
+
+      if (isInserted || isDeleted) {
+        decorations.push(
+          Decoration.inline(lineStart, to, {
+            class: isInserted ? "insertedToken" : "deletedToken",
+          })
+        );
+      }
+    }
+  });
+
+  return decorations;
+}
+
 function getDecorations({
   doc,
   name,
@@ -59,83 +141,18 @@ function getDecorations({
   const decorations: Decoration[] = [];
 
   findChildren(doc, (node) => node.type.name === name).forEach((block) => {
-    let from = block.pos + 1;
+    const from = block.pos + 1;
     const language = block.node.attrs.language || defaultLanguage;
     const isDiff = language.startsWith("diff-");
-    let html: string = "";
 
-    try {
-      // babel-plugin-prismjsによって必要な言語は自動でインポート済み
-      html = Prism.highlight(
-        block.node.textContent,
-        Prism.languages[isDiff ? "diff" : language],
-        language
-      );
-    } catch (err: any) {
-      console.warn(
-        `Language "${language}" not supported, falling back to plaintext`
-      );
-      html = Prism.highlight(
-        block.node.textContent,
-        Prism.languages.plaintext,
-        "plaintext"
-      );
-    }
-
+    const html = highlightCode(block.node.textContent, language);
     const nodes = getHighlightNodes(html);
 
-    if (isDiff) {
-      Array.from(nodes).forEach((diffNode) => {
-        let lineStart = from;
-        let to = from;
+    const blockDecorations = isDiff
+      ? createDiffDecorations(nodes, from)
+      : createStandardDecorations(nodes, from);
 
-        parseNodes(Array.from(diffNode.childNodes)).forEach((node) => {
-          to = from + node.text.length;
-
-          if (node.classes.length) {
-            const decoration = Decoration.inline(from, to, {
-              class: node.classes.join(" "),
-            });
-
-            decorations.push(decoration);
-          }
-
-          from = to;
-        });
-
-        if (diffNode instanceof Element) {
-          const isInserted = (diffNode as HTMLElement).classList.contains(
-            "inserted"
-          );
-          const isDeleted = (diffNode as HTMLElement).classList.contains(
-            "deleted"
-          );
-          decorations.push(
-            Decoration.inline(lineStart, to, {
-              class: isInserted
-                ? "insertedToken"
-                : isDeleted
-                ? "deletedToken"
-                : "",
-            })
-          );
-        }
-      });
-    } else {
-      parseNodes(nodes).forEach((node) => {
-        const to = from + node.text.length;
-
-        if (node.classes.length) {
-          const decoration = Decoration.inline(from, to, {
-            class: node.classes.join(" "),
-          });
-
-          decorations.push(decoration);
-        }
-
-        from = to;
-      });
-    }
+    decorations.push(...blockDecorations);
   });
 
   return DecorationSet.create(doc, decorations);
