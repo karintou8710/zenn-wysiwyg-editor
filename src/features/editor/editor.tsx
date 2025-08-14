@@ -21,6 +21,10 @@ import { Message } from "./extensions/message";
 import HardBreak from "@tiptap/extension-hard-break";
 import { MessageContent } from "./extensions/message/message-content";
 import CodeBlock from "@tiptap/extension-code-block";
+import Image from "./extensions/image";
+import { Caption } from "./extensions/caption";
+import Figure from "./extensions/figure";
+import SikoTuKoImage from "@/assets/sikotuko.jpeg";
 
 function Editor() {
   const editor = useEditor({
@@ -52,6 +56,13 @@ function Editor() {
       MessageContent,
       HardBreak,
       CodeBlock,
+      Figure,
+      Image.configure({
+        HTMLAttributes: {
+          class: "md-img",
+        },
+      }),
+      Caption,
     ],
     content: `
     <p>Hello World!</p>
@@ -61,6 +72,10 @@ function Editor() {
 ## 見出し2
 ### 見出し3
 #### 見出し4</code></pre>
+  <p data-figure>
+    <img src=${SikoTuKoImage} alt="Example Image" />
+    <em data-caption>Example Image Caption</em>
+  </p>
     `,
   });
 
