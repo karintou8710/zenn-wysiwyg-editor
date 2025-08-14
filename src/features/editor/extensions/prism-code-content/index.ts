@@ -86,34 +86,34 @@ export const PrismCodeContent = Node.create<CodeBlockOptions>({
         const { selection } = this.editor.state;
         const { $from } = selection;
 
+        if ($from.node().type.name !== this.name) return false;
+
+        if (!selection.empty || $from.start() !== $from.pos) return false;
+
         if ($from.node(-1).type !== this.editor.state.schema.nodes.codeBlock) {
           // ファイル名なし
-          const { empty, $anchor } = this.editor.state.selection;
-          const isAtStart = $anchor.pos === 1;
-
-          if (!empty || $anchor.parent.type.name !== this.name) {
-            return false;
-          }
-
-          // 先頭または空の場合はノードを削除
-          if (isAtStart || !$anchor.parent.textContent.length) {
-            return this.editor.commands.clearNodes();
-          }
-
-          return true;
-        } else {
-          // ファイル名あり
-          if ($from.node().type.name !== this.name) return false;
-
-          if (!selection.empty || $from.start() !== $from.pos) return false;
-
-          // codeBlock全体を削除する
-          this.editor
-            .chain()
-            .deleteRange({ from: $from.before(-1), to: $from.after(-1) })
-            .run();
-          return true;
+          return this.editor.commands.clearNodes();
         }
+
+        const text = $from.node(-1).textContent;
+        // codeBlock全体を削除する
+        this.editor
+          .chain()
+          .command(({ tr }) => {
+            tr.replaceRangeWith(
+              $from.before(-1),
+              $from.after(-1),
+              this.editor.state.schema.nodes.paragraph.create(
+                null,
+                text ? [this.editor.state.schema.text(text)] : []
+              )
+            );
+
+            return true;
+          })
+          .setTextSelection($from.before(-1) + 1)
+          .run();
+        return true;
       },
 
       // exit node on triple enter
