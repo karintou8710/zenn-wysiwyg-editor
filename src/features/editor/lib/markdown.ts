@@ -47,12 +47,16 @@ const markdownSerializer = new MarkdownSerializer(
       const fileName = node.firstChild!.textContent;
       const contentNode = node.lastChild!;
 
-      const backticks = node.textContent.match(/`{3,}/gm);
+      const backticks = contentNode.textContent.match(/`{3,}/gm);
       const fence = backticks ? backticks.sort().slice(-1)[0] + "`" : "```";
+      const isDiff = contentNode.attrs.language?.startsWith("diff-");
+      const language =
+        contentNode.attrs.language?.replace("diff-", "") || "plaintext";
 
       state.write(
         fence +
-          (node.attrs.language || "plaintext") +
+          (isDiff ? "diff " : "") +
+          language +
           (fileName ? `:${fileName}` : "") +
           "\n"
       );
