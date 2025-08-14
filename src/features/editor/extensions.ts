@@ -14,12 +14,14 @@ import Code from "@tiptap/extension-code";
 import { Message } from "./extensions/message";
 import HardBreak from "@tiptap/extension-hard-break";
 import { MessageContent } from "./extensions/message/message-content";
-import { PrismCodeBlock } from "./extensions/prism-code-block";
 import Image from "./extensions/image";
 import { Caption } from "./extensions/caption";
 import Figure from "./extensions/figure";
 import { TableKit } from "@tiptap/extension-table";
 import type { Extensions } from "@tiptap/react";
+import { PrismCodeBlock } from "./extensions/prism-code-block";
+import { PrismCodeContent } from "./extensions/prism-code-content";
+import { PrismCodeFileName } from "./extensions/prism-code-file-name";
 
 export const extensions: Extensions = [
   Document,
@@ -49,6 +51,8 @@ export const extensions: Extensions = [
   MessageContent,
   HardBreak,
   PrismCodeBlock,
+  PrismCodeContent,
+  PrismCodeFileName,
   Figure,
   Image.configure({
     HTMLAttributes: {

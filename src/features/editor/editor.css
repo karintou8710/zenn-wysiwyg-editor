@@ -18,6 +18,12 @@
   h4 {
     font-weight: 700;
   }
+
+  div[data-code-file-name] {
+    span {
+      min-width: 50px;
+    }
+  }
 }
 
 /* Selection */
