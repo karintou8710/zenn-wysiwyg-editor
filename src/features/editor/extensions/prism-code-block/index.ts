@@ -11,7 +11,7 @@ export const PrismCodeBlock = CodeBlock.extend<PrismCodeBlockOptions>({
     const parentOptions = this.parent?.() || ({} as CodeBlockOptions);
     return {
       ...parentOptions,
-      defaultLanguage: "typescript",
+      defaultLanguage: "plaintext",
     };
   },
 

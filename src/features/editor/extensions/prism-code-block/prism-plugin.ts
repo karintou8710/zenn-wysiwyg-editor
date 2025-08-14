@@ -4,8 +4,6 @@ import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
 import Prism from "prismjs";
 
-import "prismjs/components/prism-jsx";
-
 function parseNodes(
   nodes: Node[],
   className: string[] = []
@@ -49,13 +47,6 @@ function getHighlightNodes(html: string): ChildNode[] {
   return Array.from(doc.body.childNodes);
 }
 
-function registeredLang(aliasOrLanguage: string) {
-  const allSupportLang = Object.keys(Prism.languages).filter(
-    (id) => typeof Prism.languages[id] === "object"
-  );
-  return Boolean(allSupportLang.find((x) => x === aliasOrLanguage));
-}
-
 function getDecorations({
   doc,
   name,
@@ -73,20 +64,20 @@ function getDecorations({
     let html: string = "";
 
     try {
-      if (!registeredLang(language)) {
-        import("prismjs/components/prism-" + language);
-      }
+      // babel-plugin-prismjsによって必要な言語は自動でインポート済み
       html = Prism.highlight(
         block.node.textContent,
         Prism.languages[language],
         language
       );
     } catch (err: any) {
-      console.error(err.message + ': "' + language + '"');
+      console.warn(
+        `Language "${language}" not supported, falling back to plaintext`
+      );
       html = Prism.highlight(
         block.node.textContent,
-        Prism.languages.javascript,
-        "js"
+        Prism.languages.plaintext,
+        "plaintext"
       );
     }
 

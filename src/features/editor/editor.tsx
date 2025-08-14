@@ -70,7 +70,8 @@ function Editor() {
       <p>Hello World!</p>
       <zenn-message data-type="message"><p data-message-content>Message</p></zenn-message>
       <zenn-message data-type="alert"><p data-message-content>Alert</p></zenn-message>
-      <pre><code>const great = () => {
+      <pre><code class="language-python">print("Hello, Python!")</code></pre>
+      <pre><code class="language-ts">const great = () => {
   console.log("Awesome");
 };</code></pre>
       <p data-figure>
