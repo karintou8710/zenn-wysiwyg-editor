@@ -57,15 +57,15 @@ export const Message = Node.create({
   addInputRules() {
     return [
       new InputRule({
-        find: /^::(:message|alert)\s$/,
+        find: /^:::(message|alert)\s$/,
         handler: ({ state, chain, range, match }) => {
-          console.log(match);
+          const type = match[1];
           const messageContentNode = state.schema.nodes.messageContent.create({
             messageContent: true,
           });
 
           const messageNode = this.type.create(
-            { type: "message" },
+            { type: type },
             messageContentNode
           );
 
