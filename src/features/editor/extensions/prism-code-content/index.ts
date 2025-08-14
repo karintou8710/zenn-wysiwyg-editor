@@ -212,13 +212,6 @@ export const PrismCodeContent = Node.create<CodeBlockOptions>({
       return {
         dom,
         contentDOM: code,
-        update: (updatedNode) => {
-          if (updatedNode.type.name !== this.name) {
-            return false;
-          }
-          code.textContent = updatedNode.textContent;
-          return true;
-        },
       };
     };
   },
