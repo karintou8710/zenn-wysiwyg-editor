@@ -137,7 +137,7 @@
     pointer-events: none;
   }
 
-  figcaption.is-empty::before {
+  em[data-caption].is-empty::before {
     color: #adb5bd;
     content: attr(data-placeholder);
   }

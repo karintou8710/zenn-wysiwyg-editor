@@ -6,7 +6,7 @@ export interface CaptionOptions {
 
 export const Caption = Node.create<CaptionOptions>({
   name: "caption",
-
+  group: "block",
   content: "inline*",
   defining: true,
 

@@ -2,7 +2,7 @@ import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import Heading from "./extensions/heading";
-import { UndoRedo, TrailingNode, Placeholder } from "@tiptap/extensions";
+import { UndoRedo, TrailingNode } from "@tiptap/extensions";
 import { BulletList, OrderedList, ListItem } from "@tiptap/extension-list";
 import { Link } from "./extensions/link";
 import Blockquote from "@tiptap/extension-blockquote";
@@ -22,6 +22,7 @@ import type { Extensions } from "@tiptap/react";
 import { PrismCodeBlock } from "./extensions/prism-code-block";
 import { PrismCodeContent } from "./extensions/prism-code-content";
 import { PrismCodeFileName } from "./extensions/prism-code-file-name";
+import { Placeholder } from "./extensions/placeholder";
 
 export const extensions: Extensions = [
   Document,
@@ -33,7 +34,13 @@ export const extensions: Extensions = [
   UndoRedo,
   TrailingNode,
   Placeholder.configure({
-    placeholder: "ここに入力",
+    placeholder: ({ editor, node }) => {
+      if (node.type === editor.schema.nodes.caption) {
+        return "キャプションを入力";
+      }
+
+      return "ここに入力";
+    },
   }),
   BulletList,
   OrderedList,
