@@ -7,6 +7,7 @@ import FixedMenu from "./components/fixed-menu";
 import { CONTENT_KEY, useLocalStorage } from "@/hooks/useLocalStorage";
 
 import { extensions } from "./extensions";
+import BubbleMenu from "./components/bubble-menu";
 
 function Editor() {
   const [content, setContent] = useLocalStorage(CONTENT_KEY, "");
@@ -22,6 +23,7 @@ function Editor() {
   return (
     <>
       <FixedMenu editor={editor} className="mb-2" />
+      <BubbleMenu editor={editor} />
       <EditorContent editor={editor} className="znc" />
     </>
   );
