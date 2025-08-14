@@ -44,11 +44,19 @@ const markdownSerializer = new MarkdownSerializer(
       state.write("\n");
     },
     codeBlock(state, node) {
+      const fileName = node.firstChild!.textContent;
+      const contentNode = node.lastChild!;
+
       const backticks = node.textContent.match(/`{3,}/gm);
       const fence = backticks ? backticks.sort().slice(-1)[0] + "`" : "```";
 
-      state.write(fence + (node.attrs.language || "") + "\n");
-      state.text(node.textContent, false);
+      state.write(
+        fence +
+          (node.attrs.language || "plaintext") +
+          (fileName ? `:${fileName}` : "") +
+          "\n"
+      );
+      state.text(contentNode!.textContent, false);
       state.write("\n");
       state.write(fence);
       state.closeBlock(node);
