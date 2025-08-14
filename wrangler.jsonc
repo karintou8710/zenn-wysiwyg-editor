@@ -1,0 +1,7 @@
+{
+  "name": "zenn-wysiwyg-editor",
+  "compatibility_date": "2025-08-14",
+  "assets": {
+    "directory": "./dist"
+  }
+}
