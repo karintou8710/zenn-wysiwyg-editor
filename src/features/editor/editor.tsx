@@ -25,6 +25,7 @@ import Image from "./extensions/image";
 import { Caption } from "./extensions/caption";
 import Figure from "./extensions/figure";
 import SikoTuKoImage from "@/assets/sikotuko.jpeg";
+import { TableKit } from "@tiptap/extension-table";
 
 function Editor() {
   const editor = useEditor({
@@ -63,19 +64,32 @@ function Editor() {
         },
       }),
       Caption,
+      TableKit,
     ],
     content: `
-    <p>Hello World!</p>
-    <zenn-message data-type="message"><p data-message-content>Message</p></zenn-message>
-    <zenn-message data-type="alert"><p data-message-content>Alert</p></zenn-message>
-    <pre><code># 見出し1
-## 見出し2
-### 見出し3
-#### 見出し4</code></pre>
-  <p data-figure>
-    <img src=${SikoTuKoImage} alt="Example Image" />
-    <em data-caption>Example Image Caption</em>
-  </p>
+      <p>Hello World!</p>
+      <zenn-message data-type="message"><p data-message-content>Message</p></zenn-message>
+      <zenn-message data-type="alert"><p data-message-content>Alert</p></zenn-message>
+      <pre><code># 見出し1
+  ## 見出し2
+  ### 見出し3
+  #### 見出し4</code></pre>
+      <p data-figure>
+        <img src=${SikoTuKoImage} alt="Example Image" />
+        <em data-caption>Example Image Caption</em>
+      </p>
+      <table>
+        <tbody>
+          <tr>
+            <th>Head</th>
+            <th>Head</th>
+          </tr>
+          <tr>
+            <td>Cell</td>
+            <td>Cell</td>
+          </tr>
+        </tbody>
+      </table>
     `,
   });
 
