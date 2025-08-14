@@ -65,6 +65,16 @@ const markdownSerializer = new MarkdownSerializer(
       state.write(fence);
       state.closeBlock(node);
     },
+    figure(state, node) {
+      const src = node.firstChild?.attrs.src || "";
+      const alt = node.firstChild?.attrs.alt || "";
+      const caption = node.lastChild?.textContent || "";
+      state.write(`![${alt}](${src})`);
+      if (caption) {
+        state.write(`\n*${caption}*`);
+      }
+      state.closeBlock(node);
+    },
   },
   {
     link: {
