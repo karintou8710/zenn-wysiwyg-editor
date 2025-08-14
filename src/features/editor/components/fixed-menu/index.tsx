@@ -1,6 +1,8 @@
 import { Editor } from "@tiptap/react";
 import { Button } from "@/components/ui/button";
 import { markdownSerializer } from "../../lib/markdown";
+import { Copy } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type Props = {
   editor: Editor;
@@ -20,8 +22,13 @@ export default function FixedMenu({ editor, className }: Props) {
   };
 
   return (
-    <div className={className}>
-      <Button onClick={handleTextCopy}>Copy</Button>
+    <div className={cn("flex", className)}>
+      <div className="grow" />
+      <div>
+        <Button size="icon" variant="outline" onClick={handleTextCopy}>
+          <Copy />
+        </Button>
+      </div>
     </div>
   );
 }

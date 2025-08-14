@@ -21,7 +21,7 @@ function Editor() {
 
   return (
     <>
-      <FixedMenu editor={editor} className="mb-4" />
+      <FixedMenu editor={editor} className="mb-2" />
       <EditorContent editor={editor} className="znc" />
     </>
   );
