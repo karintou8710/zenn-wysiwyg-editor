@@ -11,7 +11,7 @@ import { INITIAL_CONTENT } from "./lib/initial-content";
 import BubbleMenu from "./components/bubble-menu";
 
 function Editor() {
-  const [content, setContent] = useLocalStorage(CONTENT_KEY, "");
+  const [_, setContent] = useLocalStorage(CONTENT_KEY, "");
 
   const editor = useEditor({
     extensions,
