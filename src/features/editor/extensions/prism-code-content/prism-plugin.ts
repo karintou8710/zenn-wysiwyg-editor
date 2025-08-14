@@ -61,13 +61,14 @@ function getDecorations({
   findChildren(doc, (node) => node.type.name === name).forEach((block) => {
     let from = block.pos + 1;
     const language = block.node.attrs.language || defaultLanguage;
+    const isDiff = language.startsWith("diff-");
     let html: string = "";
 
     try {
       // babel-plugin-prismjsによって必要な言語は自動でインポート済み
       html = Prism.highlight(
         block.node.textContent,
-        Prism.languages[language],
+        Prism.languages[isDiff ? "diff" : language],
         language
       );
     } catch (err: any) {
@@ -83,19 +84,58 @@ function getDecorations({
 
     const nodes = getHighlightNodes(html);
 
-    parseNodes(nodes).forEach((node) => {
-      const to = from + node.text.length;
+    if (isDiff) {
+      Array.from(nodes).forEach((diffNode) => {
+        let lineStart = from;
+        let to = from;
 
-      if (node.classes.length) {
-        const decoration = Decoration.inline(from, to, {
-          class: node.classes.join(" "),
+        parseNodes(Array.from(diffNode.childNodes)).forEach((node) => {
+          to = from + node.text.length;
+
+          if (node.classes.length) {
+            const decoration = Decoration.inline(from, to, {
+              class: node.classes.join(" "),
+            });
+
+            decorations.push(decoration);
+          }
+
+          from = to;
         });
 
-        decorations.push(decoration);
-      }
+        if (diffNode instanceof Element) {
+          const isInserted = (diffNode as HTMLElement).classList.contains(
+            "inserted"
+          );
+          const isDeleted = (diffNode as HTMLElement).classList.contains(
+            "deleted"
+          );
+          decorations.push(
+            Decoration.inline(lineStart, to, {
+              class: isInserted
+                ? "insertedToken"
+                : isDeleted
+                ? "deletedToken"
+                : "",
+            })
+          );
+        }
+      });
+    } else {
+      parseNodes(nodes).forEach((node) => {
+        const to = from + node.text.length;
 
-      from = to;
-    });
+        if (node.classes.length) {
+          const decoration = Decoration.inline(from, to, {
+            class: node.classes.join(" "),
+          });
+
+          decorations.push(decoration);
+        }
+
+        from = to;
+      });
+    }
   });
 
   return DecorationSet.create(doc, decorations);

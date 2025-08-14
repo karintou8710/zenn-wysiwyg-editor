@@ -7,8 +7,8 @@ import {
 } from "@tiptap/react";
 import { type EditorState } from "@tiptap/pm/state";
 
-export const backtickInputRegex = /^```([a-z]+(?::[a-zA-Z0-9._-]+)?)?[\s\n]$/;
-export const tildeInputRegex = /^~~~([a-z]+(?::[a-zA-Z0-9._-]+)?)?[\s\n]$/;
+export const backtickInputRegex = /^```([a-z-]+(?::[a-zA-Z0-9._-]+)?)?[\s\n]$/;
+export const tildeInputRegex = /^~~~([a-z-]+(?::[a-zA-Z0-9._-]+)?)?[\s\n]$/;
 
 const inputHandler = ({
   state,

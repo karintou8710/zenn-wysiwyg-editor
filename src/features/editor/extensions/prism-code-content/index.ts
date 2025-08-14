@@ -1,6 +1,7 @@
 import { mergeAttributes, Node } from "@tiptap/react";
 import { Plugin, PluginKey, Selection, TextSelection } from "@tiptap/pm/state";
 import { PrismPlugin } from "./prism-plugin";
+import { cn } from "@/lib/utils";
 
 // カスタマイズのため、TiptapのBlockquoteを直接編集する
 // https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code-block/src/code-block.ts
@@ -196,9 +197,11 @@ export const PrismCodeContent = Node.create<CodeBlockOptions>({
       dom.className = "relative";
 
       const code = document.createElement("code");
-      code.className = node.attrs.language
-        ? this.options.languageClassPrefix + node.attrs.language
-        : "";
+      code.className = cn(
+        "diff-highlight",
+        node.attrs.language &&
+          this.options.languageClassPrefix + node.attrs.language
+      );
       code.textContent = node.textContent;
 
       dom.appendChild(code);

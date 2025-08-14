@@ -24,6 +24,16 @@
       min-width: 50px;
     }
   }
+
+  pre {
+    .insertedToken {
+      background-color: #00921b33;
+    }
+
+    .deletedToken {
+      background-color: #da363233;
+    }
+  }
 }
 
 /* Selection */
