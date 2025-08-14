@@ -28,7 +28,6 @@ export const PrismCodeContent = Node.create<CodeBlockOptions>({
 
   content: "text*",
   marks: "",
-  group: "block",
   code: true,
   defining: true,
 
