@@ -22,7 +22,7 @@ export const Figure = Node.create({
   name: "figure",
 
   group: "block",
-  content: "image caption?",
+  content: "image caption",
   isolating: true,
   draggable: true,
   selectable: true,
@@ -79,12 +79,12 @@ export const Figure = Node.create({
                   alt: options.alt || "",
                 },
               },
-              options.caption
-                ? {
-                    type: "caption",
-                    content: [{ type: "text", text: options.caption }],
-                  }
-                : {},
+              {
+                type: "caption",
+                content: options.caption
+                  ? [{ type: "text", text: options.caption }]
+                  : [],
+              },
             ],
           });
         },
