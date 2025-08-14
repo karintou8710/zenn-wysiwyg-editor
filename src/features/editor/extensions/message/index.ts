@@ -1,4 +1,4 @@
-import { Node } from "@tiptap/react";
+import { InputRule, Node } from "@tiptap/react";
 
 export interface MessageOptions {
   type?: "message" | "alert";
@@ -52,5 +52,32 @@ export const Message = Node.create({
         contentDOM: contentWrapper,
       };
     };
+  },
+
+  addInputRules() {
+    return [
+      new InputRule({
+        find: /^::(:message|alert)\s$/,
+        handler: ({ state, chain, range, match }) => {
+          console.log(match);
+          const messageContentNode = state.schema.nodes.messageContent.create({
+            messageContent: true,
+          });
+
+          const messageNode = this.type.create(
+            { type: "message" },
+            messageContentNode
+          );
+
+          chain()
+            .deleteRange({
+              from: range.from - 1,
+              to: range.to + 1,
+            })
+            .insertContentAt(range.from - 1, messageNode)
+            .run();
+        },
+      }),
+    ];
   },
 });

@@ -38,6 +38,26 @@ export const MessageContent = Node.create({
 
   addKeyboardShortcuts() {
     return {
+      Backspace: () => {
+        const { selection } = this.editor.state;
+        const { $from } = selection;
+        if ($from.node().type.name !== this.name) return false;
+
+        if (!selection.empty || $from.start() !== $from.pos) return false;
+
+        const p = this.editor.schema.nodes.paragraph.create(
+          null,
+          $from.node().content
+        );
+
+        this.editor
+          .chain()
+          .deleteRange({ from: $from.before(-1), to: $from.after(-1) })
+          .insertContentAt($from.before(-1), p)
+          .setTextSelection($from.before(-1) + 1)
+          .run();
+        return true;
+      },
       Enter: ({ editor }) => {
         const { state } = this.editor.view;
         const { $from } = state.selection;
