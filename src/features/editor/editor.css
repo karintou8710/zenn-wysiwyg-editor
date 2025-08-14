@@ -35,6 +35,13 @@
     }
   }
 
+  hr {
+    &.ProseMirror-selectednode {
+      outline: 2px solid #9333ea;
+      outline-offset: 2px;
+    }
+  }
+
   p,
   h1,
   h2,
