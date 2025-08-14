@@ -67,7 +67,9 @@ export const PrismCodeContent = Node.create<CodeBlockOptions>({
   renderHTML({ node, HTMLAttributes }) {
     return [
       "pre",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
+        "data-language": node.attrs.language,
+      }),
       [
         "code",
         {
@@ -188,34 +190,6 @@ export const PrismCodeContent = Node.create<CodeBlockOptions>({
 
         return editor.commands.exitCode();
       },
-    };
-  },
-
-  addNodeView() {
-    return ({ node }) => {
-      const dom = document.createElement("pre");
-      dom.className = "relative";
-
-      const code = document.createElement("code");
-      code.className = cn(
-        "diff-highlight",
-        node.attrs.language &&
-          this.options.languageClassPrefix + node.attrs.language
-      );
-      code.textContent = node.textContent;
-
-      dom.appendChild(code);
-
-      // 現在の型を表示する
-      const langDisplay = document.createElement("div");
-      langDisplay.className = "absolute top-0 right-0 bg-gray-200 text-xs p-1";
-      langDisplay.textContent = node.attrs.language || "plaintext";
-      dom.appendChild(langDisplay);
-
-      return {
-        dom,
-        contentDOM: code,
-      };
     };
   },
 
