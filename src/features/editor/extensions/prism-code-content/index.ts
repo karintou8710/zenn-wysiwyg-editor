@@ -95,7 +95,7 @@ export const PrismCodeContent = Node.create<CodeBlockOptions>({
           return this.editor.commands.clearNodes();
         }
 
-        const text = $from.node(-1).textContent;
+        const text = $from.node().textContent;
         // codeBlock全体を削除する
         this.editor
           .chain()
