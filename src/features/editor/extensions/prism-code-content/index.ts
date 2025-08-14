@@ -13,9 +13,6 @@ export interface CodeBlockOptions {
   HTMLAttributes: Record<string, any>;
 }
 
-export const backtickInputRegex = /^```([a-z]+)?[\s\n]$/;
-export const tildeInputRegex = /^~~~([a-z]+)?[\s\n]$/;
-
 export const PrismCodeContent = Node.create<CodeBlockOptions>({
   name: "codeContent",
 
