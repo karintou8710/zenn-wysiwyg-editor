@@ -7,6 +7,7 @@ import FixedMenu from "./components/fixed-menu";
 import { CONTENT_KEY, useLocalStorage } from "@/hooks/useLocalStorage";
 
 import { extensions } from "./extensions";
+import { INITIAL_CONTENT } from "./lib/initial-content";
 import BubbleMenu from "./components/bubble-menu";
 
 function Editor() {
@@ -14,7 +15,7 @@ function Editor() {
 
   const editor = useEditor({
     extensions,
-    content: content,
+    content: INITIAL_CONTENT,
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML());
     },
