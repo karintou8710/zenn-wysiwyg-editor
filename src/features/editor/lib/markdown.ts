@@ -1,3 +1,4 @@
+import type { Mark, Node } from "@tiptap/pm/model";
 import { MarkdownSerializer } from "prosemirror-markdown";
 
 const markdownSerializer = new MarkdownSerializer(
@@ -78,10 +79,21 @@ const markdownSerializer = new MarkdownSerializer(
   },
   {
     link: {
-      open() {
+      open(state, mark, parent, index) {
+        // @ts-ignore
+        state.inAutolink = isPlainURL(mark, parent, index);
+        // @ts-ignore
+        if (state.inAutolink) return "";
         return "[";
       },
-      close(_, mark) {
+      close(state, mark) {
+        // @ts-ignore
+        let { inAutolink } = state;
+        // @ts-ignore
+        state.inAutolink = undefined;
+
+        if (inAutolink) return "";
+
         return (
           "](" +
           mark.attrs.href.replace(/[\(\)"]/g, "\\$&") +
@@ -118,5 +130,20 @@ const markdownSerializer = new MarkdownSerializer(
     },
   }
 );
+
+function isPlainURL(link: Mark, parent: Node, index: number) {
+  if (link.attrs.title || !/^\w+:/.test(link.attrs.href)) return false;
+  let content = parent.child(index);
+  if (
+    !content.isText ||
+    content.text != link.attrs.href ||
+    content.marks[content.marks.length - 1] != link
+  )
+    return false;
+  return (
+    index == parent.childCount - 1 ||
+    !link.isInSet(parent.child(index + 1).marks)
+  );
+}
 
 export { markdownSerializer };
