@@ -93,27 +93,30 @@ function createDiffDecorations(
 
   // diff-highlightの構造がネストになってProseMirrorに対応不可なため、spanの構造をフラットにする
   // diff色は各トークンに適用する
+  let to = startPos;
   Array.from(nodes).forEach((diffNode) => {
-    let lineStart = from;
-    let to = from;
+    let lineStart = to;
+    let from = to;
 
-    parseNodes(Array.from(diffNode.childNodes)).forEach((node) => {
-      to = from + node.text.length;
+    if (diffNode.nodeType === Node.TEXT_NODE) {
+      to = from + diffNode.textContent!.length;
+    } else {
+      parseNodes(Array.from(diffNode.childNodes)).forEach((node) => {
+        to = from + node.text.length;
 
-      if (node.classes.length) {
-        const decoration = Decoration.inline(from, to, {
-          class: node.classes.join(" "),
-        });
-        decorations.push(decoration);
-      }
+        if (node.classes.length) {
+          const decoration = Decoration.inline(from, to, {
+            class: node.classes.join(" "),
+          });
+          decorations.push(decoration);
+        }
 
-      from = to;
-    });
+        from = to;
+      });
+    }
 
     if (diffNode instanceof Element) {
-      const isInserted = (diffNode as HTMLElement).classList.contains(
-        "inserted"
-      );
+      const isInserted = diffNode.classList.contains("inserted");
       const isDeleted = (diffNode as HTMLElement).classList.contains("deleted");
 
       if (isInserted || isDeleted) {
