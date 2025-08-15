@@ -25,6 +25,7 @@ import { PrismCodeFileName } from "./extensions/prism-code-block/prism-code-file
 import { Placeholder } from "./extensions/placeholder";
 import { EmbedLinkCard } from "./extensions/embed-link-card";
 import { EmbedTweet } from "./extensions/embed-tweet";
+import { EmbedGithub } from "./extensions/embed-github";
 
 export const extensions: Extensions = [
   // === Core ===
@@ -57,6 +58,7 @@ export const extensions: Extensions = [
   TableKit,
   EmbedLinkCard,
   EmbedTweet,
+  EmbedGithub,
 
   // === Marks ===
   Bold,
