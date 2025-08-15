@@ -1,4 +1,4 @@
-import { InputRule, Node } from "@tiptap/react";
+import { InputRule, mergeAttributes, Node } from "@tiptap/react";
 
 export interface MessageOptions {
   type?: "message" | "alert";
@@ -26,11 +26,15 @@ export const Message = Node.create({
   },
 
   parseHTML() {
-    return [{ tag: "zenn-message" }];
+    return [{ tag: "aside[data-message]" }];
   },
 
-  renderHTML() {
-    return ["zenn-message", 0];
+  renderHTML(HTMLAttributes) {
+    return [
+      "aside",
+      mergeAttributes(HTMLAttributes, { "data-message": "" }),
+      0,
+    ];
   },
 
   addNodeView() {

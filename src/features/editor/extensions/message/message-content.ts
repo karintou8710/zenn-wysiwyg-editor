@@ -1,27 +1,8 @@
-import { Node } from "@tiptap/react";
+import { mergeAttributes, Node } from "@tiptap/react";
 
 export const MessageContent = Node.create({
   name: "messageContent",
   content: "inline*",
-
-  addAttributes() {
-    return {
-      messageContent: {
-        default: true,
-        parseHTML: (element) => {
-          return element.hasAttribute("data-message-content");
-        },
-        renderHTML: ({ messageContent }) => {
-          if (messageContent) {
-            return {
-              "data-message-content": "",
-            };
-          }
-          return {};
-        },
-      },
-    };
-  },
 
   parseHTML() {
     return [
@@ -33,7 +14,11 @@ export const MessageContent = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ["p", HTMLAttributes, 0];
+    return [
+      "p",
+      mergeAttributes(HTMLAttributes, { "data-message-content": "" }),
+      0,
+    ];
   },
 
   addKeyboardShortcuts() {
