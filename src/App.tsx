@@ -1,6 +1,7 @@
 import { AlertCircleIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert";
 import Editor from "./features/editor/editor";
+import { Toaster } from "sonner";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         </Alert>
       </div>
       <Editor />
+      <Toaster />
     </div>
   );
 }

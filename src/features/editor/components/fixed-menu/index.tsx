@@ -1,9 +1,10 @@
 import { Editor } from "@tiptap/react";
 import { Button } from "@/components/ui/button";
 import { markdownSerializer } from "../../lib/markdown";
-import { Copy, Image, TimerReset } from "lucide-react";
+import { Copy, Image, Info, TimerReset } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { INITIAL_CONTENT } from "../../lib/initial-content";
+import { toast } from "sonner";
 
 type Props = {
   editor: Editor;
@@ -27,7 +28,9 @@ export default function FixedMenu({ editor, className }: Props) {
       console.error("Failed to copy text: ", err);
     });
 
-    console.log(text);
+    toast("マークダウンをクリップボードにコピーしました", {
+      icon: <Info size={16} />,
+    });
   };
 
   const handleReplaceIntialContent = () => {
