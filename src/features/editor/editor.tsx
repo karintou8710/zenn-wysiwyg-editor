@@ -12,11 +12,11 @@ import BubbleMenu from "./components/bubble-menu";
 import ImageBubbleMenu from "./components/image-bubble-menu";
 
 function Editor() {
-  const [_, setContent] = useLocalStorage(CONTENT_KEY, "");
+  const [content, setContent] = useLocalStorage(CONTENT_KEY, "");
 
   const editor = useEditor({
     extensions,
-    content: INITIAL_CONTENT,
+    content: content || INITIAL_CONTENT,
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML());
     },
