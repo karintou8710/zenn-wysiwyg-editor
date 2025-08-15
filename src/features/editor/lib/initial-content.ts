@@ -148,6 +148,9 @@ console.log(greeting("World"));</code></pre></div>
 <h2>埋め込みリンクカード</h2>
 <p data-embed-link-card data-url="https://zenn.dev/zenn/articles/markdown-guide"></p>
 
+<h2>埋め込みツイート</h2>
+<p data-embed-tweet data-url="https://x.com/karintou74073/status/1956364047462654082"></p>
+
 <h2>対応状況・バグ報告</h2>
 <p><a href="https://github.com/karintou8710/zenn-wysiwyg-editor">GitHubのレポジトリ</a>をご確認ください。</p>
 `;
