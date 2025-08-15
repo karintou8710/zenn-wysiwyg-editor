@@ -74,6 +74,7 @@ export const INITIAL_CONTENT = `
 };
 console.log(greeting("World"));</code></pre></div>
 <h3>diff対応</h3>
+<p>スタイルが完全に適用されないバグが残っています。</p>
 <p>言語名の先頭に<code>diff-</code>をつけてください。</p>
 <div data-code-block>
 <div data-code-file-name></div>
@@ -83,8 +84,9 @@ console.log(greeting("World"));</code></pre></div>
 </div>
 <div data-code-block>
 <div data-code-file-name>example.ts</div>
-<pre><code class="language-diff-typescript">+ let a = 1;
-- let b = 2;</code></pre></div>
+<pre><code class="language-diff-typescript">console.log("Hello, World!");
+- let a = 1;
++ let b = 2;</code></pre></div>
 
 <h2>引用</h2>
 <div data-code-block>
