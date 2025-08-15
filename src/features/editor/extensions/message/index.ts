@@ -29,10 +29,12 @@ export const Message = Node.create({
     return [{ tag: "aside[data-message]" }];
   },
 
-  renderHTML(HTMLAttributes) {
+  renderHTML({ HTMLAttributes }) {
     return [
       "aside",
-      mergeAttributes(HTMLAttributes, { "data-message": "" }),
+      mergeAttributes(HTMLAttributes, {
+        "data-message": "",
+      }),
       0,
     ];
   },
