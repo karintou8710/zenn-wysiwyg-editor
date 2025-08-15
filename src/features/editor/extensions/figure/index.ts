@@ -1,4 +1,4 @@
-import { InputRule, mergeAttributes, Node, nodeInputRule } from "@tiptap/react";
+import { InputRule, mergeAttributes, Node } from "@tiptap/react";
 
 export interface FigureOptions {
   HTMLAttributes: Record<string, any>;

@@ -1,5 +1,5 @@
 import { AlertCircleIcon } from "lucide-react";
-import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert";
+import { Alert, AlertDescription } from "./components/ui/alert";
 import Editor from "./features/editor/editor";
 import { Toaster } from "sonner";
 
