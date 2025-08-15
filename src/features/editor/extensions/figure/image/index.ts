@@ -1,15 +1,60 @@
-import TiptapImage from "@tiptap/extension-image";
 import { NodeSelection, Plugin, PluginKey } from "@tiptap/pm/state";
-import { Editor } from "@tiptap/react";
+import { mergeAttributes, Node } from "@tiptap/react";
 
-const Image = TiptapImage.extend({
-  group: "image", // figureからのみ挿入可能
+export interface ImageOptions {
+  HTMLAttributes: Record<string, any>;
+}
+
+export interface SetImageOptions {
+  src: string;
+  alt?: string;
+  width?: number;
+}
+
+export const Image = Node.create<ImageOptions>({
+  name: "image",
+
+  addOptions() {
+    return {
+      HTMLAttributes: {},
+    };
+  },
+
   draggable: false,
   selectable: false,
 
+  addAttributes() {
+    return {
+      src: {
+        default: null,
+      },
+      alt: {
+        default: null,
+      },
+      width: {
+        default: null,
+      },
+    };
+  },
+
+  parseHTML() {
+    return [
+      {
+        tag: "img[src]",
+      },
+    ];
+  },
+
+  renderHTML({ HTMLAttributes }) {
+    return [
+      "img",
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+    ];
+  },
+
   addKeyboardShortcuts() {
     return {
-      Backspace: ({ editor }: { editor: Editor }) => {
+      Backspace: ({ editor }) => {
         const { selection } = editor.state;
 
         if (
@@ -51,5 +96,3 @@ const Image = TiptapImage.extend({
     ];
   },
 });
-
-export default Image;

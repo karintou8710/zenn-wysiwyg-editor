@@ -14,7 +14,7 @@ import Code from "@tiptap/extension-code";
 import { Message } from "./extensions/message";
 import HardBreak from "@tiptap/extension-hard-break";
 import { MessageContent } from "./extensions/message/message-content";
-import Image from "./extensions/figure/image";
+import { Image } from "./extensions/figure/image";
 import { Caption } from "./extensions/figure/caption";
 import Figure from "./extensions/figure";
 import { TableKit } from "@tiptap/extension-table";

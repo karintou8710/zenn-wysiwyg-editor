@@ -1,4 +1,4 @@
-import { mergeAttributes, Node } from "@tiptap/react";
+import { InputRule, mergeAttributes, Node, nodeInputRule } from "@tiptap/react";
 
 export interface FigureOptions {
   HTMLAttributes: Record<string, any>;
@@ -13,10 +13,13 @@ export interface InsertFigureOptions {
 declare module "@tiptap/react" {
   interface Commands<ReturnType> {
     figure: {
-      insertFigure: (pos: number, options: InsertFigureOptions) => ReturnType;
+      insertFigureAt: (pos: number, options: InsertFigureOptions) => ReturnType;
     };
   }
 }
+
+// ![image](src)
+export const inputRegex = /(?:^|\s)(!\[(.+|:?)]\((\S+)\))$/;
 
 export const Figure = Node.create({
   name: "figure",
@@ -33,20 +36,6 @@ export const Figure = Node.create({
     };
   },
 
-  addAttributes() {
-    return {
-      figure: {
-        default: true,
-        parseHTML: (element) => element.hasAttribute("data-figure"),
-        renderHTML: ({ figure }) => {
-          return {
-            "data-figure": figure || false,
-          };
-        },
-      },
-    };
-  },
-
   parseHTML() {
     return [
       {
@@ -59,14 +48,16 @@ export const Figure = Node.create({
   renderHTML({ HTMLAttributes }) {
     return [
       "p",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
+        "data-figure": "",
+      }),
       0,
     ];
   },
 
   addCommands() {
     return {
-      insertFigure:
+      insertFigureAt:
         (pos, options) =>
         ({ commands }) => {
           return commands.insertContentAt(pos, {
@@ -89,6 +80,22 @@ export const Figure = Node.create({
           });
         },
     };
+  },
+
+  addInputRules() {
+    return [
+      new InputRule({
+        find: inputRegex,
+        handler: ({ match, chain, range }) => {
+          const [, , alt, src] = match;
+
+          chain()
+            .deleteRange(range)
+            .insertFigureAt(range.from, { src, alt })
+            .run();
+        },
+      }),
+    ];
   },
 });
 

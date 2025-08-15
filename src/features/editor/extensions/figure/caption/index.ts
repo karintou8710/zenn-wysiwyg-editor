@@ -7,27 +7,13 @@ export interface CaptionOptions {
 export const Caption = Node.create<CaptionOptions>({
   name: "caption",
   group: "block",
-  content: "inline*",
+  content: "text*",
   defining: true,
   marks: "",
 
   addOptions() {
     return {
       HTMLAttributes: {},
-    };
-  },
-
-  addAttributes() {
-    return {
-      caption: {
-        default: true,
-        parseHTML: (element) => element.hasAttribute("data-caption"),
-        renderHTML: ({ caption }) => {
-          return {
-            "data-caption": caption || false,
-          };
-        },
-      },
     };
   },
 
@@ -43,7 +29,9 @@ export const Caption = Node.create<CaptionOptions>({
   renderHTML({ HTMLAttributes }) {
     return [
       "em",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
+        "data-caption": "",
+      }),
       0,
     ];
   },

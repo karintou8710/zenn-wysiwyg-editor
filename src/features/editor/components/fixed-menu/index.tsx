@@ -16,7 +16,7 @@ export default function FixedMenu({ editor, className }: Props) {
     const url = prompt("Enter image URL");
     if (url) {
       const { $from } = editor.state.selection;
-      editor.chain().focus().insertFigure($from.pos, { src: url }).run();
+      editor.chain().focus().insertFigureAt($from.pos, { src: url }).run();
     }
   };
 
