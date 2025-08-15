@@ -14,14 +14,14 @@ import Code from "@tiptap/extension-code";
 import { Message } from "./extensions/message";
 import HardBreak from "@tiptap/extension-hard-break";
 import { MessageContent } from "./extensions/message/message-content";
-import Image from "./extensions/image";
-import { Caption } from "./extensions/caption";
+import Image from "./extensions/figure/image";
+import { Caption } from "./extensions/figure/caption";
 import Figure from "./extensions/figure";
 import { TableKit } from "@tiptap/extension-table";
 import type { Extensions } from "@tiptap/react";
 import { PrismCodeBlock } from "./extensions/prism-code-block";
-import { PrismCodeContent } from "./extensions/prism-code-content";
-import { PrismCodeFileName } from "./extensions/prism-code-file-name";
+import { PrismCodeContent } from "./extensions/prism-code-block/prism-code-content";
+import { PrismCodeFileName } from "./extensions/prism-code-block/prism-code-file-name";
 import { Placeholder } from "./extensions/placeholder";
 
 export const extensions: Extensions = [
