@@ -54,6 +54,10 @@ Zenn 独自ノード
 - [ ] StackBlitz
 - [ ] Figma
 
+機能
+
+- [ ] マークダウンのペースト対応
+
 ## 参考
 
 - https://zenn.dev/zenn/articles/markdown-guide
