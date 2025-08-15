@@ -89,7 +89,6 @@ function createDiffDecorations(
   startPos: number
 ): Decoration[] {
   const decorations: Decoration[] = [];
-  let from = startPos;
 
   // diff-highlightの構造がネストになってProseMirrorに対応不可なため、spanの構造をフラットにする
   // diff色は各トークンに適用する
