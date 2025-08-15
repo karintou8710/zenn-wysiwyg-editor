@@ -4,19 +4,27 @@ export const INITIAL_CONTENT = `
 <p>
     Zennの記事を<b>WYSIWYGエディタ</b>で執筆することができます。<br/>
     ショートカット記法を使うことで、Markdownのように簡単に記事を編集可能です。
-</p><aside data-message data-type="alert">
-    <p data-message-content>現在は<b>コンテンツの保存</b>に対応してません。<br/>再読み込みをすると作成途中の文書が破棄されます。</p>
+</p>
+<aside data-message data-type="alert">
+    <p data-message-content>
+        現在は開発途中であり、<b>アップデートにより文書構造が変更される可能性がある</b>ため、大事な文書は書き終えた後にコピーを取ることをお勧めします。
+    </p>
 </aside>
+
 <h2>段落</h2>
 <p><code>Enter</code>で新たな段落を生成します。</p>
-<p><code>Shift + Enter</code>は段落内での改行を挿入します。<br/>見た目は改行の方が余白が小さいです。</p>
+<p><code>Shift + Enter</code>は段落内での改行を挿入します。<br/>見た目は改行の方が余白小さいです。</p>
 <h2>見出し</h2>
-<blockquote>
-<p># 見出し1<br/>
-## 見出し2<br/>
-### 見出し3<br/>
-#### 見出し4</p>
-</blockquote>
+<div data-code-block>
+<div data-code-file-name></div>
+<pre>
+<code class="language-plaintext"># 見出し1
+## 見出し2
+### 見出し3
+#### 見出し4</code>
+</pre>
+</div>
+
 <h2>リスト</h2>
 <p>マークダウン記法でリストを作成できます。</p>
 <h3>順序なしリスト</h3>
@@ -31,30 +39,34 @@ export const INITIAL_CONTENT = `
 <li><p>リスト2</p></li>
 <li><p>リスト3</p></li>
 </ol>
+
 <h2>画像</h2>
 <p>画像のアップロードは対応してません。別サイトにアップロードしてからURLで指定してください。<br/>
 キャプションは空であれば、マークダウンに出力されません。</p>
-<blockquote>
-<p>![alt](src)</p>
-</blockquote>
+<div data-code-block>
+<div data-code-file-name></div>
+<pre>
+<code class="language-plaintext">![alt](src)</code>
+</pre>
+</div>
 <p data-figure>
 <img src="${LakeImage}" alt="支笏湖">
 <em>支笏湖</em>
 </p>
+
 <h2>コードブロック</h2>
 <p>
 右上に選択中の言語が表示されます。ファイル名は後から編集可能です。<br/>
 ファイル名は空であれば、マークダウンに出力されません。
 </p>
-<blockquote>
-<p>\`\`\`</p>
-</blockquote>
-<blockquote>
-<p>\`\`\`lang</p>
-</blockquote>
-<blockquote>
-<p>\`\`\`lang:filename</p>
-</blockquote>
+<div data-code-block>
+<div data-code-file-name></div>
+<pre>
+<code class="language-plaintext">\`\`\`
+\`\`\`lang
+\`\`\`lang:filename</code>
+</pre>
+</div>
 <div data-code-block>
 <div data-code-file-name>example.ts</div>
 <pre><code class="language-typescript">const greeting = (name: string) => {
@@ -63,29 +75,74 @@ export const INITIAL_CONTENT = `
 console.log(greeting("World"));</code></pre></div>
 <h3>diff対応</h3>
 <p>言語名の先頭に<code>diff-</code>をつけてください。</p>
-<blockquote>
-<p>\`\`\`diff-lang</p>
-</blockquote>
+<div data-code-block>
+<div data-code-file-name></div>
+<pre>
+<code class="language-plaintext">\`\`\`diff-lang</code>
+</pre>
+</div>
 <div data-code-block>
 <div data-code-file-name>example.ts</div>
 <pre><code class="language-diff-typescript">+ let a = 1;
 - let b = 2;</code></pre></div>
+
 <h2>引用</h2>
+<div data-code-block>
+<div data-code-file-name></div>
+<pre>
+<code class="language-plaintext">> text</code>
+</pre>
+</div>
+
 <blockquote>
-<p>> text</p>
+<p>引用テキスト</p>
 </blockquote>
+
+<h2>水平線</h2>
+<div data-code-block>
+<div data-code-file-name></div>
+<pre>
+<code class="language-plaintext">---</code>
+</pre>
+</div>
+<hr />
+
 <h2>メッセージ</h2>
-<blockquote>
-<p>:::message</p>
-</blockquote>
+<div data-code-block>
+<div data-code-file-name></div>
+<pre>
+<code class="language-plaintext">:::message</code>
+</pre>
+</div>
 <aside data-message>
     <p data-message-content>Message</p>
 </aside>
 <p></p>
-<blockquote>
-<p>:::alert</p>
-</blockquote>
+<div data-code-block>
+<div data-code-file-name></div>
+<pre>
+<code class="language-plaintext">:::alert</code>
+</pre>
+</div>
 <aside data-message data-type="alert">
     <p data-message-content>Alert</p>
 </aside>
+
+<h2>インラインスタイル</h2>
+<div data-code-block>
+<div data-code-file-name></div>
+<pre>
+<code class="language-plaintext">**bold**
+*斜体*
+~~取り消し線~~
+\`コード\`</code>
+</pre>
+</div>
+<p><b>太字</b></p>
+<p><i>斜体</i></p>
+<p><s>取り消し線</s></p>
+<p><code>コード</code></p>
+
+<h2>対応状況・バグ報告</h2>
+<p><a href="https://github.com/karintou8710/zenn-wysiwyg-editor">GitHubのレポジトリ</a>をご確認ください。</p>
 `;
