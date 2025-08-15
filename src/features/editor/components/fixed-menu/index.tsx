@@ -1,8 +1,9 @@
 import { Editor } from "@tiptap/react";
 import { Button } from "@/components/ui/button";
 import { markdownSerializer } from "../../lib/markdown";
-import { Copy, Image } from "lucide-react";
+import { Copy, Image, TimerReset } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { INITIAL_CONTENT } from "../../lib/initial-content";
 
 type Props = {
   editor: Editor;
@@ -29,6 +30,12 @@ export default function FixedMenu({ editor, className }: Props) {
     console.log(text);
   };
 
+  const handleReplaceIntialContent = () => {
+    const confirmed = window.confirm("初期コンテンツに戻しますか？");
+    if (!confirmed) return;
+    editor.commands.setContent(INITIAL_CONTENT);
+  };
+
   return (
     <div className={cn("flex", className)}>
       <div>
@@ -37,7 +44,14 @@ export default function FixedMenu({ editor, className }: Props) {
         </Button>
       </div>
       <div className="grow" />
-      <div>
+      <div className="flex gap-x-1">
+        <Button
+          size="icon"
+          variant="outline"
+          onClick={handleReplaceIntialContent}
+        >
+          <TimerReset />
+        </Button>
         <Button size="icon" variant="outline" onClick={handleTextCopy}>
           <Copy />
         </Button>

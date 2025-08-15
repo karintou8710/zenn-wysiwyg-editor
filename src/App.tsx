@@ -1,3 +1,4 @@
+import { AlertCircleIcon } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert";
 import Editor from "./features/editor/editor";
 
@@ -6,6 +7,7 @@ function App() {
     <div className="mt-10 max-w-[800px] mx-auto">
       <div className="mb-6">
         <Alert variant="destructive">
+          <AlertCircleIcon />
           <AlertDescription>
             現在は開発途中なため、アップデートにより内部構造が崩れてしまう可能性があります。
             <br />
