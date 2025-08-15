@@ -31,7 +31,7 @@ export const INITIAL_CONTENT = `
 <h2>画像</h2>
 <p>画像のアップロードは対応してません。先にZennにアップロードしてからURLで指定してください。</p>
 <p data-figure>
-<img src="${LakeImage}" alt="Lake">
+<img src="${LakeImage}" alt="支笏湖">
 <em>支笏湖</em>
 </p>
 <h2>コードブロック</h2>

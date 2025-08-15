@@ -90,10 +90,6 @@
         background: transparent !important;
       }
 
-      &::-moz-selection {
-        background: transparent !important;
-      }
-
       &::after {
         position: absolute;
         content: "";
