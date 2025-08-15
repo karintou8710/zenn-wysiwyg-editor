@@ -3,6 +3,7 @@ import { Node } from "@tiptap/react";
 export const PrismCodeFileName = Node.create({
   name: "codeFileName",
   content: "text*",
+  marks: "",
 
   parseHTML() {
     return [

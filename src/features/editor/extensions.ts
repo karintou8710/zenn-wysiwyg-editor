@@ -25,38 +25,23 @@ import { PrismCodeFileName } from "./extensions/prism-code-file-name";
 import { Placeholder } from "./extensions/placeholder";
 
 export const extensions: Extensions = [
+  // === Core ===
   Document,
   Paragraph,
   Text,
+
+  // === Nodes ===
   Heading.configure({
     levels: [1, 2, 3, 4],
-  }),
-  UndoRedo,
-  TrailingNode,
-  Placeholder.configure({
-    placeholder: ({ editor, node }) => {
-      if (node.type === editor.schema.nodes.caption) {
-        return "キャプションを入力";
-      }
-
-      return "ここに入力";
-    },
   }),
   BulletList,
   OrderedList,
   ListItem,
-  Link.configure({
-    autolink: false,
-  }),
   Blockquote,
   HorizentalRule,
-  Bold,
-  Italic,
-  Strike,
-  Code,
+  HardBreak,
   Message,
   MessageContent,
-  HardBreak,
   PrismCodeBlock,
   PrismCodeContent,
   PrismCodeFileName,
@@ -68,4 +53,26 @@ export const extensions: Extensions = [
   }),
   Caption,
   TableKit,
+
+  // === Marks ===
+  Bold,
+  Italic,
+  Strike,
+  Code,
+  Link.configure({
+    autolink: false,
+  }),
+
+  // === Features ===
+  UndoRedo,
+  TrailingNode,
+  Placeholder.configure({
+    placeholder: ({ editor, node }) => {
+      if (node.type === editor.schema.nodes.caption) {
+        return "キャプションを入力";
+      }
+
+      return "ここに入力";
+    },
+  }),
 ];

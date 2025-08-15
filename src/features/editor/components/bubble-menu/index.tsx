@@ -21,6 +21,31 @@ export default function BubbleMenu({ editor }: Props) {
     <TiptapBubbleMenu
       editor={editor}
       options={{ placement: "top", offset: 12 }}
+      shouldShow={({ editor }) => {
+        const { selection } = editor.state;
+        const { $from, $to } = selection;
+
+        if (selection.empty) {
+          return false;
+        }
+
+        let isShow = true;
+        editor.state.doc.nodesBetween($from.pos, $to.pos, (node) => {
+          // インラインコンテンツかつブロックのみマーク適用可能
+          if (!(node.inlineContent && node.isBlock)) return;
+
+          const allowedMarkSet = node.type.markSet;
+          if (
+            allowedMarkSet !== null &&
+            !allowedMarkSet.includes(editor.schema.marks.bold)
+          ) {
+            isShow = false;
+            return false;
+          }
+        });
+
+        return isShow;
+      }}
     >
       <div className="flex bg-white border-gray-200 border rounded p-1 gap-x-1 shadow">
         <button
@@ -54,7 +79,7 @@ export default function BubbleMenu({ editor }: Props) {
           <Strikethrough size={18} />
         </button>
         <button
-          onClick={() => editor.chain().focus().toggleStrike().run()}
+          onClick={() => editor.chain().focus().toggleCode().run()}
           className={cn(
             "size-6 flex items-center justify-center bg-white cursor-pointer hover:bg-gray-100",
             state.isCode && "bg-gray-200"

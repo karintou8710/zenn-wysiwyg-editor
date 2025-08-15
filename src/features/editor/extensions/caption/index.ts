@@ -9,6 +9,7 @@ export const Caption = Node.create<CaptionOptions>({
   group: "block",
   content: "inline*",
   defining: true,
+  marks: "",
 
   addOptions() {
     return {
