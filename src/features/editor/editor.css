@@ -21,7 +21,7 @@
 
   div[data-code-file-name] {
     span {
-      min-width: 50px;
+      min-width: 85px;
     }
   }
 
@@ -136,5 +136,15 @@
   em[data-caption].is-empty::before {
     color: #adb5bd;
     content: attr(data-placeholder);
+  }
+
+  div[data-code-file-name].is-empty {
+    .code-block-filename::before {
+      color: #adb5bd;
+      content: "ファイル名"; /* 親要素にdata-placeholderが設定されてしまうため、ハードコーディング */
+      float: left;
+      height: 0;
+      pointer-events: none;
+    }
   }
 }

@@ -68,6 +68,7 @@ export const extensions: Extensions = [
   TrailingNode,
   Placeholder.configure({
     placeholder: ({ editor, node }) => {
+      // codeFileNameのプレースホルダはハードコーディング
       if (node.type === editor.schema.nodes.caption) {
         return "キャプションを入力";
       }
