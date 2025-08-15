@@ -23,6 +23,7 @@ import { PrismCodeBlock } from "./extensions/prism-code-block";
 import { PrismCodeContent } from "./extensions/prism-code-block/prism-code-content";
 import { PrismCodeFileName } from "./extensions/prism-code-block/prism-code-file-name";
 import { Placeholder } from "./extensions/placeholder";
+import { EmbedLinkCard } from "./extensions/embed-link-card";
 
 export const extensions: Extensions = [
   // === Core ===
@@ -53,6 +54,7 @@ export const extensions: Extensions = [
   }),
   Caption,
   TableKit,
+  EmbedLinkCard,
 
   // === Marks ===
   Bold,
