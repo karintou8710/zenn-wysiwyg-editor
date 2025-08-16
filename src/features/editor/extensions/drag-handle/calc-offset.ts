@@ -36,5 +36,9 @@ export function calcOffset(dragTarget: DragTarget, editor: Editor) {
     top += 3;
   }
 
+  if (dragTarget.node.type === editor.schema.nodes.horizontalRule) {
+    top -= 12;
+  }
+
   return { top, left };
 }
