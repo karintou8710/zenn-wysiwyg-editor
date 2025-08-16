@@ -168,7 +168,7 @@ console.log(greeting("World"));</code></pre></div>
 <p data-embed-jsfiddle data-url="https://jsfiddle.net/macloo/bvwvd0ao/"></p>
 
 <h3>CodeSandbox</h3>
-<p data-embed-codesandbox data-url="https://codesandbox.io/p/sandbox/code-sandbox-examples-f54m2"></p>
+<p data-embed-codesandbox data-url="https://codesandbox.io/embed/885dz3?view=editor+%2B+preview&module=%2Findex.html"></p>
 
 <h3>StarBlitz</h3>
 <p data-embed-stackblitz data-url="https://stackblitz.com/edit/react-basic-example?file=index.js"></p>
