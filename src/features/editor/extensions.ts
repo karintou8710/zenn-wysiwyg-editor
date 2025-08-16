@@ -32,6 +32,7 @@ import { EmbedCodepen } from "./extensions/embed/embed-codepen";
 import { EmbedJsfiddle } from "./extensions/embed/embed-jsfiddle";
 import { EmbedCodesandbox } from "./extensions/embed/embed-codesandbox";
 import { EmbedStackblitz } from "./extensions/embed/embed-stackblitz";
+import { EmbedYoutube } from "./extensions/embed/embed-youtube";
 
 export const extensions: Extensions = [
   // === Core ===
@@ -70,6 +71,7 @@ export const extensions: Extensions = [
   EmbedJsfiddle,
   EmbedCodesandbox,
   EmbedStackblitz,
+  EmbedYoutube,
 
   // === Marks ===
   Bold,

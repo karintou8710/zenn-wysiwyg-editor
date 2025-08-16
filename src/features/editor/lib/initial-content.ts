@@ -149,29 +149,32 @@ console.log(greeting("World"));</code></pre></div>
 
 <p>埋め込み要素はURLを貼り付けると自動的に変換されます</p>
 
-<h3>埋め込みリンクカード</h3>
+<h3>リンクカード</h3>
 <p data-embed-link-card data-url="https://zenn.dev/zenn/articles/markdown-guide"></p>
 
-<h3>埋め込みツイート</h3>
+<h3>ツイート</h3>
 <p data-embed-tweet data-url="https://x.com/karintou74073/status/1956364047462654082"></p>
 
-<h3>埋め込みGitHub</h3>
+<h3>GitHub</h3>
 <p data-embed-github data-url="https://github.com/karintou8710/zenn-wysiwyg-editor/blob/main/src/features/editor/extensions/message/index.ts"></p>
 
-<h3>埋め込みGist</h3>
+<h3>Gist</h3>
 <p data-embed-gist data-url="https://gist.github.com/flatsato/4282769a4f181c6810aa"></p>
 
-<h3>埋め込みCodePen</h3>
+<h3>CodePen</h3>
 <p data-embed-codepen data-url="https://codepen.io/rcyou/pen/QEObEZ"></p>
 
-<h3>埋め込みJSFiddle</h3>
+<h3>JSFiddle</h3>
 <p data-embed-jsfiddle data-url="https://jsfiddle.net/macloo/bvwvd0ao/"></p>
 
-<h3>埋め込みCodeSandbox</h3>
+<h3>CodeSandbox</h3>
 <p data-embed-codesandbox data-url="https://codesandbox.io/p/sandbox/code-sandbox-examples-f54m2"></p>
 
-<h3>埋め込みStarBlitz</h3>
+<h3>StarBlitz</h3>
 <p data-embed-stackblitz data-url="https://stackblitz.com/edit/react-basic-example?file=index.js"></p>
+
+<h3>Youtube</h3>
+<p data-embed-youtube data-url="https://www.youtube.com/watch?v=DTpGfpLybr0"></p>
 
 <h2>対応状況・バグ報告</h2>
 <p><a href="https://github.com/karintou8710/zenn-wysiwyg-editor">GitHubのレポジトリ</a>をご確認ください。</p>

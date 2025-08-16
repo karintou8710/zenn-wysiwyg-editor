@@ -44,15 +44,15 @@ Zenn 独自ノード
 - [x] X（Twitter）のポスト
 - [x] GitHub
 - [x] GitHub Gist
-- [ ] YouTube
-- [ ] CodePen
+- [x] YouTube
+- [x] CodePen
+- [x] JSFiddle
+- [x] CodeSandbox
+- [x] StackBlitz
+- [ ] Figma
+- [ ] Docswell
 - [ ] SlideShare
 - [ ] SpeakerDeck
-- [ ] Docswell
-- [ ] JSFiddle
-- [ ] CodeSandbox
-- [ ] StackBlitz
-- [ ] Figma
 
 機能
 

@@ -8,6 +8,7 @@ import {
   isStackblitzUrl,
   isTweetUrl,
   isValidHttpUrl,
+  isYoutubeUrl,
 } from "../../lib/url";
 import { Extension } from "@tiptap/react";
 import type { Node } from "@tiptap/pm/model";
@@ -70,6 +71,8 @@ function getEmbedNode(textContent: string, state: EditorState): Node | null {
     return schema.nodes.embedCodesandbox.create({ url: textContent });
   } else if (isStackblitzUrl(textContent)) {
     return schema.nodes.embedStackblitz.create({ url: textContent });
+  } else if (isYoutubeUrl(textContent)) {
+    return schema.nodes.embedYoutube.create({ url: textContent });
   } else if (isValidHttpUrl(textContent)) {
     return schema.nodes.embedLinkCard.create({ url: textContent });
   }
