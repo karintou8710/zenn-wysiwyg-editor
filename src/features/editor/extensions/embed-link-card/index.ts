@@ -1,6 +1,7 @@
 import { mergeAttributes, Node } from "@tiptap/react";
 import { generateEmbedServerIframe } from "../../lib/embed";
 import { EMBED_ORIGIN } from "../../lib/constants";
+import { pasteHandlerPlugin } from "./pasteHandlerPlugin";
 
 export const EmbedLinkCard = Node.create({
   name: "embedLinkCard",
@@ -43,5 +44,9 @@ export const EmbedLinkCard = Node.create({
         dom,
       };
     };
+  },
+
+  addProseMirrorPlugins() {
+    return [pasteHandlerPlugin()];
   },
 });
