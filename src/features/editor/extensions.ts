@@ -23,6 +23,16 @@ import { PrismCodeBlock } from "./extensions/prism-code-block";
 import { PrismCodeContent } from "./extensions/prism-code-block/prism-code-content";
 import { PrismCodeFileName } from "./extensions/prism-code-block/prism-code-file-name";
 import { Placeholder } from "./extensions/placeholder";
+import { EmbedLinkCard } from "./extensions/embed/embed-link-card";
+import { EmbedTweet } from "./extensions/embed/embed-tweet";
+import { EmbedGithub } from "./extensions/embed/embed-github";
+import { EmbedPasteHandler } from "./extensions/embed/embedPasteHandler";
+import { EmbedGist } from "./extensions/embed/embed-gist";
+import { EmbedCodepen } from "./extensions/embed/embed-codepen";
+import { EmbedJsfiddle } from "./extensions/embed/embed-jsfiddle";
+import { EmbedCodesandbox } from "./extensions/embed/embed-codesandbox";
+import { EmbedStackblitz } from "./extensions/embed/embed-stackblitz";
+import { EmbedYoutube } from "./extensions/embed/embed-youtube";
 
 export const extensions: Extensions = [
   // === Core ===
@@ -53,6 +63,15 @@ export const extensions: Extensions = [
   }),
   Caption,
   TableKit,
+  EmbedLinkCard,
+  EmbedTweet,
+  EmbedGithub,
+  EmbedGist,
+  EmbedCodepen,
+  EmbedJsfiddle,
+  EmbedCodesandbox,
+  EmbedStackblitz,
+  EmbedYoutube,
 
   // === Marks ===
   Bold,
@@ -76,4 +95,5 @@ export const extensions: Extensions = [
       return "ここに入力";
     },
   }),
+  EmbedPasteHandler,
 ];

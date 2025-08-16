@@ -40,19 +40,23 @@ Zenn 独自ノード
 
 埋め込み
 
-- [ ] リンクカード
-- [ ] X（Twitter）のポスト
-- [ ] YouTube
-- [ ] GitHub
-- [ ] GitHub Gist
-- [ ] CodePen
+- [x] リンクカード
+- [x] X（Twitter）のポスト
+- [x] GitHub
+- [x] GitHub Gist
+- [x] YouTube
+- [x] CodePen
+- [x] JSFiddle
+- [x] CodeSandbox
+- [x] StackBlitz
+- [ ] Figma
+- [ ] Docswell
 - [ ] SlideShare
 - [ ] SpeakerDeck
-- [ ] Docswell
-- [ ] JSFiddle
-- [ ] CodeSandbox
-- [ ] StackBlitz
-- [ ] Figma
+
+機能
+
+- [ ] マークダウンのペースト対応
 
 ## 参考
 

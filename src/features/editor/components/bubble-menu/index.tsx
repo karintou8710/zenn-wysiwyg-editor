@@ -30,11 +30,10 @@ export default function BubbleMenu({ editor }: Props) {
         }
 
         let isShow = true;
-        editor.state.doc.nodesBetween($from.pos, $to.pos, (node) => {
-          // インラインコンテンツかつブロックのみマーク適用可能
-          if (!(node.inlineContent && node.isBlock)) return;
+        editor.state.doc.nodesBetween($from.pos, $to.pos, (node, _, parent) => {
+          if (!node.isLeaf || !parent) return;
 
-          const allowedMarkSet = node.type.markSet;
+          const allowedMarkSet = parent.type.markSet;
           if (
             allowedMarkSet !== null &&
             !allowedMarkSet.includes(editor.schema.marks.bold)
