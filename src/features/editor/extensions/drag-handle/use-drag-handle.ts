@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Editor } from "@tiptap/react";
 import { NodeSelection } from "@tiptap/pm/state";
 import { Node, Slice } from "@tiptap/pm/model";
-import { isTopBlockAtomNode } from "../../lib/node";
 
 // ProseMirrorの内部実装がエクスポートされてないので、自前定義
 class Dragging {
@@ -25,37 +24,21 @@ export interface DragTarget {
 export function useDragHandle(editor: Editor | null) {
   const [dragTarget, setDragTarget] = useState<DragTarget | null>(null);
 
-  const setTopBlockAtomDragInfo = useCallback(
-    (pos: number) => {
-      if (!editor) return;
-
-      const dom = editor.view.nodeDOM(pos);
-      const node = editor.state.doc.nodeAt(pos);
-
-      if (!dom || !node) return;
-
-      setDragTarget({
-        dom: dom as HTMLElement,
-        node,
-        nodeSelection: NodeSelection.create(editor.state.doc, pos),
-      });
-    },
-    [editor]
-  );
-
-  const setTopBlockDragInfo = useCallback(
+  const setTopBlockDragTarget = useCallback(
     (pos: number) => {
       if (!editor) return;
 
       const $pos = editor.state.doc.resolve(pos);
-      const node = $pos.node(1);
+      const beforePos = $pos.before(1);
+      const dom = editor.view.nodeDOM(beforePos) as HTMLElement | null;
+      const node = editor.state.doc.nodeAt(beforePos);
 
-      if (!node) return;
+      if (!node || !dom) return;
 
       setDragTarget({
-        dom: editor.view.domAtPos($pos.start(1)).node as HTMLElement,
+        dom,
         node,
-        nodeSelection: NodeSelection.create(editor.state.doc, $pos.before(1)),
+        nodeSelection: NodeSelection.create(editor.state.doc, beforePos),
       });
     },
     [editor]
@@ -90,21 +73,10 @@ export function useDragHandle(editor: Editor | null) {
       });
       if (!posWithInside) return;
 
-      // リーフノードはNodeやDOMの取得方法が通常と異なるので、分けて処理する
-
-      if (isTopBlockAtomNode(editor, posWithInside.pos)) {
-        // inside != -1の時、atomではposが上半分と下半分で異なる(pos.insideは同じ)
-        setTopBlockAtomDragInfo(
-          posWithInside.inside >= 0 ? posWithInside.inside : posWithInside.pos
-        );
-      } else {
-        // inside == -1の時、posWithInside.posは要素の外になるので+1する
-        setTopBlockDragInfo(
-          posWithInside.inside >= 0 ? posWithInside.pos : posWithInside.pos + 1
-        );
-      }
+      // カーソルが乗った位置で、深さ１ノードのbefore位置を取得
+      setTopBlockDragTarget(posWithInside.pos);
     },
-    [editor, setTopBlockAtomDragInfo, setTopBlockDragInfo]
+    [editor, setTopBlockDragTarget]
   );
 
   const handleClick = useCallback(() => {

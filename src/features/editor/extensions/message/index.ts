@@ -9,7 +9,6 @@ export const Message = Node.create({
   group: "block",
   content: "messageContent",
   defining: true,
-  isolating: true,
 
   addAttributes() {
     return {
