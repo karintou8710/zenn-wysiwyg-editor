@@ -30,6 +30,7 @@ import { EmbedPasteHandler } from "./extensions/embed/embedPasteHandler";
 import { EmbedGist } from "./extensions/embed/embed-gist";
 import { EmbedCodepen } from "./extensions/embed/embed-codepen";
 import { EmbedJsfiddle } from "./extensions/embed/embed-jsfiddle";
+import { EmbedCodesandbox } from "./extensions/embed/embed-codesandbox";
 
 export const extensions: Extensions = [
   // === Core ===
@@ -66,6 +67,7 @@ export const extensions: Extensions = [
   EmbedGist,
   EmbedCodepen,
   EmbedJsfiddle,
+  EmbedCodesandbox,
 
   // === Marks ===
   Bold,

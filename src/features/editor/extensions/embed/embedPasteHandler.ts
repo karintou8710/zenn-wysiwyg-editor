@@ -1,6 +1,7 @@
 import { EditorState, Plugin, PluginKey } from "@tiptap/pm/state";
 import {
   isCodepenUrl,
+  isCodesandboxUrl,
   isGistUrl,
   isGithubUrl,
   isJsfiddleUrl,
@@ -64,6 +65,8 @@ function getEmbedNode(textContent: string, state: EditorState): Node | null {
     return schema.nodes.embedCodepen.create({ url: textContent });
   } else if (isJsfiddleUrl(textContent)) {
     return schema.nodes.embedJsfiddle.create({ url: textContent });
+  } else if (isCodesandboxUrl(textContent)) {
+    return schema.nodes.embedCodesandbox.create({ url: textContent });
   } else if (isValidHttpUrl(textContent)) {
     return schema.nodes.embedLinkCard.create({ url: textContent });
   }

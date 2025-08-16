@@ -167,6 +167,10 @@ console.log(greeting("World"));</code></pre></div>
 <h3>埋め込みJSFiddle</h3>
 <p data-embed-jsfiddle data-url="https://jsfiddle.net/macloo/bvwvd0ao/"></p>
 
+<h3>埋め込みCodeSandbox</h3>
+<p data-embed-codesandbox data-url="https://codesandbox.io/p/sandbox/code-sandbox-examples-f54m2"></p>
+
+
 <h2>対応状況・バグ報告</h2>
 <p><a href="https://github.com/karintou8710/zenn-wysiwyg-editor">GitHubのレポジトリ</a>をご確認ください。</p>
 `;

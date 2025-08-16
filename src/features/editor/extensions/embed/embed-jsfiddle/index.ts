@@ -1,5 +1,5 @@
 import { mergeAttributes, Node } from "@tiptap/react";
-import { sanitizeEmbedToken } from "../../lib/embed";
+import { sanitizeEmbedToken } from "../../../lib/embed";
 
 export const EmbedJsfiddle = Node.create({
   name: "embedJsfiddle",
@@ -31,7 +31,7 @@ export const EmbedJsfiddle = Node.create({
 
   addNodeView() {
     return ({ node }) => {
-      const dom = document.createElement("div");
+      const dom = document.createElement("p");
 
       let url = node.attrs.url || "";
       if (!url.includes("embed")) {
