@@ -154,6 +154,9 @@ console.log(greeting("World"));</code></pre></div>
 <h2>埋め込みGitHub</h2>
 <p data-embed-github data-url="https://github.com/karintou8710/zenn-wysiwyg-editor/blob/main/src/features/editor/extensions/message/index.ts"></p>
 
+<h2>埋め込みGist</h2>
+<p data-embed-gist data-url="https://gist.github.com/flatsato/4282769a4f181c6810aa"></p>
+
 <h2>対応状況・バグ報告</h2>
 <p><a href="https://github.com/karintou8710/zenn-wysiwyg-editor">GitHubのレポジトリ</a>をご確認ください。</p>
 `;

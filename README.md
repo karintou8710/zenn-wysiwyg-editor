@@ -40,11 +40,11 @@ Zenn 独自ノード
 
 埋め込み
 
-- [ ] リンクカード
-- [ ] X（Twitter）のポスト
+- [x] リンクカード
+- [x] X（Twitter）のポスト
+- [x] GitHub
+- [x] GitHub Gist
 - [ ] YouTube
-- [ ] GitHub
-- [ ] GitHub Gist
 - [ ] CodePen
 - [ ] SlideShare
 - [ ] SpeakerDeck

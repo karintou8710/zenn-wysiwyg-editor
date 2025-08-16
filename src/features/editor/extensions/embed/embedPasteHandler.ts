@@ -1,5 +1,10 @@
 import { EditorState, Plugin, PluginKey } from "@tiptap/pm/state";
-import { isGithubUrl, isTweetUrl, isValidHttpUrl } from "../../lib/url";
+import {
+  isGistUrl,
+  isGithubUrl,
+  isTweetUrl,
+  isValidHttpUrl,
+} from "../../lib/url";
 import { Extension } from "@tiptap/react";
 import type { Node } from "@tiptap/pm/model";
 
@@ -42,7 +47,6 @@ function pasteHandlerPlugin(): Plugin {
       },
     },
   });
-  q;
 }
 
 function getEmbedNode(textContent: string, state: EditorState): Node | null {
@@ -52,6 +56,8 @@ function getEmbedNode(textContent: string, state: EditorState): Node | null {
     return schema.nodes.embedTweet.create({ url: textContent });
   } else if (isGithubUrl(textContent)) {
     return schema.nodes.embedGithub.create({ url: textContent });
+  } else if (isGistUrl(textContent)) {
+    return schema.nodes.embedGist.create({ url: textContent });
   } else if (isValidHttpUrl(textContent)) {
     return schema.nodes.embedLinkCard.create({ url: textContent });
   }

@@ -27,6 +27,7 @@ import { EmbedLinkCard } from "./extensions/embed/embed-link-card";
 import { EmbedTweet } from "./extensions/embed/embed-tweet";
 import { EmbedGithub } from "./extensions/embed/embed-github";
 import { EmbedPasteHandler } from "./extensions/embed/embedPasteHandler";
+import { EmbedGist } from "./extensions/embed/embed-gist";
 
 export const extensions: Extensions = [
   // === Core ===
@@ -60,6 +61,7 @@ export const extensions: Extensions = [
   EmbedLinkCard,
   EmbedTweet,
   EmbedGithub,
+  EmbedGist,
 
   // === Marks ===
   Bold,
