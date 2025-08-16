@@ -28,7 +28,7 @@ const inputHandler = ({
     [language, filename] = match[1].split(":");
   } else {
     // match[1]が言語のみ、または存在しない場合
-    language = match[1] || "";
+    language = match[1] || "plaintext";
     filename = null;
   }
 
