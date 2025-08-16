@@ -8,7 +8,7 @@ interface DragHandleProps {
   editor: Editor | null;
 }
 
-export function DragHandle({ editor }: DragHandleProps) {
+export default function DragHandle({ editor }: DragHandleProps) {
   const { dragTarget, handleDragStart, handleDragEnd, handleClick } =
     useDragHandle(editor);
 
@@ -31,6 +31,3 @@ export function DragHandle({ editor }: DragHandleProps) {
     </div>
   );
 }
-
-// デフォルトエクスポートも提供
-export default DragHandle;
