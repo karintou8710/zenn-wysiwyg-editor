@@ -25,18 +25,10 @@
     }
   }
 
-  pre {
+  .code-content-container {
     position: relative;
 
-    .insertedToken {
-      background-color: #00921b33;
-    }
-
-    .deletedToken {
-      background-color: #da363233;
-    }
-
-    &:before {
+    &:after {
       position: absolute;
       top: 0;
       right: 0;
@@ -45,6 +37,16 @@
       font-size: 0.7rem;
       padding: 0.1rem 0.3rem;
       background-color: oklch(96.7% 0.003 264.542);
+    }
+  }
+
+  pre {
+    .insertedToken {
+      background-color: #00921b33;
+    }
+
+    .deletedToken {
+      background-color: #da363233;
     }
   }
 }

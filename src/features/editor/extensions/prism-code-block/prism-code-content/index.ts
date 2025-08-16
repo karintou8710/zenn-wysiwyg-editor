@@ -66,9 +66,7 @@ export const PrismCodeContent = Node.create<CodeBlockOptions>({
   renderHTML({ node, HTMLAttributes }) {
     return [
       "pre",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
-        "data-language": node.attrs.language,
-      }),
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
       [
         "code",
         {
@@ -79,6 +77,33 @@ export const PrismCodeContent = Node.create<CodeBlockOptions>({
         0,
       ],
     ];
+  },
+
+  addNodeView() {
+    return ({ node }) => {
+      const dom = document.createElement("div");
+      dom.className = "code-content-container"; // 言語名表示のポジションのため
+      dom.setAttribute(
+        "data-language",
+        node.attrs.language || this.options.defaultLanguage
+      );
+      const pre = document.createElement("pre");
+      pre.className = "code-block";
+
+      const code = document.createElement("code");
+      code.className = node.attrs.language
+        ? this.options.languageClassPrefix + node.attrs.language
+        : "";
+      code.textContent = node.textContent;
+
+      pre.appendChild(code);
+      dom.appendChild(pre);
+
+      return {
+        dom,
+        contentDOM: code,
+      };
+    };
   },
 
   addKeyboardShortcuts() {
