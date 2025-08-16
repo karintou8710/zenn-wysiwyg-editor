@@ -10,6 +10,7 @@ import { extensions } from "./extensions";
 import { INITIAL_CONTENT } from "./lib/initial-content";
 import BubbleMenu from "./components/bubble-menu";
 import ImageBubbleMenu from "./components/image-bubble-menu";
+import DragHandle from "./extensions/drag-handle";
 
 function Editor() {
   const [content, setContent] = useLocalStorage(CONTENT_KEY, "");
@@ -28,6 +29,7 @@ function Editor() {
       <BubbleMenu editor={editor} />
       <ImageBubbleMenu editor={editor} />
       <EditorContent editor={editor} className="znc" />
+      <DragHandle editor={editor} />
     </>
   );
 }

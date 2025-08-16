@@ -78,7 +78,9 @@
   h4,
   ul,
   ol,
-  blockquote {
+  blockquote,
+  aside,
+  div[data-code-block-container] {
     &.ProseMirror-selectednode {
       position: relative;
       user-select: none;
