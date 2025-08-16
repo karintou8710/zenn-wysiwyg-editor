@@ -25,18 +25,10 @@
     }
   }
 
-  pre {
+  .code-block-wrapper-for-langname {
     position: relative;
 
-    .insertedToken {
-      background-color: #00921b33;
-    }
-
-    .deletedToken {
-      background-color: #da363233;
-    }
-
-    &:before {
+    &:after {
       position: absolute;
       top: 0;
       right: 0;
@@ -47,21 +39,29 @@
       background-color: oklch(96.7% 0.003 264.542);
     }
   }
+
+  div[data-code-block-file-name] {
+    .code-block-filename {
+      /* PC版Safariで display: table をspanにつけると、contenteditableでの編集がバグる */
+      display: inline-block;
+    }
+  }
+
+  pre {
+    .insertedToken {
+      background-color: #00921b33;
+    }
+
+    .deletedToken {
+      background-color: #da363233;
+    }
+  }
 }
 
 /* Selection */
 .tiptap {
   &::selection {
     background-color: rgba(35, 131, 226, 0.3);
-  }
-
-  figure {
-    &.ProseMirror-selectednode {
-      img {
-        outline: 3px solid #9333ea;
-        outline-offset: 2px;
-      }
-    }
   }
 
   hr {
@@ -138,7 +138,7 @@
     content: attr(data-placeholder);
   }
 
-  div[data-code-file-name].is-empty {
+  div[data-code-block-file-name].is-empty {
     .code-block-filename::before {
       color: #adb5bd;
       content: "ファイル名"; /* 親要素にdata-placeholderが設定されてしまうため、ハードコーディング */

@@ -1,14 +1,14 @@
 import { Node } from "@tiptap/react";
 
-export const PrismCodeFileName = Node.create({
-  name: "codeFileName",
+export const CodeBlockFileName = Node.create({
+  name: "codeBlockFileName",
   content: "text*",
   marks: "",
 
   parseHTML() {
     return [
       {
-        tag: "div[data-code-file-name]",
+        tag: "div[data-code-block-file-name]",
         priority: 100,
       },
     ];
@@ -17,7 +17,10 @@ export const PrismCodeFileName = Node.create({
   renderHTML() {
     return [
       "div",
-      { "data-code-file-name": "", class: "code-block-filename-container" },
+      {
+        "data-code-block-file-name": "",
+        class: "code-block-filename-container",
+      },
       ["span", { class: "code-block-filename" }, 0],
     ];
   },

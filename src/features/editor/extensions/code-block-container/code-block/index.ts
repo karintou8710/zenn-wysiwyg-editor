@@ -13,8 +13,8 @@ export interface CodeBlockOptions {
   HTMLAttributes: Record<string, any>;
 }
 
-export const PrismCodeContent = Node.create<CodeBlockOptions>({
-  name: "codeContent",
+export const CodeBlock = Node.create<CodeBlockOptions>({
+  name: "codeBlock",
 
   addOptions() {
     return {
@@ -66,9 +66,7 @@ export const PrismCodeContent = Node.create<CodeBlockOptions>({
   renderHTML({ node, HTMLAttributes }) {
     return [
       "pre",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
-        "data-language": node.attrs.language,
-      }),
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
       [
         "code",
         {
@@ -81,6 +79,32 @@ export const PrismCodeContent = Node.create<CodeBlockOptions>({
     ];
   },
 
+  addNodeView() {
+    return ({ node }) => {
+      const dom = document.createElement("div");
+      dom.className = "code-block-wrapper-for-langname"; // 言語名表示のポジションのため
+      dom.setAttribute(
+        "data-language",
+        node.attrs.language || this.options.defaultLanguage
+      );
+      const pre = document.createElement("pre");
+
+      const code = document.createElement("code");
+      code.className = node.attrs.language
+        ? this.options.languageClassPrefix + node.attrs.language
+        : "";
+      code.textContent = node.textContent;
+
+      pre.appendChild(code);
+      dom.appendChild(pre);
+
+      return {
+        dom,
+        contentDOM: code,
+      };
+    };
+  },
+
   addKeyboardShortcuts() {
     return {
       Backspace: () => {
@@ -91,7 +115,10 @@ export const PrismCodeContent = Node.create<CodeBlockOptions>({
 
         if (!selection.empty || $from.start() !== $from.pos) return false;
 
-        if ($from.node(-1).type !== this.editor.state.schema.nodes.codeBlock) {
+        if (
+          $from.node(-1).type !==
+          this.editor.state.schema.nodes.codeBlockContainer
+        ) {
           // ファイル名なし
           return this.editor.commands.clearNodes();
         }

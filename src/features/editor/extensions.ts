@@ -19,9 +19,9 @@ import { Caption } from "./extensions/figure/caption";
 import Figure from "./extensions/figure";
 import { TableKit } from "@tiptap/extension-table";
 import type { Extensions } from "@tiptap/react";
-import { PrismCodeBlock } from "./extensions/prism-code-block";
-import { PrismCodeContent } from "./extensions/prism-code-block/prism-code-content";
-import { PrismCodeFileName } from "./extensions/prism-code-block/prism-code-file-name";
+import { CodeBlockContainer } from "./extensions/code-block-container";
+import { CodeBlock } from "./extensions/code-block-container/code-block";
+import { CodeBlockFileName } from "./extensions/code-block-container/code-block-file-name";
 import { Placeholder } from "./extensions/placeholder";
 import { EmbedLinkCard } from "./extensions/embed/embed-link-card";
 import { EmbedTweet } from "./extensions/embed/embed-tweet";
@@ -52,15 +52,11 @@ export const extensions: Extensions = [
   HardBreak,
   Message,
   MessageContent,
-  PrismCodeBlock,
-  PrismCodeContent,
-  PrismCodeFileName,
+  CodeBlockContainer,
+  CodeBlock,
+  CodeBlockFileName,
   Figure,
-  Image.configure({
-    HTMLAttributes: {
-      class: "md-img",
-    },
-  }),
+  Image,
   Caption,
   TableKit,
   EmbedLinkCard,

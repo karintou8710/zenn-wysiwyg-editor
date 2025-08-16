@@ -15,8 +15,8 @@ export const INITIAL_CONTENT = `
 <p><code>Enter</code>で新たな段落を生成します。</p>
 <p><code>Shift + Enter</code>は段落内での改行を挿入します。<br/>見た目は改行の方が余白小さいです。</p>
 <h2>見出し</h2>
-<div data-code-block>
-<div data-code-file-name></div>
+<div data-code-block-container>
+<div data-code-block-file-name></div>
 <pre>
 <code class="language-plaintext"># 見出し1
 ## 見出し2
@@ -43,8 +43,8 @@ export const INITIAL_CONTENT = `
 <h2>画像</h2>
 <p>画像のアップロードは対応してません。別サイトにアップロードしてからURLで指定してください。<br/>
 キャプションは空であれば、マークダウンに出力されません。</p>
-<div data-code-block>
-<div data-code-file-name></div>
+<div data-code-block-container>
+<div data-code-block-file-name></div>
 <pre>
 <code class="language-plaintext">![alt](src)</code>
 </pre>
@@ -59,16 +59,16 @@ export const INITIAL_CONTENT = `
 右上に選択中の言語が表示されます。ファイル名は後から編集可能です。<br/>
 ファイル名は空であれば、マークダウンに出力されません。
 </p>
-<div data-code-block>
-<div data-code-file-name></div>
+<div data-code-block-container>
+<div data-code-block-file-name></div>
 <pre>
 <code class="language-plaintext">\`\`\`
 \`\`\`lang
 \`\`\`lang:filename</code>
 </pre>
 </div>
-<div data-code-block>
-<div data-code-file-name>example.ts</div>
+<div data-code-block-container>
+<div data-code-block-file-name>example.ts</div>
 <pre><code class="language-typescript">const greeting = (name: string) => {
   return \`Hello, \${name}!\`;
 };
@@ -76,21 +76,21 @@ console.log(greeting("World"));</code></pre></div>
 <h3>diff対応</h3>
 <p>スタイルが完全に適用されないバグが残っています。</p>
 <p>言語名の先頭に<code>diff-</code>をつけてください。</p>
-<div data-code-block>
-<div data-code-file-name></div>
+<div data-code-block-container>
+<div data-code-block-file-name></div>
 <pre>
 <code class="language-plaintext">\`\`\`diff-lang</code>
 </pre>
 </div>
-<div data-code-block>
-<div data-code-file-name>example.ts</div>
+<div data-code-block-container>
+<div data-code-block-file-name>example.ts</div>
 <pre><code class="language-diff-typescript">console.log("Hello, World!");
 - let a = 1;
 + let b = 2;</code></pre></div>
 
 <h2>引用</h2>
-<div data-code-block>
-<div data-code-file-name></div>
+<div data-code-block-container>
+<div data-code-block-file-name></div>
 <pre>
 <code class="language-plaintext">> text</code>
 </pre>
@@ -105,8 +105,8 @@ console.log(greeting("World"));</code></pre></div>
 <a href="https://zenn.dev/karintou/articles/1ba996a5ca7df8">zennへのリンク</a>
 
 <h2>水平線</h2>
-<div data-code-block>
-<div data-code-file-name></div>
+<div data-code-block-container>
+<div data-code-block-file-name></div>
 <pre>
 <code class="language-plaintext">---</code>
 </pre>
@@ -114,8 +114,8 @@ console.log(greeting("World"));</code></pre></div>
 <hr />
 
 <h2>メッセージ</h2>
-<div data-code-block>
-<div data-code-file-name></div>
+<div data-code-block-container>
+<div data-code-block-file-name></div>
 <pre>
 <code class="language-plaintext">:::message</code>
 </pre>
@@ -124,8 +124,8 @@ console.log(greeting("World"));</code></pre></div>
     <p data-message-content>Message</p>
 </aside>
 <p></p>
-<div data-code-block>
-<div data-code-file-name></div>
+<div data-code-block-container>
+<div data-code-block-file-name></div>
 <pre>
 <code class="language-plaintext">:::alert</code>
 </pre>
@@ -135,8 +135,8 @@ console.log(greeting("World"));</code></pre></div>
 </aside>
 
 <h2>インラインスタイル</h2>
-<div data-code-block>
-<div data-code-file-name></div>
+<div data-code-block-container>
+<div data-code-block-file-name></div>
 <pre>
 <code class="language-plaintext">**bold**
 *斜体*

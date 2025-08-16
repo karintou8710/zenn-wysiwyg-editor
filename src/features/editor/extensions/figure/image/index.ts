@@ -48,7 +48,9 @@ export const Image = Node.create<ImageOptions>({
   renderHTML({ HTMLAttributes }) {
     return [
       "img",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
+        class: "md-img",
+      }),
     ];
   },
 

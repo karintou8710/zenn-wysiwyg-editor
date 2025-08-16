@@ -44,7 +44,7 @@ const markdownSerializer = new MarkdownSerializer(
     hardBreak(state) {
       state.write("\n");
     },
-    codeBlock(state, node) {
+    codeBlockContainer(state, node) {
       const fileName = node.firstChild!.textContent;
       const contentNode = node.lastChild!;
 

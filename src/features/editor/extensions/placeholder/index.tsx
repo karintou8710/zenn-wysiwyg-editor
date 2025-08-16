@@ -36,7 +36,7 @@ export const Placeholder = Extension.create<PlaceholderOptions>({
     const showOnlyCurrent = (node: ProsemirrorNode) => {
       if (
         node.type === this.editor.schema.nodes.caption ||
-        node.type === this.editor.schema.nodes.codeFileName
+        node.type === this.editor.schema.nodes.codeBlockFileName
       ) {
         return false;
       }

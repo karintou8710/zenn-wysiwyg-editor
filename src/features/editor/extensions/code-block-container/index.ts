@@ -32,12 +32,12 @@ const inputHandler = ({
     filename = null;
   }
 
-  const codeFileName = state.schema.nodes.codeFileName.create(
+  const codeFileName = state.schema.nodes.codeBlockFileName.create(
     null,
     filename ? [state.schema.text(filename)] : []
   );
-  const codeContent = state.schema.nodes.codeContent.create({ language });
-  const codeBlock = state.schema.nodes.codeBlock.create(null, [
+  const codeContent = state.schema.nodes.codeBlock.create({ language });
+  const codeBlock = state.schema.nodes.codeBlockContainer.create(null, [
     codeFileName,
     codeContent,
   ]);
@@ -52,22 +52,26 @@ const inputHandler = ({
     .run();
 };
 
-export const PrismCodeBlock = Node.create({
-  name: "codeBlock",
+export const CodeBlockContainer = Node.create({
+  name: "codeBlockContainer",
   group: "block",
-  content: "codeFileName codeContent",
+  content: "codeBlockFileName codeBlock",
 
   parseHTML() {
     return [
       {
-        tag: "div[data-code-block]",
+        tag: "div[data-code-block-container]",
         priority: 100,
       },
     ];
   },
 
   renderHTML() {
-    return ["div", { "data-code-block": "", class: "code-block-container" }, 0];
+    return [
+      "div",
+      { "data-code-block-container": "", class: "code-block-container" },
+      0,
+    ];
   },
 
   addInputRules() {
