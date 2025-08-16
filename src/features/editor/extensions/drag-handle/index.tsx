@@ -12,7 +12,7 @@ export default function DragHandle({ editor }: DragHandleProps) {
   const { dragTarget, handleDragStart, handleDragEnd, handleClick } =
     useDragHandle(editor);
 
-  if (dragTarget === null) return null;
+  if (dragTarget === null || !editor) return null;
 
   const offsetStyles = calcOffset(dragTarget, editor);
 
