@@ -1,4 +1,6 @@
-import { InputRule, mergeAttributes, Node } from "@tiptap/react";
+import { Plugin, PluginKey } from "@tiptap/pm/state";
+import { InputRule, mergeAttributes, Node, PasteRule } from "@tiptap/react";
+import { isImageURL } from "../../lib/url";
 
 export interface FigureOptions {
   HTMLAttributes: Record<string, any>;
@@ -29,6 +31,7 @@ export const Figure = Node.create({
   isolating: true,
   draggable: true,
   selectable: true,
+  priority: 1000,
 
   addOptions() {
     return {
@@ -93,6 +96,42 @@ export const Figure = Node.create({
             .deleteRange(range)
             .insertFigureAt(range.from, { src, alt })
             .run();
+        },
+      }),
+    ];
+  },
+
+  /* 埋め込みのペーストハンドラーよりも先に実行する */
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: new PluginKey("imageURLPasteHandler"),
+        props: {
+          handlePaste: (view, _, slice) => {
+            const { state } = view;
+            const { selection } = state;
+            const { empty } = selection;
+
+            // 範囲選択の場合はデフォルトのリンクマークの挙動にする
+            if (!empty) {
+              return false;
+            }
+
+            let textContent = "";
+
+            slice.content.forEach((node) => {
+              textContent += node.textContent;
+            });
+
+            if (!isImageURL(textContent)) return false;
+
+            this.editor
+              .chain()
+              .deleteRange({ from: selection.from, to: selection.to })
+              .insertFigureAt(selection.from, { src: textContent })
+              .run();
+            return true;
+          },
         },
       }),
     ];
