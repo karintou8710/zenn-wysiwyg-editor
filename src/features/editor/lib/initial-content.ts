@@ -100,6 +100,10 @@ console.log(greeting("World"));</code></pre></div>
 <p>引用テキスト</p>
 </blockquote>
 
+<h2>テキストリンク</h2>
+<p>範囲選択時にURLを貼り付けると自動的に変換されます。</p>
+<a href="https://zenn.dev/karintou/articles/1ba996a5ca7df8">zennへのリンク</a>
+
 <h2>水平線</h2>
 <div data-code-block>
 <div data-code-file-name></div>
