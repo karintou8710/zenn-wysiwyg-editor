@@ -3,6 +3,11 @@
 
 import type { EmbedServerType } from "../types";
 
+/** 渡された文字列をサニタイズする */
+export function sanitizeEmbedToken(str: string): string {
+  return str.replace(/"/g, "%22");
+}
+
 /** Embedサーバーを使った埋め込み要素の文字列を生成する */
 export function generateEmbedServerIframe(
   type: EmbedServerType,
