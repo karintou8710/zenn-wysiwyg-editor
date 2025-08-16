@@ -56,11 +56,7 @@ export const extensions: Extensions = [
   PrismCodeContent,
   PrismCodeFileName,
   Figure,
-  Image.configure({
-    HTMLAttributes: {
-      class: "md-img",
-    },
-  }),
+  Image,
   Caption,
   TableKit,
   EmbedLinkCard,
