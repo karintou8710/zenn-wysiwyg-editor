@@ -32,7 +32,6 @@ export const EmbedCodesandbox = Node.create({
   addNodeView() {
     return ({ node }) => {
       const dom = document.createElement("p");
-      dom.className = "embed-codesandbox";
 
       dom.innerHTML = `<span class="embed-block embed-codesandbox"><iframe src="${sanitizeEmbedToken(
         node.attrs.url || ""

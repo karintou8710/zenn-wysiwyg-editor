@@ -5,6 +5,7 @@ import {
   isGistUrl,
   isGithubUrl,
   isJsfiddleUrl,
+  isStackblitzUrl,
   isTweetUrl,
   isValidHttpUrl,
 } from "../../lib/url";
@@ -67,6 +68,8 @@ function getEmbedNode(textContent: string, state: EditorState): Node | null {
     return schema.nodes.embedJsfiddle.create({ url: textContent });
   } else if (isCodesandboxUrl(textContent)) {
     return schema.nodes.embedCodesandbox.create({ url: textContent });
+  } else if (isStackblitzUrl(textContent)) {
+    return schema.nodes.embedStackblitz.create({ url: textContent });
   } else if (isValidHttpUrl(textContent)) {
     return schema.nodes.embedLinkCard.create({ url: textContent });
   }
