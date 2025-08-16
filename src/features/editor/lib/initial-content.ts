@@ -162,10 +162,10 @@ console.log(greeting("World"));</code></pre></div>
 <p data-embed-gist data-url="https://gist.github.com/flatsato/4282769a4f181c6810aa"></p>
 
 <h3>CodePen</h3>
-<p data-embed-codepen data-url="https://codepen.io/rcyou/pen/QEObEZ"></p>
+<p data-embed-codepen data-url="https://codepen.io/karintou8710/pen/yyYpRgB"></p>
 
 <h3>JSFiddle</h3>
-<p data-embed-jsfiddle data-url="https://jsfiddle.net/macloo/bvwvd0ao/"></p>
+<p data-embed-jsfiddle data-url="https://jsfiddle.net/zhj7crkn/6/"></p>
 
 <h3>CodeSandbox</h3>
 <p data-embed-codesandbox data-url="https://codesandbox.io/embed/885dz3?view=editor+%2B+preview&module=%2Findex.html"></p>
