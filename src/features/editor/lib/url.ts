@@ -10,6 +10,21 @@ export function isValidHttpUrl(str: string) {
   }
 }
 
+export function getUrlPath(url: string): string {
+  try {
+    const parsedUrl = new URL(url);
+    return parsedUrl.pathname;
+  } catch (e) {
+    return "";
+  }
+}
+
+export function isImageURL(url: string): boolean {
+  const path = getUrlPath(url);
+  const imageExtensions = /\.(png|jpe?g|gif)$/i;
+  return isValidHttpUrl(url) && imageExtensions.test(path);
+}
+
 export function isGithubUrl(url: string): boolean {
   return /^https:\/\/github\.com\/([a-zA-Z0-9](-?[a-zA-Z0-9]){0,38})\/([a-zA-Z0-9](-?[a-zA-Z0-9._]){0,99})\/blob\/[^~\s:?[*^/\\]{2,}\/[\w!\-_~.*%()'"/]+(?:#L\d+(?:-L\d+)?)?$/.test(
     url
