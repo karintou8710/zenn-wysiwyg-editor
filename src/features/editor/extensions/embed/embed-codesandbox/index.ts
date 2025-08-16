@@ -5,6 +5,7 @@ export const EmbedCodesandbox = Node.create({
   name: "embedCodesandbox",
   group: "block",
   atom: true,
+  marks: "",
 
   addAttributes() {
     return {

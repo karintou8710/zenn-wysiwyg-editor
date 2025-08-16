@@ -5,6 +5,7 @@ export const EmbedStackblitz = Node.create({
   name: "embedStackblitz",
   group: "block",
   atom: true,
+  marks: "",
 
   addAttributes() {
     return {

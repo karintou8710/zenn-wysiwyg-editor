@@ -9,6 +9,7 @@ export const EmbedCodepen = Node.create({
   name: "embedCodepen",
   group: "block",
   atom: true,
+  marks: "",
 
   addAttributes() {
     return {

@@ -6,6 +6,7 @@ export const EmbedGithub = Node.create({
   name: "embedGithub",
   group: "block",
   atom: true,
+  marks: "",
 
   addAttributes() {
     return {

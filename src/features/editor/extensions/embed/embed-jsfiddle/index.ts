@@ -5,6 +5,7 @@ export const EmbedJsfiddle = Node.create({
   name: "embedJsfiddle",
   group: "block",
   atom: true,
+  marks: "",
 
   addAttributes() {
     return {

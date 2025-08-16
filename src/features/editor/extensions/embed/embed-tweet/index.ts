@@ -6,6 +6,7 @@ export const EmbedTweet = Node.create({
   name: "embedTweet",
   group: "block",
   atom: true,
+  marks: "",
 
   addAttributes() {
     return {

@@ -1,6 +1,4 @@
 import { mergeAttributes, Node } from "@tiptap/react";
-import { generateEmbedServerIframe } from "../../../lib/embed";
-import { EMBED_ORIGIN } from "../../../lib/constants";
 import { extractYoutubeVideoParameters } from "@/features/editor/lib/url";
 import { escapeHtml } from "@/features/editor/lib/escape";
 
@@ -8,6 +6,7 @@ export const EmbedYoutube = Node.create({
   name: "embedYoutube",
   group: "block",
   atom: true,
+  marks: "",
 
   addAttributes() {
     return {

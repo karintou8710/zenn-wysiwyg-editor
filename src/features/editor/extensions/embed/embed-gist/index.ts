@@ -6,6 +6,7 @@ export const EmbedGist = Node.create({
   name: "embedGist",
   group: "block",
   atom: true,
+  marks: "",
 
   addAttributes() {
     return {

@@ -6,6 +6,7 @@ export const EmbedLinkCard = Node.create({
   name: "embedLinkCard",
   group: "block",
   atom: true,
+  marks: "",
 
   addAttributes() {
     return {
