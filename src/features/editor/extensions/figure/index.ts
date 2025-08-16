@@ -1,5 +1,5 @@
 import { Plugin, PluginKey } from "@tiptap/pm/state";
-import { InputRule, mergeAttributes, Node, PasteRule } from "@tiptap/react";
+import { InputRule, mergeAttributes, Node } from "@tiptap/react";
 import { isImageURL } from "../../lib/url";
 
 export interface FigureOptions {
