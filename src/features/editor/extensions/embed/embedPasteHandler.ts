@@ -3,6 +3,7 @@ import {
   isCodepenUrl,
   isGistUrl,
   isGithubUrl,
+  isJsfiddleUrl,
   isTweetUrl,
   isValidHttpUrl,
 } from "../../lib/url";
@@ -61,6 +62,8 @@ function getEmbedNode(textContent: string, state: EditorState): Node | null {
     return schema.nodes.embedGist.create({ url: textContent });
   } else if (isCodepenUrl(textContent)) {
     return schema.nodes.embedCodepen.create({ url: textContent });
+  } else if (isJsfiddleUrl(textContent)) {
+    return schema.nodes.embedJsfiddle.create({ url: textContent });
   } else if (isValidHttpUrl(textContent)) {
     return schema.nodes.embedLinkCard.create({ url: textContent });
   }

@@ -29,6 +29,7 @@ import { EmbedGithub } from "./extensions/embed/embed-github";
 import { EmbedPasteHandler } from "./extensions/embed/embedPasteHandler";
 import { EmbedGist } from "./extensions/embed/embed-gist";
 import { EmbedCodepen } from "./extensions/embed/embed-codepen";
+import { EmbedJsfiddle } from "./extensions/embed/embed-jsfiddle";
 
 export const extensions: Extensions = [
   // === Core ===
@@ -64,6 +65,7 @@ export const extensions: Extensions = [
   EmbedGithub,
   EmbedGist,
   EmbedCodepen,
+  EmbedJsfiddle,
 
   // === Marks ===
   Bold,
