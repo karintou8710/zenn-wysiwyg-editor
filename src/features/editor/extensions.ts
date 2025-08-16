@@ -26,6 +26,7 @@ import { Placeholder } from "./extensions/placeholder";
 import { EmbedLinkCard } from "./extensions/embed/embed-link-card";
 import { EmbedTweet } from "./extensions/embed/embed-tweet";
 import { EmbedGithub } from "./extensions/embed/embed-github";
+import { EmbedPasteHandler } from "./extensions/embed/embedPasteHandler";
 
 export const extensions: Extensions = [
   // === Core ===
@@ -82,4 +83,5 @@ export const extensions: Extensions = [
       return "ここに入力";
     },
   }),
+  EmbedPasteHandler,
 ];
