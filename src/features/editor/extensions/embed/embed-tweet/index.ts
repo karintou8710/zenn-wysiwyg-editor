@@ -1,10 +1,9 @@
 import { mergeAttributes, Node } from "@tiptap/react";
-import { generateEmbedServerIframe } from "../../lib/embed";
-import { EMBED_ORIGIN } from "../../lib/constants";
-import { pasteHandlerPlugin } from "./pasteHandlerPlugin";
+import { generateEmbedServerIframe } from "../../../lib/embed";
+import { EMBED_ORIGIN } from "../../../lib/constants";
 
-export const EmbedLinkCard = Node.create({
-  name: "embedLinkCard",
+export const EmbedTweet = Node.create({
+  name: "embedTweet",
   group: "block",
   atom: true,
 
@@ -19,14 +18,14 @@ export const EmbedLinkCard = Node.create({
   },
 
   parseHTML() {
-    return [{ tag: "p[data-embed-link-card]", priority: 100 }];
+    return [{ tag: "p[data-embed-tweet]", priority: 100 }];
   },
 
   renderHTML({ HTMLAttributes }) {
     return [
       "p",
       mergeAttributes(HTMLAttributes, {
-        "data-embed-link-card": "",
+        "data-embed-tweet": "",
       }),
     ];
   },
@@ -35,7 +34,7 @@ export const EmbedLinkCard = Node.create({
     return ({ node }) => {
       const dom = document.createElement("p");
       dom.innerHTML = generateEmbedServerIframe(
-        "card",
+        "tweet",
         node.attrs.url || "",
         EMBED_ORIGIN
       );
@@ -44,9 +43,5 @@ export const EmbedLinkCard = Node.create({
         dom,
       };
     };
-  },
-
-  addProseMirrorPlugins() {
-    return [pasteHandlerPlugin()];
   },
 });

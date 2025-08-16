@@ -1,9 +1,10 @@
 import { mergeAttributes, Node } from "@tiptap/react";
-import { generateEmbedServerIframe } from "../../lib/embed";
-import { EMBED_ORIGIN } from "../../lib/constants";
+import { generateEmbedServerIframe } from "../../../lib/embed";
+import { EMBED_ORIGIN } from "../../../lib/constants";
+import { pasteHandlerPlugin } from "./pasteHandlerPlugin";
 
-export const EmbedGithub = Node.create({
-  name: "embedGithub",
+export const EmbedLinkCard = Node.create({
+  name: "embedLinkCard",
   group: "block",
   atom: true,
 
@@ -18,14 +19,14 @@ export const EmbedGithub = Node.create({
   },
 
   parseHTML() {
-    return [{ tag: "p[data-embed-github]", priority: 100 }];
+    return [{ tag: "p[data-embed-link-card]", priority: 100 }];
   },
 
   renderHTML({ HTMLAttributes }) {
     return [
       "p",
       mergeAttributes(HTMLAttributes, {
-        "data-embed-github": "",
+        "data-embed-link-card": "",
       }),
     ];
   },
@@ -34,7 +35,7 @@ export const EmbedGithub = Node.create({
     return ({ node }) => {
       const dom = document.createElement("p");
       dom.innerHTML = generateEmbedServerIframe(
-        "github",
+        "card",
         node.attrs.url || "",
         EMBED_ORIGIN
       );
@@ -43,5 +44,9 @@ export const EmbedGithub = Node.create({
         dom,
       };
     };
+  },
+
+  addProseMirrorPlugins() {
+    return [pasteHandlerPlugin()];
   },
 });

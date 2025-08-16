@@ -1,5 +1,5 @@
 import { Plugin, PluginKey } from "@tiptap/pm/state";
-import { isValidHttpUrl } from "../../lib/url";
+import { isValidHttpUrl } from "../../../lib/url";
 
 export function pasteHandlerPlugin(): Plugin {
   return new Plugin({

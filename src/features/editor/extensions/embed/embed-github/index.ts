@@ -1,9 +1,9 @@
 import { mergeAttributes, Node } from "@tiptap/react";
-import { generateEmbedServerIframe } from "../../lib/embed";
-import { EMBED_ORIGIN } from "../../lib/constants";
+import { generateEmbedServerIframe } from "../../../lib/embed";
+import { EMBED_ORIGIN } from "../../../lib/constants";
 
-export const EmbedTweet = Node.create({
-  name: "embedTweet",
+export const EmbedGithub = Node.create({
+  name: "embedGithub",
   group: "block",
   atom: true,
 
@@ -18,14 +18,14 @@ export const EmbedTweet = Node.create({
   },
 
   parseHTML() {
-    return [{ tag: "p[data-embed-tweet]", priority: 100 }];
+    return [{ tag: "p[data-embed-github]", priority: 100 }];
   },
 
   renderHTML({ HTMLAttributes }) {
     return [
       "p",
       mergeAttributes(HTMLAttributes, {
-        "data-embed-tweet": "",
+        "data-embed-github": "",
       }),
     ];
   },
@@ -34,7 +34,7 @@ export const EmbedTweet = Node.create({
     return ({ node }) => {
       const dom = document.createElement("p");
       dom.innerHTML = generateEmbedServerIframe(
-        "tweet",
+        "github",
         node.attrs.url || "",
         EMBED_ORIGIN
       );
