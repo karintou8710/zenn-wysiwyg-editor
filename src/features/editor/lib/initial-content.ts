@@ -41,12 +41,15 @@ export const INITIAL_CONTENT = `
 </ol>
 
 <h2>画像</h2>
-<p>画像のアップロードは対応してません。別サイトにアップロードしてからURLで指定してください。<br/>
-キャプションは空であれば、マークダウンに出力されません。</p>
+<p>
+    <b>画像のアップロードは対応してません。</b><br/>他サイト(Zennなど)で一度アップロードしてから、「画像のコピー」または「画像のアドレスをコピー」を行い、貼り付けてください。
+</p>
+<p>キャプションは空であれば、マークダウンに出力されません。</p>
 <div data-code-block-container>
 <div data-code-block-file-name></div>
 <pre>
-<code class="language-plaintext">![alt](src)</code>
+<code class="language-plaintext">![alt](src)
+url(貼り付け)</code>
 </pre>
 </div>
 <p data-figure>
