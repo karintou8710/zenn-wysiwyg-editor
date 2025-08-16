@@ -25,7 +25,7 @@
     }
   }
 
-  .code-content-container {
+  .code-block-wrapper-for-langname {
     position: relative;
 
     &:after {
@@ -55,15 +55,6 @@
 .tiptap {
   &::selection {
     background-color: rgba(35, 131, 226, 0.3);
-  }
-
-  figure {
-    &.ProseMirror-selectednode {
-      img {
-        outline: 3px solid #9333ea;
-        outline-offset: 2px;
-      }
-    }
   }
 
   hr {
@@ -140,7 +131,7 @@
     content: attr(data-placeholder);
   }
 
-  div[data-code-file-name].is-empty {
+  div[data-code-block-file-name].is-empty {
     .code-block-filename::before {
       color: #adb5bd;
       content: "ファイル名"; /* 親要素にdata-placeholderが設定されてしまうため、ハードコーディング */

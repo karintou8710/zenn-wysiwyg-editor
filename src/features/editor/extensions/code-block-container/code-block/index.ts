@@ -13,8 +13,8 @@ export interface CodeBlockOptions {
   HTMLAttributes: Record<string, any>;
 }
 
-export const PrismCodeContent = Node.create<CodeBlockOptions>({
-  name: "codeContent",
+export const CodeBlock = Node.create<CodeBlockOptions>({
+  name: "codeBlock",
 
   addOptions() {
     return {
@@ -82,13 +82,12 @@ export const PrismCodeContent = Node.create<CodeBlockOptions>({
   addNodeView() {
     return ({ node }) => {
       const dom = document.createElement("div");
-      dom.className = "code-content-container"; // 言語名表示のポジションのため
+      dom.className = "code-block-wrapper-for-langname"; // 言語名表示のポジションのため
       dom.setAttribute(
         "data-language",
         node.attrs.language || this.options.defaultLanguage
       );
       const pre = document.createElement("pre");
-      pre.className = "code-block";
 
       const code = document.createElement("code");
       code.className = node.attrs.language
@@ -116,7 +115,10 @@ export const PrismCodeContent = Node.create<CodeBlockOptions>({
 
         if (!selection.empty || $from.start() !== $from.pos) return false;
 
-        if ($from.node(-1).type !== this.editor.state.schema.nodes.codeBlock) {
+        if (
+          $from.node(-1).type !==
+          this.editor.state.schema.nodes.codeBlockContainer
+        ) {
           // ファイル名なし
           return this.editor.commands.clearNodes();
         }
