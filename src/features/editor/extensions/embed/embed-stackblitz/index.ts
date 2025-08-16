@@ -1,5 +1,5 @@
 import { mergeAttributes, Node } from "@tiptap/react";
-import { sanitizeEmbedToken } from "../../lib/embed";
+import { sanitizeEmbedToken } from "../../../lib/embed";
 
 export const EmbedStackblitz = Node.create({
   name: "embedStackblitz",

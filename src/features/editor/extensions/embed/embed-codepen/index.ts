@@ -1,9 +1,5 @@
 import { mergeAttributes, Node } from "@tiptap/react";
-import {
-  generateEmbedServerIframe,
-  sanitizeEmbedToken,
-} from "../../../lib/embed";
-import { EMBED_ORIGIN } from "../../../lib/constants";
+import { sanitizeEmbedToken } from "../../../lib/embed";
 
 export const EmbedCodepen = Node.create({
   name: "embedCodepen",
