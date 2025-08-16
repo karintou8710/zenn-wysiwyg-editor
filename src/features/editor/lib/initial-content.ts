@@ -50,7 +50,7 @@ export const INITIAL_CONTENT = `
 </pre>
 </div>
 <p data-figure>
-<img src="${LakeImage}" alt="支笏湖">
+<img src="${location.origin + LakeImage}" alt="支笏湖">
 <em>支笏湖</em>
 </p>
 
