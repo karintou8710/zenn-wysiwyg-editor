@@ -33,6 +33,7 @@ import { EmbedJsfiddle } from "./extensions/embed/embed-jsfiddle";
 import { EmbedCodesandbox } from "./extensions/embed/embed-codesandbox";
 import { EmbedStackblitz } from "./extensions/embed/embed-stackblitz";
 import { EmbedYoutube } from "./extensions/embed/embed-youtube";
+import { MarkdownPasteHandler } from "./extensions/markdown-paste-handler";
 
 export const extensions: Extensions = [
   // === Core ===
