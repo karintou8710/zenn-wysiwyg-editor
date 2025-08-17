@@ -1,3 +1,5 @@
+import { Plugin, PluginKey } from "@tiptap/pm/state";
+import { Decoration, DecorationSet } from "@tiptap/pm/view";
 import { InputRule, mergeAttributes, Node } from "@tiptap/react";
 
 export interface MessageOptions {
@@ -8,55 +10,37 @@ export const Message = Node.create({
   name: "message",
   group: "block",
   content: "messageContent",
-  defining: true,
 
   addAttributes() {
     return {
       type: {
         default: "message",
-        parseHTML: (element) => element.getAttribute("data-type") || "message",
-        renderHTML: ({ type }) => {
-          return {
-            "data-type": type || "message",
-          };
-        },
+        rendered: false,
       },
     };
   },
 
   parseHTML() {
-    return [{ tag: "aside[data-message]" }];
-  },
-
-  renderHTML({ HTMLAttributes }) {
     return [
-      "aside",
-      mergeAttributes(HTMLAttributes, {
-        "data-message": "",
-      }),
-      0,
+      {
+        tag: "aside.msg",
+        getAttrs: (element) => {
+          return {
+            type: element.classList.contains("alert") ? "alert" : "message",
+          };
+        },
+      },
     ];
   },
 
-  addNodeView() {
-    return ({ node }) => {
-      const dom = document.createElement("aside");
-      dom.className = `msg ${node.attrs.type}`;
-
-      const symbol = document.createElement("span");
-      symbol.className = "msg-symbol";
-      symbol.textContent = "!";
-      dom.appendChild(symbol);
-
-      const contentWrapper = document.createElement("div");
-      contentWrapper.className = "msg-content";
-      dom.appendChild(contentWrapper);
-
-      return {
-        dom,
-        contentDOM: contentWrapper,
-      };
-    };
+  renderHTML({ node, HTMLAttributes }) {
+    return [
+      "aside",
+      mergeAttributes(HTMLAttributes, {
+        class: `msg ${node.attrs.type === "alert" ? "alert" : ""}`,
+      }),
+      0,
+    ];
   },
 
   addInputRules() {
@@ -65,9 +49,10 @@ export const Message = Node.create({
         find: /^:::(message|alert)\s$/,
         handler: ({ state, chain, range, match }) => {
           const type = match[1];
-          const messageContentNode = state.schema.nodes.messageContent.create({
-            messageContent: true,
-          });
+          const messageContentNode = state.schema.nodes.messageContent.create(
+            null,
+            state.schema.nodes.paragraph.create()
+          );
 
           const messageNode = this.type.create(
             { type: type },
@@ -81,6 +66,36 @@ export const Message = Node.create({
             })
             .insertContentAt(range.from - 1, messageNode)
             .run();
+        },
+      }),
+    ];
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: new PluginKey("messageSymbolDecoration"),
+        props: {
+          decorations: (state) => {
+            // TODO: トランザクションの度に再実行されてるので、パフォーマンス改善の余地あり
+            const { doc } = state;
+            const decorations: Decoration[] = [];
+
+            doc.descendants((node, pos) => {
+              if (node.type.name === this.name) {
+                decorations.push(
+                  Decoration.widget(pos + 1, () => {
+                    const element = document.createElement("span");
+                    element.className = "msg-symbol";
+                    element.textContent = "!";
+                    return element;
+                  })
+                );
+              }
+            });
+
+            return DecorationSet.create(doc, decorations);
+          },
         },
       }),
     ];

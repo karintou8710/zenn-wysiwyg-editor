@@ -5,10 +5,10 @@ export const INITIAL_CONTENT = `
     Zennの記事を<b>WYSIWYGエディタ</b>で執筆することができます。<br/>
     ショートカット記法を使うことで、Markdownのように簡単に記事を編集可能です。
 </p>
-<aside data-message data-type="alert">
-    <p data-message-content>
-        現在は開発途中であり、<b>アップデートにより文書構造が変更される可能性がある</b>ため、大事な文書は書き終えた後にコピーを取ることをお勧めします。
-    </p>
+<aside class="msg alert">
+    <div class="msg-content">
+        <p>現在は開発途中であり、<b>アップデートにより文書構造が変更される可能性がある</b>ため、大事な文書は書き終えた後にコピーを取ることをお勧めします。</p>
+    </div>
 </aside>
 
 <h2>段落</h2>
@@ -123,8 +123,8 @@ console.log(greeting("World"));</code></pre></div>
 <code class="language-plaintext">:::message</code>
 </pre>
 </div>
-<aside data-message>
-    <p data-message-content>Message</p>
+<aside class="msg">
+    <div class="msg-content"><p>Message</p></div>
 </aside>
 <p></p>
 <div data-code-block-container>
@@ -133,8 +133,8 @@ console.log(greeting("World"));</code></pre></div>
 <code class="language-plaintext">:::alert</code>
 </pre>
 </div>
-<aside data-message data-type="alert">
-    <p data-message-content>Alert</p>
+<aside class="msg alert">
+    <div class="msg-content"><p>Alert</p></div>
 </aside>
 
 <h2>インラインスタイル</h2>
