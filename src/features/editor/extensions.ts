@@ -94,4 +94,5 @@ export const extensions: Extensions = [
   }),
   EmbedPasteHandler,
   Dropcursor,
+  MarkdownPasteHandler,
 ];

@@ -1,6 +1,5 @@
-import MarkdownIt from 'markdown-it';
-
-const markdownItLinkAttributes = require('markdown-it-link-attributes');
+import MarkdownIt from "markdown-it";
+import markdownItLinkAttributes from "markdown-it-link-attributes";
 
 export function mdLinkAttributes(md: MarkdownIt) {
   // <a>タグの属性を設定する
@@ -14,7 +13,7 @@ export function mdLinkAttributes(md: MarkdownIt) {
         );
       },
       attrs: {
-        target: '_blank',
+        target: "_blank",
       },
     },
     // 外部リンク
@@ -23,8 +22,8 @@ export function mdLinkAttributes(md: MarkdownIt) {
         return href.match(/^https?:\/\//);
       },
       attrs: {
-        target: '_blank',
-        rel: 'nofollow noopener noreferrer',
+        target: "_blank",
+        rel: "nofollow noopener noreferrer",
       },
     },
   ]);

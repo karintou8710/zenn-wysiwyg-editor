@@ -1,6 +1,7 @@
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Extension } from "@tiptap/react";
 import { DOMParser } from "@tiptap/pm/model";
+import markdownToHtml from "zenn-markdown-html";
 
 export const MarkdownPasteHandler = Extension.create({
   name: "markdownPasteHandler",
@@ -10,6 +11,7 @@ export const MarkdownPasteHandler = Extension.create({
       new Plugin({
         key: new PluginKey("markdownPasteHandler"),
         props: {
+          // @ts-ignore: 続行のためにundefinedを返しても問題ない
           clipboardTextParser: (text, _, __, view) => {
             const { state } = view;
             const { selection } = state;
