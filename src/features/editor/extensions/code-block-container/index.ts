@@ -60,18 +60,14 @@ export const CodeBlockContainer = Node.create({
   parseHTML() {
     return [
       {
-        tag: "div[data-code-block-container]",
+        tag: "div.code-block-container",
         priority: 100,
       },
     ];
   },
 
   renderHTML() {
-    return [
-      "div",
-      { "data-code-block-container": "", class: "code-block-container" },
-      0,
-    ];
+    return ["div", { class: "code-block-container" }, 0];
   },
 
   addInputRules() {
