@@ -11,6 +11,7 @@ import { INITIAL_CONTENT } from "./lib/initial-content";
 import BubbleMenu from "./components/bubble-menu";
 import ImageBubbleMenu from "./components/image-bubble-menu";
 import DragHandle from "./extensions/drag-handle";
+import markdownToHtml from "zenn-markdown-html";
 
 function Editor() {
   const [content, setContent] = useLocalStorage(CONTENT_KEY, "");
@@ -20,6 +21,13 @@ function Editor() {
     content: content || INITIAL_CONTENT,
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML());
+    },
+    editorProps: {
+      transformPastedText(text) {
+        console.log(text);
+        console.log(markdownToHtml(text));
+        return text;
+      },
     },
   });
 
