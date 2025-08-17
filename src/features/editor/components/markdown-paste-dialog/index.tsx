@@ -12,7 +12,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import type { Editor } from "@tiptap/react";
 import { useState } from "react";
-import markdownToHtml from "zenn-markdown-html";
+import { fromMarkdown } from "../../lib/from_markdown";
 
 type Props = {
   editor: Editor;
@@ -22,7 +22,8 @@ export default function MarkdownPasteDialog({ editor }: Props) {
   const [text, setText] = useState("");
 
   const handleApplyMarkdown = () => {
-    const html = markdownToHtml(text);
+    const html = fromMarkdown(text);
+    console.log(html);
     editor.commands.setContent(html);
   };
 
