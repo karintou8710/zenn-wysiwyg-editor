@@ -43,6 +43,7 @@ export default function MarkdownPasteDialog({ editor }: Props) {
         <div className="w-full min-w-0">
           <Textarea
             className="h-60 w-full min-w-0"
+            placeholder="ここにマークダウンを貼り付けてください"
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
