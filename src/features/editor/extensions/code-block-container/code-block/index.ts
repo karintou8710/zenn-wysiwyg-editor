@@ -93,6 +93,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       code.className = node.attrs.language
         ? this.options.languageClassPrefix + node.attrs.language
         : "";
+      console.log(node.textContent);
       code.textContent = node.textContent;
 
       pre.appendChild(code);
@@ -219,6 +220,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
     };
   },
 
+  // TODO: 動作するようにする
   addProseMirrorPlugins() {
     return [
       PrismPlugin({

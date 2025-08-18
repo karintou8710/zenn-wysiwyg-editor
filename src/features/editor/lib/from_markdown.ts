@@ -5,12 +5,14 @@ export function fromMarkdown(text: string) {
   const html = markdownToHtml(text, {
     embedOrigin: EMBED_ORIGIN,
   });
+  console.log(html);
   const dom = document.createElement("div");
   dom.innerHTML = html;
 
   removeMessageSymbol(dom);
   addCodeBlockFileName(dom);
   removeEmbedDeco(dom);
+  removeCodeBlockEndNewLine(dom);
 
   return dom.innerHTML;
 }
@@ -33,6 +35,17 @@ function addCodeBlockFileName(dom: HTMLElement) {
         fileNameDom,
         codeBlockContainer.firstChild
       );
+    }
+  });
+}
+
+// 原因は不明だが、マークダウンペーストだと末尾に余分な改行が1つ増える
+function removeCodeBlockEndNewLine(dom: HTMLElement) {
+  const codeBlocks = dom.querySelectorAll("pre code");
+  codeBlocks.forEach((codeBlock) => {
+    const code = codeBlock.textContent || "";
+    if (code.endsWith("\n")) {
+      codeBlock.textContent = code.slice(0, -1);
     }
   });
 }
