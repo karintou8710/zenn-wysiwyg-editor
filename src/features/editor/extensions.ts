@@ -17,7 +17,6 @@ import { MessageContent } from "./extensions/message/message-content";
 import { Image } from "./extensions/figure/image";
 import { Caption } from "./extensions/figure/caption";
 import Figure from "./extensions/figure";
-import { TableKit } from "@tiptap/extension-table";
 import type { Extensions } from "@tiptap/react";
 import { CodeBlockContainer } from "./extensions/code-block-container";
 import { CodeBlock } from "./extensions/code-block-container/code-block";
@@ -50,7 +49,6 @@ export const extensions: Extensions = [
   Figure,
   Image,
   Caption,
-  TableKit,
   Embed,
 
   // === Marks ===
