@@ -1,6 +1,7 @@
 import type { Mark, Node } from "@tiptap/pm/model";
 import { MarkdownSerializer } from "prosemirror-markdown";
 import type { EmbedType } from "../types";
+import { extractYoutubeVideoParameters } from "./url";
 
 const markdownSerializer = new MarkdownSerializer(
   {
@@ -81,13 +82,15 @@ const markdownSerializer = new MarkdownSerializer(
       console.log(node.attrs.type, node.attrs.url);
       const type = node.attrs.type as EmbedType;
       let urlBlock = "";
-      if (
-        type === "card" ||
-        type === "tweet" ||
-        type === "github" ||
-        type === "youtube"
-      ) {
+      if (type === "card" || type === "tweet" || type === "github") {
         urlBlock = node.attrs.url;
+      } else if (type === "youtube") {
+        // 埋め込みURLから通常の動画URLに変換
+        const params = extractYoutubeVideoParameters(node.attrs.url);
+        const videoId = params?.videoId;
+        if (!videoId) new Error("Invalid YouTube URL");
+
+        urlBlock = `https://www.youtube.com/watch?v=${videoId}`;
       } else {
         urlBlock = `@[${type}](${node.attrs.url})`;
       }
