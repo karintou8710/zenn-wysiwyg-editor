@@ -10,6 +10,7 @@ export function fromMarkdown(text: string) {
 
   removeMessageSymbol(dom);
   addCodeBlockFileName(dom);
+  removeEmbedDeco(dom);
 
   return dom.innerHTML;
 }
@@ -33,5 +34,25 @@ function addCodeBlockFileName(dom: HTMLElement) {
         codeBlockContainer.firstChild
       );
     }
+  });
+}
+
+// URL単体の埋め込み要素は、不要なリンクとパラグラフを持つので削除する
+function removeEmbedDeco(dom: HTMLElement) {
+  const embeds = dom.querySelectorAll(
+    ".zenn-embedded-github, .zenn-embedded-tweet, .zenn-embedded-card, .embed-youtube"
+  );
+  embeds.forEach((embed) => {
+    // 不要なリンクを削除
+    embed.nextSibling?.remove();
+
+    // 不要な親のpタグを削除し、埋め込み要素を親要素の位置に置換
+    const notUsedP = embed.parentElement;
+    if (notUsedP?.tagName !== "P") {
+      console.error(embed);
+      throw new Error("should be embed with only url");
+    }
+
+    notUsedP.parentElement?.replaceChild(embed, notUsedP);
   });
 }

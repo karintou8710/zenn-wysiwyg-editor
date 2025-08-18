@@ -80,7 +80,8 @@
   ol,
   blockquote,
   aside,
-  div.code-block-container {
+  div.code-block-container,
+  span.embed-block {
     &.ProseMirror-selectednode {
       position: relative;
       user-select: none;
