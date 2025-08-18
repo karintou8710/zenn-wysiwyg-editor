@@ -157,31 +157,67 @@ console.log(greeting("World"));</code></pre></div>
 <p>埋め込み要素はURLを貼り付けると自動的に変換されます</p>
 
 <h3>リンクカード</h3>
-<p data-embed-link-card data-url="https://zenn.dev/zenn/articles/markdown-guide"></p>
+<p>
+    <span class="embed-block zenn-embedded zenn-embedded-card">
+        <iframe data-content="https://zenn.dev/zenn/articles/markdown-guide"></iframe>
+    </span>
+</p>
 
 <h3>ツイート</h3>
-<p data-embed-tweet data-url="https://x.com/karintou74073/status/1956364047462654082"></p>
+<p>
+    <span class="embed-block zenn-embedded zenn-embedded-tweet">
+        <iframe data-content="https://x.com/karintou74073/status/1956364047462654082"></iframe>
+    </span>
+</p>
 
 <h3>GitHub</h3>
-<p data-embed-github data-url="https://github.com/karintou8710/zenn-wysiwyg-editor/blob/main/src/features/editor/extensions/message/index.ts"></p>
+<p>
+    <span class="embed-block zenn-embedded zenn-embedded-github">
+        <iframe data-content="https://github.com/karintou8710/zenn-wysiwyg-editor/blob/main/src/features/editor/extensions/message/index.ts"></iframe>
+    </span>
+</p>
 
 <h3>Gist</h3>
-<p data-embed-gist data-url="https://gist.github.com/flatsato/4282769a4f181c6810aa"></p>
+<p>
+    <span class="embed-block zenn-embedded zenn-embedded-gist">
+        <iframe data-content="https://gist.github.com/flatsato/4282769a4f181c6810aa"></iframe>
+    </span>
+</p>
 
 <h3>CodePen</h3>
-<p data-embed-codepen data-url="https://codepen.io/karintou8710/pen/yyYpRgB"></p>
+<p>
+    <span class="embed-block embed-codepen">
+        <iframe src="https://codepen.io/karintou8710/pen/yyYpRgB"></iframe>
+    </span>
+</p>
 
 <h3>JSFiddle</h3>
-<p data-embed-jsfiddle data-url="https://jsfiddle.net/zhj7crkn/6/"></p>
+<p>
+    <span class="embed-block embed-jsfiddle">
+        <iframe src="https://jsfiddle.net/zhj7crkn/6/"></iframe>
+    </span>
+</p>
 
 <h3>CodeSandbox</h3>
-<p data-embed-codesandbox data-url="https://codesandbox.io/embed/885dz3?view=editor+%2B+preview&module=%2Findex.html"></p>
+<p>
+    <span class="embed-block embed-codesandbox">
+        <iframe src="https://codesandbox.io/embed/885dz3?view=editor+%2B+preview&module=%2Findex.html"></iframe>
+    </span>
+</p>
 
-<h3>StarBlitz</h3>
-<p data-embed-stackblitz data-url="https://stackblitz.com/edit/react-basic-example?file=index.js"></p>
+<h3>StackBlitz</h3>
+<p>
+    <span class="embed-block embed-stackblitz">
+        <iframe src="https://stackblitz.com/edit/react-basic-example?file=index.js"></iframe>
+    </span>
+</p>
 
 <h3>Youtube</h3>
-<p data-embed-youtube data-url="https://www.youtube.com/watch?v=DTpGfpLybr0"></p>
+<p>
+    <span class="embed-block embed-youtube">
+        <iframe src="https://www.youtube.com/watch?v=DTpGfpLybr0"></iframe>
+    </span>
+</p>
 
 <h2>対応状況・バグ報告</h2>
 <p><a href="https://github.com/karintou8710/zenn-wysiwyg-editor">GitHubのレポジトリ</a>をご確認ください。</p>

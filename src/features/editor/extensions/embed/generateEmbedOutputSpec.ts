@@ -9,6 +9,7 @@ export function generateEmbedOutputSpec(
   type: EmbedType,
   url: string
 ): DOMOutputSpec {
+  console.log(url, type);
   if (
     type === "card" ||
     type === "github" ||
@@ -158,10 +159,8 @@ function generateEmbedCodepenOutputSpec(url: string): DOMOutputSpec {
 }
 
 function generateEmbedYoutubeOutputSpec(url: string): DOMOutputSpec {
-  const params = extractYoutubeVideoParameters(url) || {
-    videoId: url,
-    start: null,
-  };
+  const params = extractYoutubeVideoParameters(url);
+  if (!params) throw new Error(`Invalid YouTube URL: ${url}`);
 
   const escapedVideoId = escapeHtml(params.videoId);
   const time = Math.min(Number(params.start || 0), 48 * 60 * 60); // 48時間以内

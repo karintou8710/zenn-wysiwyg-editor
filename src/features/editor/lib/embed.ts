@@ -17,21 +17,28 @@ export function sanitizeEmbedToken(str: string): string {
 }
 
 export function getEmbedTypeFromElement(
-  element: HTMLElement
+  element: HTMLElement // span要素であることを想定
 ): EmbedType | null {
   if (element.classList.contains("zenn-embedded-card")) {
     return "card";
+  } else if (element.classList.contains("zenn-embedded-github")) {
+    return "github";
   } else if (element.classList.contains("zenn-embedded-tweet")) {
     return "tweet";
   } else if (element.classList.contains("zenn-embedded-gist")) {
     return "gist";
-  } else if (element.classList.contains("zenn-embedded-stackblitz")) {
+  } else if (element.classList.contains("embed-stackblitz")) {
     return "stackblitz";
-  } else if (element.classList.contains("zenn-embedded-codesandbox")) {
+  } else if (element.classList.contains("embed-codesandbox")) {
     return "codesandbox";
-  } else if (element.classList.contains("zenn-embedded-codepen")) {
+  } else if (element.classList.contains("embed-codepen")) {
     return "codepen";
+  } else if (element.classList.contains("embed-jsfiddle")) {
+    return "jsfiddle";
+  } else if (element.classList.contains("embed-youtube")) {
+    return "youtube";
   }
+
   return null;
 }
 

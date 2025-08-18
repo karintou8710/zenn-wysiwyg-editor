@@ -24,21 +24,27 @@ export const Embed = Node.create({
   parseHTML() {
     return [
       {
-        tag: "p > span.zenn-embedded",
+        tag: "p:has(span.embed-block)",
         priority: 100,
         getAttrs: (element) => {
+          console.log(element);
+          const span = element.querySelector(
+            "span.embed-block"
+          ) as HTMLElement | null;
           const iframe = element.querySelector("iframe");
-          if (!iframe) return false;
+          if (!iframe || !span) return false;
           const dataContent = iframe.getAttribute("data-content");
           const src = iframe.getAttribute("src");
-          if (!dataContent || !src) return false;
+          // サーバー埋め込みのノードのみ data-content を持つため、優先的に取得する。
+          const url = dataContent || src;
+          if (!url) return false;
 
-          const url = decodeURIComponent(dataContent || src);
+          const decodedUrl = decodeURIComponent(url);
 
-          const type = getEmbedTypeFromElement(element);
+          const type = getEmbedTypeFromElement(span);
           if (!type) return false;
           return {
-            url: url,
+            url: decodedUrl,
             type: type,
           };
         },
