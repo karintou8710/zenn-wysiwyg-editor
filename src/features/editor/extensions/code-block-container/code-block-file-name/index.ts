@@ -8,7 +8,7 @@ export const CodeBlockFileName = Node.create({
   parseHTML() {
     return [
       {
-        tag: "div[data-code-block-file-name]",
+        tag: "div.code-block-filename-container",
         priority: 100,
       },
     ];
@@ -18,7 +18,6 @@ export const CodeBlockFileName = Node.create({
     return [
       "div",
       {
-        "data-code-block-file-name": "",
         class: "code-block-filename-container",
       },
       ["span", { class: "code-block-filename" }, 0],

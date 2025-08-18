@@ -19,7 +19,7 @@
     font-weight: 700;
   }
 
-  div[data-code-file-name] {
+  div.code-block-filename-container {
     span {
       min-width: 85px;
     }
@@ -40,7 +40,7 @@
     }
   }
 
-  div[data-code-block-file-name] {
+  div.code-block-filename-container {
     .code-block-filename {
       /* PC版Safariで display: table をspanにつけると、contenteditableでの編集がバグる */
       display: inline-block;
@@ -80,7 +80,8 @@
   ol,
   blockquote,
   aside,
-  div[data-code-block-container] {
+  div.code-block-container,
+  span.embed-block {
     &.ProseMirror-selectednode {
       position: relative;
       user-select: none;
@@ -135,12 +136,12 @@
     pointer-events: none;
   }
 
-  em[data-caption].is-empty::before {
+  p > img + em.is-empty::before {
     color: #adb5bd;
     content: attr(data-placeholder);
   }
 
-  div[data-code-block-file-name].is-empty {
+  div.code-block-filename-container.is-empty {
     .code-block-filename::before {
       color: #adb5bd;
       content: "ファイル名"; /* 親要素にdata-placeholderが設定されてしまうため、ハードコーディング */

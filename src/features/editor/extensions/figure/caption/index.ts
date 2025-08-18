@@ -20,7 +20,12 @@ export const Caption = Node.create<CaptionOptions>({
   parseHTML() {
     return [
       {
-        tag: "em[data-caption]",
+        tag: "img + em",
+        priority: 100,
+      },
+      // マークダウン入力経由だと、間にbrを持つ
+      {
+        tag: "img + br + em",
         priority: 100,
       },
     ];
@@ -29,9 +34,7 @@ export const Caption = Node.create<CaptionOptions>({
   renderHTML({ HTMLAttributes }) {
     return [
       "em",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
-        "data-caption": "",
-      }),
+      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
       0,
     ];
   },

@@ -1,10 +1,11 @@
 import { Editor } from "@tiptap/react";
 import { Button } from "@/components/ui/button";
-import { markdownSerializer } from "../../lib/markdown";
+import { markdownSerializer } from "../../lib/to_markdown";
 import { Copy, Image, Info, TimerReset } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { INITIAL_CONTENT } from "../../lib/initial-content";
 import { toast } from "sonner";
+import MarkdownPasteDialog from "../markdown-paste-dialog";
 
 type Props = {
   editor: Editor;
@@ -41,10 +42,11 @@ export default function FixedMenu({ editor, className }: Props) {
 
   return (
     <div className={cn("flex", className)}>
-      <div>
+      <div className="flex gap-x-1">
         <Button size="icon" variant="outline" onClick={handleInputImage}>
           <Image />
         </Button>
+        <MarkdownPasteDialog editor={editor} />
       </div>
       <div className="grow" />
       <div className="flex gap-x-1">

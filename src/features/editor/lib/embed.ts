@@ -1,38 +1,67 @@
-// htmlToMarkdownがブラウザで動作しないため、必要箇所だけ切り出す
-// https://github.com/zenn-dev/zenn-editor/tree/canary/packages/zenn-markdown-html/src
-
-import type { EmbedServerType } from "../types";
+import type { EmbedType } from "../types";
+import {
+  isCodepenUrl,
+  isCodesandboxUrl,
+  isGistUrl,
+  isGithubUrl,
+  isJsfiddleUrl,
+  isStackblitzUrl,
+  isTweetUrl,
+  isValidHttpUrl,
+  isYoutubeUrl,
+} from "../lib/url";
 
 /** 渡された文字列をサニタイズする */
 export function sanitizeEmbedToken(str: string): string {
   return str.replace(/"/g, "%22");
 }
 
-/** Embedサーバーを使った埋め込み要素の文字列を生成する */
-export function generateEmbedServerIframe(
-  type: EmbedServerType,
-  src: string,
-  embedOrigin: string
-): string {
-  const origin = (() => {
-    try {
-      return new URL(embedOrigin).origin;
-    } catch {
-      return void 0;
-    }
-  })();
-
-  // 埋め込みサーバーの origin が設定されてなければ空文字列を返す
-  if (!origin) {
-    console.warn("The embedOrigin option not set");
-    return "";
+export function getEmbedTypeFromElement(
+  element: HTMLElement // span要素であることを想定
+): EmbedType | null {
+  if (element.classList.contains("zenn-embedded-card")) {
+    return "card";
+  } else if (element.classList.contains("zenn-embedded-github")) {
+    return "github";
+  } else if (element.classList.contains("zenn-embedded-tweet")) {
+    return "tweet";
+  } else if (element.classList.contains("zenn-embedded-gist")) {
+    return "gist";
+  } else if (element.classList.contains("embed-stackblitz")) {
+    return "stackblitz";
+  } else if (element.classList.contains("embed-codesandbox")) {
+    return "codesandbox";
+  } else if (element.classList.contains("embed-codepen")) {
+    return "codepen";
+  } else if (element.classList.contains("embed-jsfiddle")) {
+    return "jsfiddle";
+  } else if (element.classList.contains("embed-youtube")) {
+    return "youtube";
   }
 
-  // ユーザーからの入力値が引数として渡されたときのために念のためencodeする
-  const encodedType = encodeURIComponent(type);
-  const encodedSrc = encodeURIComponent(src);
-  const id = `zenn-embedded__${Math.random().toString(16).slice(2)}`;
-  const iframeSrc = `${origin}/${encodedType}#${id}`;
+  return null;
+}
 
-  return `<span class="embed-block zenn-embedded zenn-embedded-${encodedType}"><iframe id="${id}" src="${iframeSrc}" data-content="${encodedSrc}" frameborder="0" scrolling="no" loading="lazy"></iframe></span>`;
+export function getEmbedTypeFromUrl(url: string): EmbedType | null {
+  if (isTweetUrl(url)) {
+    return "tweet";
+  } else if (isGithubUrl(url)) {
+    return "github";
+  } else if (isGistUrl(url)) {
+    return "gist";
+  } else if (isCodepenUrl(url)) {
+    return "codepen";
+  } else if (isJsfiddleUrl(url)) {
+    return "jsfiddle";
+  } else if (isCodesandboxUrl(url)) {
+    return "codesandbox";
+  } else if (isStackblitzUrl(url)) {
+    return "stackblitz";
+  } else if (isYoutubeUrl(url)) {
+    return "youtube";
+  } else if (isValidHttpUrl(url)) {
+    return "card";
+  }
+
+  return null;
 }
