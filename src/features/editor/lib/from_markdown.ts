@@ -1,7 +1,10 @@
 import markdownToHtml from "zenn-markdown-html";
+import { EMBED_ORIGIN } from "./constants";
 
 export function fromMarkdown(text: string) {
-  const html = markdownToHtml(text);
+  const html = markdownToHtml(text, {
+    embedOrigin: EMBED_ORIGIN,
+  });
   const dom = document.createElement("div");
   dom.innerHTML = html;
 

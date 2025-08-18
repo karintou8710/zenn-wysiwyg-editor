@@ -1,6 +1,5 @@
-import { mergeAttributes, Node } from "@tiptap/react";
-import { generateEmbedServerIframe } from "../../../lib/embed";
-import { EMBED_ORIGIN } from "../../../lib/constants";
+import { EMBED_ORIGIN } from "@/features/editor/lib/constants";
+import { Node } from "@tiptap/react";
 
 export const EmbedLinkCard = Node.create({
   name: "embedLinkCard",
@@ -19,30 +18,46 @@ export const EmbedLinkCard = Node.create({
   },
 
   parseHTML() {
-    return [{ tag: "p[data-embed-link-card]", priority: 100 }];
-  },
-
-  renderHTML({ HTMLAttributes }) {
     return [
-      "p",
-      mergeAttributes(HTMLAttributes, {
-        "data-embed-link-card": "",
-      }),
+      {
+        tag: "p > span.zenn-embedded-card",
+        priority: 100,
+        getAttrs: (element) => {
+          const iframe = element.querySelector("iframe");
+          if (!iframe) return false;
+          const url = iframe.getAttribute("data-content");
+          if (!url) return false;
+
+          return { url: decodeURIComponent(url) };
+        },
+      },
     ];
   },
 
-  addNodeView() {
-    return ({ node }) => {
-      const dom = document.createElement("p");
-      dom.innerHTML = generateEmbedServerIframe(
-        "card",
-        node.attrs.url || "",
-        EMBED_ORIGIN
-      );
+  renderHTML({ HTMLAttributes }) {
+    const id = `zenn-embedded__${Math.random().toString(16).slice(2)}`;
+    const iframeSrc = `${EMBED_ORIGIN}/card#${id}`;
+    const encodedSrc = encodeURIComponent(HTMLAttributes["data-url"]);
 
-      return {
-        dom,
-      };
-    };
+    return [
+      "p",
+      [
+        "span",
+        {
+          class: "embed-block zenn-embedded zenn-embedded-card",
+        },
+        [
+          "iframe",
+          {
+            id: id,
+            src: iframeSrc,
+            frameborder: "0",
+            scrolling: "no",
+            loading: "lazy",
+            "data-content": encodedSrc,
+          },
+        ],
+      ],
+    ];
   },
 });
