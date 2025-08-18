@@ -24,15 +24,11 @@ export const Embed = Node.create({
   parseHTML() {
     return [
       {
-        tag: "p:has(span.embed-block)",
+        tag: "span.embed-block",
         priority: 100,
         getAttrs: (element) => {
-          console.log(element);
-          const span = element.querySelector(
-            "span.embed-block"
-          ) as HTMLElement | null;
           const iframe = element.querySelector("iframe");
-          if (!iframe || !span) return false;
+          if (!iframe) return false;
           const dataContent = iframe.getAttribute("data-content");
           const src = iframe.getAttribute("src");
           // サーバー埋め込みのノードのみ data-content を持つため、優先的に取得する。
@@ -41,7 +37,7 @@ export const Embed = Node.create({
 
           const decodedUrl = decodeURIComponent(url);
 
-          const type = getEmbedTypeFromElement(span);
+          const type = getEmbedTypeFromElement(element);
           if (!type) return false;
           return {
             url: decodedUrl,

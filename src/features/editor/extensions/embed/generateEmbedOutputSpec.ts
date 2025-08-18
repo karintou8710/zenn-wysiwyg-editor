@@ -9,7 +9,6 @@ export function generateEmbedOutputSpec(
   type: EmbedType,
   url: string
 ): DOMOutputSpec {
-  console.log(url, type);
   if (
     type === "card" ||
     type === "github" ||
@@ -41,44 +40,38 @@ function generateEmbedServerOutputSpec(
   const encodedSrc = encodeURIComponent(url || "");
 
   return [
-    "p",
+    "span",
+    {
+      class: `embed-block zenn-embedded zenn-embedded-${type}`,
+    },
     [
-      "span",
+      "iframe",
       {
-        class: `embed-block zenn-embedded zenn-embedded-${type}`,
+        id: id,
+        src: iframeSrc,
+        frameborder: "0",
+        scrolling: "no",
+        loading: "lazy",
+        "data-content": encodedSrc,
       },
-      [
-        "iframe",
-        {
-          id: id,
-          src: iframeSrc,
-          frameborder: "0",
-          scrolling: "no",
-          loading: "lazy",
-          "data-content": encodedSrc,
-        },
-      ],
     ],
   ];
 }
 
 function generateEmbedStackblitzOutputSpec(url: string): DOMOutputSpec {
   return [
-    "p",
+    "span",
+    {
+      class: "embed-block embed-stackblitz",
+    },
     [
-      "span",
+      "iframe",
       {
-        class: "embed-block embed-stackblitz",
+        src: sanitizeEmbedToken(url),
+        frameborder: "no",
+        scrolling: "no",
+        loading: "lazy",
       },
-      [
-        "iframe",
-        {
-          src: sanitizeEmbedToken(url),
-          frameborder: "no",
-          scrolling: "no",
-          loading: "lazy",
-        },
-      ],
     ],
   ];
 }
@@ -89,47 +82,41 @@ function generateEmbedJsfiddleOutputSpec(url: string): DOMOutputSpec {
   }
 
   return [
-    "p",
+    "span",
+    {
+      class: "embed-block embed-jsfiddle",
+    },
     [
-      "span",
+      "iframe",
       {
-        class: "embed-block embed-jsfiddle",
+        src: sanitizeEmbedToken(url),
+        frameborder: "no",
+        scrolling: "no",
+        loading: "lazy",
       },
-      [
-        "iframe",
-        {
-          src: sanitizeEmbedToken(url),
-          frameborder: "no",
-          scrolling: "no",
-          loading: "lazy",
-        },
-      ],
     ],
   ];
 }
 
 function generateEmbedCodesandboxOutputSpec(url: string): DOMOutputSpec {
   return [
-    "p",
+    "span",
+    {
+      class: "embed-block embed-codesandbox",
+    },
     [
-      "span",
+      "iframe",
       {
-        class: "embed-block embed-codesandbox",
+        src: sanitizeEmbedToken(url),
+        frameborder: "no",
+        scrolling: "no",
+        loading: "lazy",
+        style: "width:100%;height:500px;border:none;overflow:hidden;",
+        allow:
+          "accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking",
+        sandbox:
+          "allow-modals allow-forms allow-popups allow-scripts allow-same-origin",
       },
-      [
-        "iframe",
-        {
-          src: sanitizeEmbedToken(url),
-          frameborder: "no",
-          scrolling: "no",
-          loading: "lazy",
-          style: "width:100%;height:500px;border:none;overflow:hidden;",
-          allow:
-            "accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking",
-          sandbox:
-            "allow-modals allow-forms allow-popups allow-scripts allow-same-origin",
-        },
-      ],
     ],
   ];
 }
@@ -139,21 +126,18 @@ function generateEmbedCodepenOutputSpec(url: string): DOMOutputSpec {
   embedUrl.searchParams.set("embed-version", "2");
 
   return [
-    "p",
+    "span",
+    {
+      class: "embed-block embed-codepen",
+    },
     [
-      "span",
+      "iframe",
       {
-        class: "embed-block embed-codepen",
+        src: sanitizeEmbedToken(embedUrl.toString()),
+        frameborder: "no",
+        scrolling: "no",
+        loading: "lazy",
       },
-      [
-        "iframe",
-        {
-          src: sanitizeEmbedToken(embedUrl.toString()),
-          frameborder: "no",
-          scrolling: "no",
-          loading: "lazy",
-        },
-      ],
     ],
   ];
 }
@@ -167,22 +151,19 @@ function generateEmbedYoutubeOutputSpec(url: string): DOMOutputSpec {
   const startQuery = time ? `?start=${time}` : "";
 
   return [
-    "p",
+    "span",
+    {
+      class: "embed-block embed-youtube",
+    },
     [
-      "span",
+      "iframe",
       {
-        class: "embed-block embed-youtube",
+        src: `https://www.youtube-nocookie.com/embed/${escapedVideoId}${startQuery}`,
+        allow:
+          "accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
+        allowfullscreen: true,
+        loading: "lazy",
       },
-      [
-        "iframe",
-        {
-          src: `https://www.youtube-nocookie.com/embed/${escapedVideoId}${startQuery}`,
-          allow:
-            "accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
-          allowfullscreen: true,
-          loading: "lazy",
-        },
-      ],
     ],
   ];
 }

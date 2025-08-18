@@ -157,67 +157,49 @@ console.log(greeting("World"));</code></pre></div>
 <p>埋め込み要素はURLを貼り付けると自動的に変換されます</p>
 
 <h3>リンクカード</h3>
-<p>
-    <span class="embed-block zenn-embedded zenn-embedded-card">
-        <iframe data-content="https://zenn.dev/zenn/articles/markdown-guide"></iframe>
-    </span>
-</p>
+<span class="embed-block zenn-embedded zenn-embedded-card">
+    <iframe data-content="https://zenn.dev/zenn/articles/markdown-guide"></iframe>
+</span>
 
 <h3>ツイート</h3>
-<p>
-    <span class="embed-block zenn-embedded zenn-embedded-tweet">
-        <iframe data-content="https://x.com/karintou74073/status/1956364047462654082"></iframe>
-    </span>
-</p>
+<span class="embed-block zenn-embedded zenn-embedded-tweet">
+    <iframe data-content="https://x.com/karintou74073/status/1956364047462654082"></iframe>
+</span>
 
 <h3>GitHub</h3>
-<p>
-    <span class="embed-block zenn-embedded zenn-embedded-github">
-        <iframe data-content="https://github.com/karintou8710/zenn-wysiwyg-editor/blob/main/src/features/editor/extensions/message/index.ts"></iframe>
-    </span>
-</p>
+<span class="embed-block zenn-embedded zenn-embedded-github">
+    <iframe data-content="https://github.com/karintou8710/zenn-wysiwyg-editor/blob/main/src/features/editor/extensions/message/index.ts"></iframe>
+</span>
 
 <h3>Gist</h3>
-<p>
-    <span class="embed-block zenn-embedded zenn-embedded-gist">
-        <iframe data-content="https://gist.github.com/flatsato/4282769a4f181c6810aa"></iframe>
-    </span>
-</p>
+<span class="embed-block zenn-embedded zenn-embedded-gist">
+    <iframe data-content="https://gist.github.com/flatsato/4282769a4f181c6810aa"></iframe>
+</span>
 
 <h3>CodePen</h3>
-<p>
-    <span class="embed-block embed-codepen">
-        <iframe src="https://codepen.io/karintou8710/pen/yyYpRgB"></iframe>
-    </span>
-</p>
+<span class="embed-block embed-codepen">
+    <iframe src="https://codepen.io/karintou8710/pen/yyYpRgB"></iframe>
+</span>
 
 <h3>JSFiddle</h3>
-<p>
-    <span class="embed-block embed-jsfiddle">
-        <iframe src="https://jsfiddle.net/zhj7crkn/6/"></iframe>
-    </span>
-</p>
+<span class="embed-block embed-jsfiddle">
+    <iframe src="https://jsfiddle.net/zhj7crkn/6/"></iframe>
+</span>
 
 <h3>CodeSandbox</h3>
-<p>
-    <span class="embed-block embed-codesandbox">
-        <iframe src="https://codesandbox.io/embed/885dz3?view=editor+%2B+preview&module=%2Findex.html"></iframe>
-    </span>
-</p>
+<span class="embed-block embed-codesandbox">
+    <iframe src="https://codesandbox.io/embed/885dz3?view=editor+%2B+preview&module=%2Findex.html"></iframe>
+</span>
 
 <h3>StackBlitz</h3>
-<p>
-    <span class="embed-block embed-stackblitz">
-        <iframe src="https://stackblitz.com/edit/react-basic-example?file=index.js"></iframe>
-    </span>
-</p>
+<span class="embed-block embed-stackblitz">
+    <iframe src="https://stackblitz.com/edit/react-basic-example?file=index.js"></iframe>
+</span>
 
 <h3>Youtube</h3>
-<p>
-    <span class="embed-block embed-youtube">
-        <iframe src="https://www.youtube.com/watch?v=DTpGfpLybr0"></iframe>
-    </span>
-</p>
+<span class="embed-block embed-youtube">
+    <iframe src="https://www.youtube.com/watch?v=DTpGfpLybr0"></iframe>
+</span>
 
 <h2>対応状況・バグ報告</h2>
 <p><a href="https://github.com/karintou8710/zenn-wysiwyg-editor">GitHubのレポジトリ</a>をご確認ください。</p>
