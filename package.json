@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build:module": "pnpm -F zenn-markdown-html build",
+    "build": "pnpm build:module && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
