@@ -93,7 +93,6 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       code.className = node.attrs.language
         ? this.options.languageClassPrefix + node.attrs.language
         : "";
-      console.log(node.textContent);
       code.textContent = node.textContent;
 
       pre.appendChild(code);

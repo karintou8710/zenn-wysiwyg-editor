@@ -23,7 +23,6 @@ export default function MarkdownPasteDialog({ editor }: Props) {
 
   const handleApplyMarkdown = () => {
     const html = fromMarkdown(text);
-    console.log(html);
     editor.commands.setContent(html);
   };
 

@@ -79,7 +79,6 @@ const markdownSerializer = new MarkdownSerializer(
       state.closeBlock(node);
     },
     embed(state, node) {
-      console.log(node.attrs.type, node.attrs.url);
       const type = node.attrs.type as EmbedType;
       let urlBlock = "";
       if (type === "card" || type === "tweet" || type === "github") {

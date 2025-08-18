@@ -5,7 +5,6 @@ export function fromMarkdown(text: string) {
   const html = markdownToHtml(text, {
     embedOrigin: EMBED_ORIGIN,
   });
-  console.log(html);
   const dom = document.createElement("div");
   dom.innerHTML = html;
 
