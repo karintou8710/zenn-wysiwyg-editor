@@ -1,6 +1,6 @@
 import { Editor } from "@tiptap/react";
 import { Button } from "@/components/ui/button";
-import { markdownSerializer } from "../../lib/markdown";
+import { markdownSerializer } from "../../lib/to_markdown";
 import { Copy, Image, Info, TimerReset } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { INITIAL_CONTENT } from "../../lib/initial-content";

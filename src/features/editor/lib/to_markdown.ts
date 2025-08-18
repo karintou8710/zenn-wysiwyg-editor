@@ -1,5 +1,6 @@
 import type { Mark, Node } from "@tiptap/pm/model";
 import { MarkdownSerializer } from "prosemirror-markdown";
+import type { EmbedType } from "../types";
 
 const markdownSerializer = new MarkdownSerializer(
   {
@@ -76,50 +77,21 @@ const markdownSerializer = new MarkdownSerializer(
       }
       state.closeBlock(node);
     },
-    embedLinkCard(state, node) {
-      const url = node.attrs.url || "";
-      state.write(url);
-      state.closeBlock(node);
-    },
-    embedGithub(state, node) {
-      const url = node.attrs.url || "";
-      state.write(url);
-      state.closeBlock(node);
-    },
-    embedTweet(state, node) {
-      const url = node.attrs.url || "";
-      state.write(url);
-      state.closeBlock(node);
-    },
-    embedYoutube(state, node) {
-      const url = node.attrs.url || "";
-      state.write(url);
-      state.closeBlock(node);
-    },
-
-    embedGist(state, node) {
-      const url = node.attrs.url || "";
-      state.write(`@[gist](${url})`);
-      state.closeBlock(node);
-    },
-    embedCodepen(state, node) {
-      const url = node.attrs.url || "";
-      state.write(`@[codepen](${url})`);
-      state.closeBlock(node);
-    },
-    embedCodesandbox(state, node) {
-      const url = node.attrs.url || "";
-      state.write(`@[codesandbox](${url})`);
-      state.closeBlock(node);
-    },
-    embedJsfiddle(state, node) {
-      const url = node.attrs.url || "";
-      state.write(`@[jsfiddle](${url})`);
-      state.closeBlock(node);
-    },
-    embedStackblitz(state, node) {
-      const url = node.attrs.url || "";
-      state.write(`@[stackblitz](${url})`);
+    embed(state, node) {
+      console.log(node.attrs.type, node.attrs.url);
+      const type = node.attrs.type as EmbedType;
+      let urlBlock = "";
+      if (
+        type === "card" ||
+        type === "tweet" ||
+        type === "github" ||
+        type === "youtube"
+      ) {
+        urlBlock = node.attrs.url;
+      } else {
+        urlBlock = `@[${type}](${node.attrs.url})`;
+      }
+      state.write(urlBlock);
       state.closeBlock(node);
     },
   },
