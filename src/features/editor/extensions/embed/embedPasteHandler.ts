@@ -1,17 +1,7 @@
-import { EditorState, Plugin, PluginKey } from "@tiptap/pm/state";
-import {
-  isCodepenUrl,
-  isCodesandboxUrl,
-  isGistUrl,
-  isGithubUrl,
-  isJsfiddleUrl,
-  isStackblitzUrl,
-  isTweetUrl,
-  isValidHttpUrl,
-  isYoutubeUrl,
-} from "../../lib/url";
+import { Plugin, PluginKey } from "@tiptap/pm/state";
+
 import { Extension } from "@tiptap/react";
-import type { Node } from "@tiptap/pm/model";
+import { getEmbedTypeFromUrl } from "../../lib/embed";
 
 export const EmbedPasteHandler = Extension.create({
   name: "embedPasteHandler",
@@ -41,9 +31,13 @@ function pasteHandlerPlugin(): Plugin {
           textContent += node.textContent;
         });
 
-        let node = getEmbedNode(textContent, state);
+        const type = getEmbedTypeFromUrl(textContent);
+        if (!type) return false;
 
-        if (!node) return false;
+        const node = state.schema.nodes.embed.create({
+          url: textContent,
+          type,
+        });
 
         const { tr } = state;
         tr.replaceRangeWith(selection.from, selection.to, node);
@@ -52,30 +46,4 @@ function pasteHandlerPlugin(): Plugin {
       },
     },
   });
-}
-
-function getEmbedNode(textContent: string, state: EditorState): Node | null {
-  const { schema } = state;
-
-  if (isTweetUrl(textContent)) {
-    return schema.nodes.embedTweet.create({ url: textContent });
-  } else if (isGithubUrl(textContent)) {
-    return schema.nodes.embedGithub.create({ url: textContent });
-  } else if (isGistUrl(textContent)) {
-    return schema.nodes.embedGist.create({ url: textContent });
-  } else if (isCodepenUrl(textContent)) {
-    return schema.nodes.embedCodepen.create({ url: textContent });
-  } else if (isJsfiddleUrl(textContent)) {
-    return schema.nodes.embedJsfiddle.create({ url: textContent });
-  } else if (isCodesandboxUrl(textContent)) {
-    return schema.nodes.embedCodesandbox.create({ url: textContent });
-  } else if (isStackblitzUrl(textContent)) {
-    return schema.nodes.embedStackblitz.create({ url: textContent });
-  } else if (isYoutubeUrl(textContent)) {
-    return schema.nodes.embedYoutube.create({ url: textContent });
-  } else if (isValidHttpUrl(textContent)) {
-    return schema.nodes.embedLinkCard.create({ url: textContent });
-  }
-
-  return null;
 }

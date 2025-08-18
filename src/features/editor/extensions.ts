@@ -17,22 +17,13 @@ import { MessageContent } from "./extensions/message/message-content";
 import { Image } from "./extensions/figure/image";
 import { Caption } from "./extensions/figure/caption";
 import Figure from "./extensions/figure";
-import { TableKit } from "@tiptap/extension-table";
 import type { Extensions } from "@tiptap/react";
 import { CodeBlockContainer } from "./extensions/code-block-container";
 import { CodeBlock } from "./extensions/code-block-container/code-block";
 import { CodeBlockFileName } from "./extensions/code-block-container/code-block-file-name";
 import { Placeholder } from "./extensions/placeholder";
-import { EmbedLinkCard } from "./extensions/embed/embed-link-card";
-import { EmbedTweet } from "./extensions/embed/embed-tweet";
-import { EmbedGithub } from "./extensions/embed/embed-github";
+import { Embed } from "./extensions/embed";
 import { EmbedPasteHandler } from "./extensions/embed/embedPasteHandler";
-import { EmbedGist } from "./extensions/embed/embed-gist";
-import { EmbedCodepen } from "./extensions/embed/embed-codepen";
-import { EmbedJsfiddle } from "./extensions/embed/embed-jsfiddle";
-import { EmbedCodesandbox } from "./extensions/embed/embed-codesandbox";
-import { EmbedStackblitz } from "./extensions/embed/embed-stackblitz";
-import { EmbedYoutube } from "./extensions/embed/embed-youtube";
 
 export const extensions: Extensions = [
   // === Core ===
@@ -58,16 +49,7 @@ export const extensions: Extensions = [
   Figure,
   Image,
   Caption,
-  TableKit,
-  EmbedLinkCard,
-  EmbedTweet,
-  EmbedGithub,
-  EmbedGist,
-  EmbedCodepen,
-  EmbedJsfiddle,
-  EmbedCodesandbox,
-  EmbedStackblitz,
-  EmbedYoutube,
+  Embed,
 
   // === Marks ===
   Bold,

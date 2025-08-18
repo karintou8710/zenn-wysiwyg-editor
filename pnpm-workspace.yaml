@@ -1,0 +1,3 @@
+packages:
+  - zenn-markdown-html/
+ignore-workspace-root-check: true

@@ -85,6 +85,7 @@ export function isYoutubeUrl(url: string): boolean {
   return [
     /^https?:\/\/youtu\.be\/[\w-]+(?:\?[\w=&-]+)?$/,
     /^https?:\/\/(?:www\.)?youtube\.com\/watch\?[\w=&-]+$/,
+    /^https?:\/\/(?:www\.)?youtube-nocookie\.com\/embed\/[\w-]+$/,
   ].some((pattern) => pattern.test(url));
 }
 
@@ -104,7 +105,9 @@ export function extractYoutubeVideoParameters(
 
   // https://youtu.be/Hoge の "HogeHoge" の部分または、
   // https://www.youtube.com/watch?v=Hoge の "Hoge" の部分を値とする
-  const videoId = params.get("v") || url.pathname.split("/")[1];
+  const videoId = url.pathname.includes("embed")
+    ? url.pathname.split("/").at(-1)
+    : params.get("v") || url.pathname.split("/")[1];
 
   // https://www.youtube.com/watch?v=Hoge&t=100s の "100" の部分を値とする
   const start = params.get("t")?.replace("s", "");

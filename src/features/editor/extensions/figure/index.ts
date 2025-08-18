@@ -42,7 +42,7 @@ export const Figure = Node.create({
   parseHTML() {
     return [
       {
-        tag: "p[data-figure]",
+        tag: "p:has(img):has(em)",
         priority: 100,
       },
     ];

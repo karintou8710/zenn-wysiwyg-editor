@@ -219,6 +219,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
     };
   },
 
+  // TODO: 動作するようにする
   addProseMirrorPlugins() {
     return [
       PrismPlugin({

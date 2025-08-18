@@ -15,8 +15,8 @@ export const INITIAL_CONTENT = `
 <p><code>Enter</code>で新たな段落を生成します。</p>
 <p><code>Shift + Enter</code>は段落内での改行を挿入します。<br/>見た目は改行の方が余白小さいです。</p>
 <h2>見出し</h2>
-<div data-code-block-container>
-<div data-code-block-file-name></div>
+<div class="code-block-container">
+<div class="code-block-filename-container"></div>
 <pre>
 <code class="language-plaintext"># 見出し1
 ## 見出し2
@@ -45,8 +45,8 @@ export const INITIAL_CONTENT = `
     <b>画像のアップロードは対応してません。</b><br/>他サイト(Zennなど)で一度アップロードしてから、「画像のコピー」または「画像のアドレスをコピー」を行い、貼り付けてください。
 </p>
 <p>キャプションは空であれば、マークダウンに出力されません。</p>
-<div data-code-block-container>
-<div data-code-block-file-name></div>
+<div class="code-block-container">
+<div class="code-block-filename-container"></div>
 <pre>
 <code class="language-plaintext">![alt](src)
 url(貼り付け)</code>
@@ -62,16 +62,16 @@ url(貼り付け)</code>
 右上に選択中の言語が表示されます。ファイル名は後から編集可能です。<br/>
 ファイル名は空であれば、マークダウンに出力されません。
 </p>
-<div data-code-block-container>
-<div data-code-block-file-name></div>
+<div class="code-block-container">
+<div class="code-block-filename-container"></div>
 <pre>
 <code class="language-plaintext">\`\`\`
 \`\`\`lang
 \`\`\`lang:filename</code>
 </pre>
 </div>
-<div data-code-block-container>
-<div data-code-block-file-name>example.ts</div>
+<div class="code-block-container">
+<div class="code-block-filename-container">example.ts</div>
 <pre><code class="language-typescript">const greeting = (name: string) => {
   return \`Hello, \${name}!\`;
 };
@@ -79,21 +79,21 @@ console.log(greeting("World"));</code></pre></div>
 <h3>diff対応</h3>
 <p>スタイルが完全に適用されないバグが残っています。</p>
 <p>言語名の先頭に<code>diff-</code>をつけてください。</p>
-<div data-code-block-container>
-<div data-code-block-file-name></div>
+<div class="code-block-container">
+<div class="code-block-filename-container"></div>
 <pre>
 <code class="language-plaintext">\`\`\`diff-lang</code>
 </pre>
 </div>
-<div data-code-block-container>
-<div data-code-block-file-name>example.ts</div>
+<div class="code-block-container">
+<div class="code-block-filename-container">example.ts</div>
 <pre><code class="language-diff-typescript">console.log("Hello, World!");
 - let a = 1;
 + let b = 2;</code></pre></div>
 
 <h2>引用</h2>
-<div data-code-block-container>
-<div data-code-block-file-name></div>
+<div class="code-block-container">
+<div class="code-block-filename-container"></div>
 <pre>
 <code class="language-plaintext">> text</code>
 </pre>
@@ -108,8 +108,8 @@ console.log(greeting("World"));</code></pre></div>
 <a href="https://zenn.dev/karintou/articles/1ba996a5ca7df8">zennへのリンク</a>
 
 <h2>水平線</h2>
-<div data-code-block-container>
-<div data-code-block-file-name></div>
+<div class="code-block-container">
+<div class="code-block-filename-container"></div>
 <pre>
 <code class="language-plaintext">---</code>
 </pre>
@@ -117,8 +117,8 @@ console.log(greeting("World"));</code></pre></div>
 <hr />
 
 <h2>メッセージ</h2>
-<div data-code-block-container>
-<div data-code-block-file-name></div>
+<div class="code-block-container">
+<div class="code-block-filename-container"></div>
 <pre>
 <code class="language-plaintext">:::message</code>
 </pre>
@@ -127,8 +127,8 @@ console.log(greeting("World"));</code></pre></div>
     <div class="msg-content"><p>Message</p></div>
 </aside>
 <p></p>
-<div data-code-block-container>
-<div data-code-block-file-name></div>
+<div class="code-block-container">
+<div class="code-block-filename-container"></div>
 <pre>
 <code class="language-plaintext">:::alert</code>
 </pre>
@@ -138,8 +138,8 @@ console.log(greeting("World"));</code></pre></div>
 </aside>
 
 <h2>インラインスタイル</h2>
-<div data-code-block-container>
-<div data-code-block-file-name></div>
+<div class="code-block-container">
+<div class="code-block-filename-container"></div>
 <pre>
 <code class="language-plaintext">**bold**
 *斜体*
@@ -157,31 +157,49 @@ console.log(greeting("World"));</code></pre></div>
 <p>埋め込み要素はURLを貼り付けると自動的に変換されます</p>
 
 <h3>リンクカード</h3>
-<p data-embed-link-card data-url="https://zenn.dev/zenn/articles/markdown-guide"></p>
+<span class="embed-block zenn-embedded zenn-embedded-card">
+    <iframe data-content="https://zenn.dev/zenn/articles/markdown-guide"></iframe>
+</span>
 
 <h3>ツイート</h3>
-<p data-embed-tweet data-url="https://x.com/karintou74073/status/1956364047462654082"></p>
+<span class="embed-block zenn-embedded zenn-embedded-tweet">
+    <iframe data-content="https://x.com/karintou74073/status/1956364047462654082"></iframe>
+</span>
 
 <h3>GitHub</h3>
-<p data-embed-github data-url="https://github.com/karintou8710/zenn-wysiwyg-editor/blob/main/src/features/editor/extensions/message/index.ts"></p>
+<span class="embed-block zenn-embedded zenn-embedded-github">
+    <iframe data-content="https://github.com/karintou8710/zenn-wysiwyg-editor/blob/main/src/features/editor/extensions/message/index.ts"></iframe>
+</span>
 
 <h3>Gist</h3>
-<p data-embed-gist data-url="https://gist.github.com/flatsato/4282769a4f181c6810aa"></p>
+<span class="embed-block zenn-embedded zenn-embedded-gist">
+    <iframe data-content="https://gist.github.com/flatsato/4282769a4f181c6810aa"></iframe>
+</span>
 
 <h3>CodePen</h3>
-<p data-embed-codepen data-url="https://codepen.io/karintou8710/pen/yyYpRgB"></p>
+<span class="embed-block embed-codepen">
+    <iframe src="https://codepen.io/karintou8710/pen/yyYpRgB"></iframe>
+</span>
 
 <h3>JSFiddle</h3>
-<p data-embed-jsfiddle data-url="https://jsfiddle.net/zhj7crkn/6/"></p>
+<span class="embed-block embed-jsfiddle">
+    <iframe src="https://jsfiddle.net/zhj7crkn/6/"></iframe>
+</span>
 
 <h3>CodeSandbox</h3>
-<p data-embed-codesandbox data-url="https://codesandbox.io/embed/885dz3?view=editor+%2B+preview&module=%2Findex.html"></p>
+<span class="embed-block embed-codesandbox">
+    <iframe src="https://codesandbox.io/embed/885dz3?view=editor+%2B+preview&module=%2Findex.html"></iframe>
+</span>
 
-<h3>StarBlitz</h3>
-<p data-embed-stackblitz data-url="https://stackblitz.com/edit/react-basic-example?file=index.js"></p>
+<h3>StackBlitz</h3>
+<span class="embed-block embed-stackblitz">
+    <iframe src="https://stackblitz.com/edit/react-basic-example?file=index.js"></iframe>
+</span>
 
 <h3>Youtube</h3>
-<p data-embed-youtube data-url="https://www.youtube.com/watch?v=DTpGfpLybr0"></p>
+<span class="embed-block embed-youtube">
+    <iframe src="https://www.youtube.com/watch?v=DTpGfpLybr0"></iframe>
+</span>
 
 <h2>対応状況・バグ報告</h2>
 <p><a href="https://github.com/karintou8710/zenn-wysiwyg-editor">GitHubのレポジトリ</a>をご確認ください。</p>

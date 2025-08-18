@@ -80,7 +80,8 @@
   ol,
   blockquote,
   aside,
-  div.code-block-container {
+  div.code-block-container,
+  span.embed-block {
     &.ProseMirror-selectednode {
       position: relative;
       user-select: none;
@@ -135,7 +136,7 @@
     pointer-events: none;
   }
 
-  em[data-caption].is-empty::before {
+  p > img + em.is-empty::before {
     color: #adb5bd;
     content: attr(data-placeholder);
   }
