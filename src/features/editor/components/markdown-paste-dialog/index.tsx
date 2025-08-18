@@ -34,16 +34,16 @@ export default function MarkdownPasteDialog({ editor }: Props) {
           M
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[780px]">
+      <DialogContent className="sm:max-w-[780px] w-full">
         <DialogHeader>
           <DialogTitle>マークダウン適用</DialogTitle>
           <DialogDescription>
             Zenn記法のマークダウンをWYSIWYGエディタに対応するHTMLに変換して貼り付けます。
           </DialogDescription>
         </DialogHeader>
-        <div>
+        <div className="w-full min-w-0">
           <Textarea
-            className="h-60"
+            className="h-60 w-full min-w-0"
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
