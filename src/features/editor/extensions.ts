@@ -14,6 +14,9 @@ import type { Extensions } from "@tiptap/react";
 import { CodeBlockContainer } from "./extensions/code-block-container";
 import { CodeBlock } from "./extensions/code-block-container/code-block";
 import { CodeBlockFileName } from "./extensions/code-block-container/code-block-file-name";
+import { Details } from "./extensions/details";
+import { DetailsContent } from "./extensions/details/content";
+import { DetailsSummary } from "./extensions/details/summary";
 import { Embed } from "./extensions/embed";
 import { EmbedPasteHandler } from "./extensions/embed/embedPasteHandler";
 import Figure from "./extensions/figure";
@@ -51,6 +54,9 @@ export const extensions: Extensions = [
   Image,
   Caption,
   Embed,
+  Details,
+  DetailsSummary,
+  DetailsContent,
 
   // === Marks ===
   Bold,
