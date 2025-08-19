@@ -2,59 +2,7 @@ import type { Node as ProsemirrorNode } from "@tiptap/pm/model";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
 import { findChildren } from "@tiptap/react";
-import Prism from "prismjs";
-
-function parseNodes(
-  nodes: Node[],
-  className: string[] = []
-): { text: string; classes: string[] }[] {
-  return nodes.flatMap((node) => {
-    const classes = [...className];
-
-    // エレメントノードの場合、クラス名を取得
-    if (node.nodeType === Node.ELEMENT_NODE) {
-      const element = node as Element;
-      if (element.className) {
-        classes.push(...element.className.split(" ").filter(Boolean));
-      }
-    }
-
-    // 子ノードがある場合は再帰的に処理
-    if (node.childNodes && node.childNodes.length > 0) {
-      return parseNodes(Array.from(node.childNodes), classes);
-    }
-
-    // テキストノードの場合
-    if (node.nodeType === Node.TEXT_NODE) {
-      return {
-        text: node.textContent || "",
-        classes,
-      };
-    }
-
-    return {
-      text: node.textContent || "",
-      classes,
-    };
-  });
-}
-
-function getHighlightNodes(html: string): ChildNode[] {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-  return Array.from(doc.body.childNodes);
-}
-
-function highlightCode(code: string, language: string): string {
-  try {
-    return Prism.highlight(code, Prism.languages.diff, language);
-  } catch (err: any) {
-    console.warn(
-      `Language "${language}" not supported, falling back to plaintext`
-    );
-    return Prism.highlight(code, Prism.languages.plaintext, "plaintext");
-  }
-}
+import { getHighlightNodes, highlightCode, parseNodes } from "../utils";
 
 function getCode(codeNode: ProsemirrorNode) {
   let code = "";
@@ -143,7 +91,7 @@ function getDecorations({
   return DecorationSet.create(doc, decorations);
 }
 
-export function PrismPlugin({
+export function DiffPrismPlugin({
   name,
   defaultLanguage,
 }: {

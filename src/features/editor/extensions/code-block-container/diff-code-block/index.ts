@@ -1,13 +1,11 @@
 import { mergeAttributes, Node } from "@tiptap/react";
-import { PrismPlugin } from "./prism-plugin";
+import { DiffPrismPlugin } from "./diff-prism-plugin";
 
 // カスタマイズのため、TiptapのBlockquoteを直接編集する
 // https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code-block/src/code-block.ts
 
 export interface CodeBlockOptions {
   languageClassPrefix: string;
-  exitOnTripleEnter: boolean;
-  exitOnArrowDown: boolean;
   defaultLanguage: string;
   HTMLAttributes: Record<string, any>;
 }
@@ -18,8 +16,6 @@ export const DiffCodeBlock = Node.create<CodeBlockOptions>({
   addOptions() {
     return {
       languageClassPrefix: "language-",
-      exitOnTripleEnter: true,
-      exitOnArrowDown: true,
       defaultLanguage: "plaintext",
       HTMLAttributes: {},
     };
@@ -56,8 +52,9 @@ export const DiffCodeBlock = Node.create<CodeBlockOptions>({
   parseHTML() {
     return [
       {
-        tag: "pre",
+        tag: "pre:has(code.diff-highlight)",
         preserveWhitespace: "full",
+        priority: 100, // Codeよりも先に読み込む
       },
     ];
   },
@@ -69,9 +66,11 @@ export const DiffCodeBlock = Node.create<CodeBlockOptions>({
       [
         "code",
         {
-          class: node.attrs.language
-            ? this.options.languageClassPrefix + node.attrs.language
-            : null,
+          class: `diff-highlight ${
+            node.attrs.language
+              ? this.options.languageClassPrefix + node.attrs.language
+              : null
+          }`,
         },
         0,
       ],
@@ -107,7 +106,7 @@ export const DiffCodeBlock = Node.create<CodeBlockOptions>({
 
   addProseMirrorPlugins() {
     return [
-      PrismPlugin({
+      DiffPrismPlugin({
         name: this.name,
         defaultLanguage: this.options.defaultLanguage,
       }),

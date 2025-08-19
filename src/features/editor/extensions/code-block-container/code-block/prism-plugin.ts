@@ -2,62 +2,7 @@ import type { Node as ProsemirrorNode } from "@tiptap/pm/model";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
 import { findChildren } from "@tiptap/react";
-import Prism from "prismjs";
-
-function parseNodes(
-  nodes: Node[],
-  className: string[] = []
-): { text: string; classes: string[] }[] {
-  return nodes.flatMap((node) => {
-    const classes = [...className];
-
-    // エレメントノードの場合、クラス名を取得
-    if (node.nodeType === Node.ELEMENT_NODE) {
-      const element = node as Element;
-      if (element.className) {
-        classes.push(...element.className.split(" ").filter(Boolean));
-      }
-    }
-
-    // 子ノードがある場合は再帰的に処理
-    if (node.childNodes && node.childNodes.length > 0) {
-      return parseNodes(Array.from(node.childNodes), classes);
-    }
-
-    // テキストノードの場合
-    if (node.nodeType === Node.TEXT_NODE) {
-      return {
-        text: node.textContent || "",
-        classes,
-      };
-    }
-
-    return {
-      text: node.textContent || "",
-      classes,
-    };
-  });
-}
-
-function getHighlightNodes(html: string): ChildNode[] {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-  return Array.from(doc.body.childNodes);
-}
-
-function highlightCode(code: string, language: string): string {
-  try {
-    const isDiff = language.startsWith("diff-");
-    const targetLanguage = isDiff ? "diff" : language;
-
-    return Prism.highlight(code, Prism.languages[targetLanguage], language);
-  } catch (err: any) {
-    console.warn(
-      `Language "${language}" not supported, falling back to plaintext`
-    );
-    return Prism.highlight(code, Prism.languages.plaintext, "plaintext");
-  }
-}
+import { getHighlightNodes, highlightCode, parseNodes } from "../utils";
 
 function createStandardDecorations(
   nodes: ChildNode[],
@@ -82,53 +27,6 @@ function createStandardDecorations(
   return decorations;
 }
 
-function createDiffDecorations(
-  nodes: ChildNode[],
-  startPos: number
-): Decoration[] {
-  const decorations: Decoration[] = [];
-
-  // diff-highlightの構造がネストになってProseMirrorに対応不可なため、spanの構造をフラットにする
-  // diff色は各トークンに適用する
-  let to = startPos;
-  Array.from(nodes).forEach((diffNode) => {
-    const lineStart = to;
-    let from = to;
-
-    if (diffNode.nodeType === Node.TEXT_NODE) {
-      to = from + diffNode.textContent!.length;
-    } else {
-      parseNodes(Array.from(diffNode.childNodes)).forEach((node) => {
-        to = from + node.text.length;
-
-        if (node.classes.length) {
-          const decoration = Decoration.inline(from, to, {
-            class: node.classes.join(" "),
-          });
-          decorations.push(decoration);
-        }
-
-        from = to;
-      });
-    }
-
-    if (diffNode instanceof Element) {
-      const isInserted = diffNode.classList.contains("inserted");
-      const isDeleted = (diffNode as HTMLElement).classList.contains("deleted");
-
-      if (isInserted || isDeleted) {
-        decorations.push(
-          Decoration.inline(lineStart, to, {
-            class: isInserted ? "insertedToken" : "deletedToken",
-          })
-        );
-      }
-    }
-  });
-
-  return decorations;
-}
-
 function getDecorations({
   doc,
   name,
@@ -143,14 +41,11 @@ function getDecorations({
   findChildren(doc, (node) => node.type.name === name).forEach((block) => {
     const from = block.pos + 1;
     const language = block.node.attrs.language || defaultLanguage;
-    const isDiff = language.startsWith("diff-");
 
     const html = highlightCode(block.node.textContent, language);
     const nodes = getHighlightNodes(html);
 
-    const blockDecorations = isDiff
-      ? createDiffDecorations(nodes, from)
-      : createStandardDecorations(nodes, from);
+    const blockDecorations = createStandardDecorations(nodes, from);
 
     decorations.push(...blockDecorations);
   });
