@@ -69,7 +69,7 @@ export const Details = Node.create({
 
           commands.insertContentAt(
             { from: $from.before(), to: $from.after() },
-            detailsNode
+            detailsNode,
           );
         },
       }),

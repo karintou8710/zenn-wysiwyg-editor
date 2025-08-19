@@ -34,7 +34,7 @@ const inputHandler = ({
 
   const codeFileName = state.schema.nodes.codeBlockFileName.create(
     null,
-    filename ? [state.schema.text(filename)] : []
+    filename ? [state.schema.text(filename)] : [],
   );
   const codeContent = state.schema.nodes.codeBlock.create({ language });
   const codeBlock = state.schema.nodes.codeBlockContainer.create(null, [
