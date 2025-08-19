@@ -99,7 +99,8 @@
     }
 
     &[data-open] {
-      summary {
+      /*  ネストされる場合があるため、直下のみ反映 */
+      & > summary {
         border-radius: 14px 14px 0 0;
         box-shadow: none;
         background: #edf2f7; /* var(--c-bg-dim); */
@@ -109,7 +110,7 @@
           transform: rotate(180deg);
 
           &:hover {
-            background: oklch(87.2% 0.01 258.338);
+            background: oklch(92.8% 0.006 264.531);
           }
         }
       }
@@ -122,7 +123,8 @@
       background: #fff /* var(--c-bg-base) */;
     }
 
-    &:not([data-open]) .details-content {
+    /*  ネストされる場合があるため、直下のみ反映 */
+    &:not([data-open]) > .details-content {
       display: none;
     }
   }
