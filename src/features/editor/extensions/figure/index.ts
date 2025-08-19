@@ -1,6 +1,6 @@
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { InputRule, mergeAttributes, Node } from "@tiptap/react";
-import { isImageURL } from "../../lib/url";
+import { extractImageUrlAndAlt, isImageURL } from "../../lib/url";
 
 export interface FigureOptions {
   HTMLAttributes: Record<string, any>;
@@ -123,12 +123,22 @@ export const Figure = Node.create({
               textContent += node.textContent;
             });
 
-            if (!isImageURL(textContent)) return false;
+            let url: string | undefined, alt: string | undefined;
+            const params = extractImageUrlAndAlt(textContent);
+            if (params) {
+              url = params.url;
+              alt = params.alt;
+            } else if (isImageURL(textContent)) {
+              url = textContent;
+              alt = "";
+            }
+
+            if (!url) return false;
 
             this.editor
               .chain()
               .deleteRange({ from: selection.from, to: selection.to })
-              .insertFigureAt(selection.from, { src: textContent })
+              .insertFigureAt(selection.from, { src: url, alt })
               .run();
             return true;
           },
