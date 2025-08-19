@@ -1,4 +1,4 @@
-import { mergeAttributes, Node } from "@tiptap/react";
+import { InputRule, mergeAttributes, Node } from "@tiptap/react";
 
 export const Details = Node.create({
   name: "details",
@@ -54,5 +54,23 @@ export const Details = Node.create({
         contentDOM: dom,
       };
     };
+  },
+
+  addInputRules() {
+    return [
+      new InputRule({
+        find: /^:::details$/,
+        handler: ({ range, commands }) => {
+          const detailsNode = this.type.createAndFill({
+            open: false,
+          });
+
+          commands.insertContentAt(
+            { from: range.from, to: range.to },
+            detailsNode
+          );
+        },
+      }),
+    ];
   },
 });
