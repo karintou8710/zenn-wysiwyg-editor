@@ -14,7 +14,7 @@ export function useLocalStorage(key: string, initialValue: string) {
       window.addEventListener("storage", handleStorageChange);
       return () => window.removeEventListener("storage", handleStorageChange);
     },
-    [key]
+    [key],
   );
 
   const getSnapshot = useCallback((): string => {
@@ -39,7 +39,7 @@ export function useLocalStorage(key: string, initialValue: string) {
         console.error(`Error setting localStorage key "${key}":`, error);
       }
     },
-    [key]
+    [key],
   );
 
   return [value, setValue] as const;

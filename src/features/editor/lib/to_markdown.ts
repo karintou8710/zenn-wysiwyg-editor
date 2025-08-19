@@ -61,7 +61,7 @@ const markdownSerializer = new MarkdownSerializer(
           (isDiff ? "diff " : "") +
           language +
           (fileName ? `:${fileName}` : "") +
-          "\n"
+          "\n",
       );
       state.text(contentNode!.textContent, false);
       state.write("\n");
@@ -100,23 +100,23 @@ const markdownSerializer = new MarkdownSerializer(
   {
     link: {
       open(state, mark, parent, index) {
-        // @ts-ignore
+        // @ts-expect-error
         state.inAutolink = isPlainURL(mark, parent, index);
-        // @ts-ignore
+        // @ts-expect-error
         if (state.inAutolink) return "";
         return "[";
       },
       close(state, mark) {
-        // @ts-ignore
-        let { inAutolink } = state;
-        // @ts-ignore
+        // @ts-expect-error
+        const { inAutolink } = state;
+        // @ts-expect-error
         state.inAutolink = undefined;
 
         if (inAutolink) return "";
 
         return (
           "](" +
-          mark.attrs.href.replace(/[\(\)"]/g, "\\$&") +
+          mark.attrs.href.replace(/[()"]/g, "\\$&") +
           (mark.attrs.title
             ? ` "${mark.attrs.title.replace(/"/g, '\\"')}"`
             : "") +
@@ -148,12 +148,12 @@ const markdownSerializer = new MarkdownSerializer(
       mixable: true,
       expelEnclosingWhitespace: true,
     },
-  }
+  },
 );
 
 function isPlainURL(link: Mark, parent: Node, index: number) {
   if (link.attrs.title || !/^\w+:/.test(link.attrs.href)) return false;
-  let content = parent.child(index);
+  const content = parent.child(index);
   if (
     !content.isText ||
     content.text != link.attrs.href ||

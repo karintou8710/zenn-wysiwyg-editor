@@ -1,3 +1,5 @@
+import type { Editor } from "@tiptap/react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -10,8 +12,6 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import type { Editor } from "@tiptap/react";
-import { useState } from "react";
 import { fromMarkdown } from "../../lib/from_markdown";
 
 type Props = {

@@ -27,20 +27,20 @@ export function isImageURL(url: string): boolean {
 
 export function isGithubUrl(url: string): boolean {
   return /^https:\/\/github\.com\/([a-zA-Z0-9](-?[a-zA-Z0-9]){0,38})\/([a-zA-Z0-9](-?[a-zA-Z0-9._]){0,99})\/blob\/[^~\s:?[*^/\\]{2,}\/[\w!\-_~.*%()'"/]+(?:#L\d+(?:-L\d+)?)?$/.test(
-    url
+    url,
   );
 }
 
 // Thanks: https://github.com/forem/forem/blob/d2d9984f28b1d0662f2a858b325a0e6b7a27a24c/app/liquid_tags/gist_tag.rb
 export function isGistUrl(url: string): boolean {
   return /^https:\/\/gist\.github\.com\/([a-zA-Z0-9](-?[a-zA-Z0-9]){0,38})\/([a-zA-Z0-9]){1,32}(\/[a-zA-Z0-9]+)?(\?file=.+)?$/.test(
-    url
+    url,
   );
 }
 
 export function isTweetUrl(url: string): boolean {
   return /^https:\/\/(twitter|x)\.com\/[a-zA-Z0-9_-]+\/status\/[a-zA-Z0-9?=&\-_]+$/.test(
-    url
+    url,
   );
 }
 
@@ -50,13 +50,13 @@ export function isStackblitzUrl(url: string): boolean {
 
 export function isCodesandboxUrl(url: string): boolean {
   return /^https:\/\/codesandbox\.io\/embed\/[a-zA-Z0-9\-_/.@?&=%,+]+$/.test(
-    url
+    url,
   );
 }
 
 export function isCodepenUrl(url: string): boolean {
   return /^https:\/\/codepen\.io\/[a-zA-Z0-9\-_/@]+\/pen\/[a-zA-Z0-9\-_/.@?&=%,]+$/.test(
-    url
+    url,
   );
 }
 
@@ -77,7 +77,7 @@ const docswellEmbedUrlRegex =
 
 export function isDocswellUrl(url: string): boolean {
   return [docswellNormalUrlRegex, docswellEmbedUrlRegex].some((pattern) =>
-    pattern.test(url)
+    pattern.test(url),
   );
 }
 
@@ -96,7 +96,7 @@ const YOUTUBE_VIDEO_ID_LENGTH = 11;
  * youtube の URL から videoId と開始位置の秒数を取得する
  */
 export function extractYoutubeVideoParameters(
-  youtubeUrl: string
+  youtubeUrl: string,
 ): { videoId: string; start?: string } | undefined {
   if (!isYoutubeUrl(youtubeUrl)) return void 0;
 
@@ -152,7 +152,7 @@ export function extractDocswellEmbedUrl(url: string): string | null {
 
   return new URL(
     `/slide/${slideId}/embed${pageSuffix}`, // pageSuffixを結合
-    "https://www.docswell.com"
+    "https://www.docswell.com",
   ).toString();
 }
 
@@ -170,6 +170,6 @@ export function isBlueprintUEUrl(url: string): boolean {
  */
 export function isFigmaUrl(url: string): boolean {
   return /^https:\/\/([\w.-]+\.)?figma.com\/(file|proto)\/([0-9a-zA-Z]{22,128})(?:\/[\w-?=&%]+)?$/.test(
-    url
+    url,
   );
 }

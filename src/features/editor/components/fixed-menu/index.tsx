@@ -1,10 +1,10 @@
-import { Editor } from "@tiptap/react";
-import { Button } from "@/components/ui/button";
-import { markdownSerializer } from "../../lib/to_markdown";
+import type { Editor } from "@tiptap/react";
 import { Copy, Image, Info, TimerReset } from "lucide-react";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { INITIAL_CONTENT } from "../../lib/initial-content";
-import { toast } from "sonner";
+import { markdownSerializer } from "../../lib/to_markdown";
 import MarkdownPasteDialog from "../markdown-paste-dialog";
 
 type Props = {

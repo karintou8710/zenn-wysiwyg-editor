@@ -51,12 +51,12 @@ export const Message = Node.create({
           const type = match[1];
           const messageContentNode = state.schema.nodes.messageContent.create(
             null,
-            state.schema.nodes.paragraph.create()
+            state.schema.nodes.paragraph.create(),
           );
 
           const messageNode = this.type.create(
             { type: type },
-            messageContentNode
+            messageContentNode,
           );
 
           chain()
@@ -89,7 +89,7 @@ export const Message = Node.create({
                     element.className = "msg-symbol";
                     element.textContent = "!";
                     return element;
-                  })
+                  }),
                 );
               }
             });
