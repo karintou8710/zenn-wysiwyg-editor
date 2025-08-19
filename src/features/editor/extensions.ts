@@ -19,6 +19,7 @@ import { EmbedPasteHandler } from "./extensions/embed/embedPasteHandler";
 import Figure from "./extensions/figure";
 import { Caption } from "./extensions/figure/caption";
 import { Image } from "./extensions/figure/image";
+import { FileHandler } from "./extensions/file-handler";
 import Heading from "./extensions/heading";
 import { Link } from "./extensions/link";
 import { Message } from "./extensions/message";
@@ -75,4 +76,5 @@ export const extensions: Extensions = [
   }),
   EmbedPasteHandler,
   Dropcursor,
+  FileHandler,
 ];
