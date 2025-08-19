@@ -138,6 +138,12 @@ console.log(greeting("World"));</code></pre></div>
 </aside>
 
 <h2>アコーディオン</h2>
+<div class="code-block-container">
+<div class="code-block-filename-container"></div>
+<pre>
+<code class="language-plaintext">:::details</code>
+</pre>
+</div>
 <details>
 <summary>アコーディオンのタイトル</summary>
 <div class="details-content">アコーディオンの内容</div>
