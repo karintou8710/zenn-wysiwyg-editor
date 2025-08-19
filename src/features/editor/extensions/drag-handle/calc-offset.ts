@@ -40,5 +40,9 @@ export function calcOffset(dragTarget: DragTarget, editor: Editor) {
     top -= 12;
   }
 
+  if (dragTarget.node.type === editor.schema.nodes.details) {
+    top += 4;
+  }
+
   return { top, left };
 }
