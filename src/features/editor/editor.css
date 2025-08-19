@@ -47,14 +47,8 @@
     }
   }
 
-  pre {
-    .insertedToken {
-      background-color: #00921b33;
-    }
-
-    .deletedToken {
-      background-color: #da363233;
-    }
+  .diff-code-line {
+    display: block;
   }
 
   /* 

@@ -32,11 +32,16 @@ const inputHandler = ({
     filename = null;
   }
 
+  const isDiff = language.startsWith("diff-");
   const codeFileName = state.schema.nodes.codeBlockFileName.create(
     null,
-    filename ? [state.schema.text(filename)] : [],
+    filename ? [state.schema.text(filename)] : []
   );
-  const codeContent = state.schema.nodes.codeBlock.create({ language });
+  const codeContent = isDiff
+    ? state.schema.nodes.diffCodeBlock.create({ language }, [
+        state.schema.nodes.diffCodeLine.create(null, []),
+      ])
+    : state.schema.nodes.codeBlock.create({ language });
   const codeBlock = state.schema.nodes.codeBlockContainer.create(null, [
     codeFileName,
     codeContent,
@@ -55,7 +60,7 @@ const inputHandler = ({
 export const CodeBlockContainer = Node.create({
   name: "codeBlockContainer",
   group: "block",
-  content: "codeBlockFileName codeBlock",
+  content: "codeBlockFileName (codeBlock | diffCodeBlock)",
 
   parseHTML() {
     return [

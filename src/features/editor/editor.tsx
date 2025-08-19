@@ -20,6 +20,9 @@ function Editor() {
     onUpdate: ({ editor }) => {
       setContent(editor.getHTML());
     },
+    onTransaction: ({ editor }) => {
+      console.log(editor.state.selection.from);
+    },
   });
 
   return (

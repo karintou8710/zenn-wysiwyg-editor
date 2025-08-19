@@ -47,10 +47,7 @@ function getHighlightNodes(html: string): ChildNode[] {
 
 function highlightCode(code: string, language: string): string {
   try {
-    const isDiff = language.startsWith("diff-");
-    const targetLanguage = isDiff ? "diff" : language;
-
-    return Prism.highlight(code, Prism.languages[targetLanguage], language);
+    return Prism.highlight(code, Prism.languages.diff, language);
   } catch (err: any) {
     console.warn(
       `Language "${language}" not supported, falling back to plaintext`
@@ -59,27 +56,20 @@ function highlightCode(code: string, language: string): string {
   }
 }
 
-function createStandardDecorations(
-  nodes: ChildNode[],
-  startPos: number
-): Decoration[] {
-  const decorations: Decoration[] = [];
-  let from = startPos;
+function getCode(codeNode: ProsemirrorNode) {
+  let code = "";
+  let isFirst = true;
 
-  parseNodes(nodes).forEach((node) => {
-    const to = from + node.text.length;
-
-    if (node.classes.length) {
-      const decoration = Decoration.inline(from, to, {
-        class: node.classes.join(" "),
-      });
-      decorations.push(decoration);
+  codeNode.children.forEach((child) => {
+    if (!isFirst) {
+      code += "\n";
+    } else {
+      isFirst = false;
     }
 
-    from = to;
+    code += child.textContent;
   });
-
-  return decorations;
+  return code;
 }
 
 function createDiffDecorations(
@@ -88,18 +78,19 @@ function createDiffDecorations(
 ): Decoration[] {
   const decorations: Decoration[] = [];
 
-  // diff-highlightの構造がネストになってProseMirrorに対応不可なため、spanの構造をフラットにする
-  // diff色は各トークンに適用する
-  let to = startPos;
-  Array.from(nodes).forEach((diffNode) => {
+  let to = startPos + 1;
+  Array.from(nodes).forEach((lineNode) => {
     const lineStart = to;
     let from = to;
 
-    if (diffNode.nodeType === Node.TEXT_NODE) {
-      to = from + diffNode.textContent!.length;
-    } else {
-      parseNodes(Array.from(diffNode.childNodes)).forEach((node) => {
-        to = from + node.text.length;
+    if (lineNode.nodeType === Node.TEXT_NODE) {
+      const text = lineNode.textContent!.replace(/\n$/, "");
+      const lineBreakCount = (text.match(/\n/g) || []).length;
+      to = from + text.length + lineBreakCount + 2;
+    } else if (lineNode instanceof HTMLElement) {
+      parseNodes(Array.from(lineNode.childNodes)).forEach((node) => {
+        const text = node.text.replace(/\n$/, "");
+        to = from + text.length;
 
         if (node.classes.length) {
           const decoration = Decoration.inline(from, to, {
@@ -110,19 +101,14 @@ function createDiffDecorations(
 
         from = to;
       });
-    }
 
-    if (diffNode instanceof Element) {
-      const isInserted = diffNode.classList.contains("inserted");
-      const isDeleted = (diffNode as HTMLElement).classList.contains("deleted");
+      decorations.push(
+        Decoration.node(lineStart - 1, to + 1, {
+          class: lineNode.className,
+        })
+      );
 
-      if (isInserted || isDeleted) {
-        decorations.push(
-          Decoration.inline(lineStart, to, {
-            class: isInserted ? "insertedToken" : "deletedToken",
-          })
-        );
-      }
+      to += 2;
     }
   });
 
@@ -140,17 +126,16 @@ function getDecorations({
 }) {
   const decorations: Decoration[] = [];
 
-  findChildren(doc, (node) => node.type.name === name).forEach((block) => {
-    const from = block.pos + 1;
-    const language = block.node.attrs.language || defaultLanguage;
-    const isDiff = language.startsWith("diff-");
+  findChildren(doc, (node) => node.type.name === name).forEach((preNode) => {
+    const from = preNode.pos + 1;
+    const language = preNode.node.attrs.language || defaultLanguage;
 
-    const html = highlightCode(block.node.textContent, language);
+    const html = highlightCode(getCode(preNode.node), language);
     const nodes = getHighlightNodes(html);
 
-    const blockDecorations = isDiff
-      ? createDiffDecorations(nodes, from)
-      : createStandardDecorations(nodes, from);
+    const blockDecorations = createDiffDecorations(nodes, from);
+
+    console.log(blockDecorations);
 
     decorations.push(...blockDecorations);
   });
@@ -166,7 +151,7 @@ export function PrismPlugin({
   defaultLanguage: string;
 }) {
   const prismjsPlugin: Plugin<any> = new Plugin({
-    key: new PluginKey("prism"),
+    key: new PluginKey("diff-prism"),
 
     state: {
       init: (_, { doc }) =>
@@ -176,8 +161,13 @@ export function PrismPlugin({
           defaultLanguage,
         }),
       apply: (transaction, decorationSet, oldState, newState) => {
-        const oldNodeName = oldState.selection.$head.parent.type.name;
-        const newNodeName = newState.selection.$head.parent.type.name;
+        const oldNodeName = oldState.selection.$head.node(-1)?.type.name;
+        const newNodeName = newState.selection.$head.node(-1)?.type.name;
+
+        if (oldNodeName !== name && newNodeName !== name) {
+          return decorationSet.map(transaction.mapping, transaction.doc);
+        }
+
         const oldNodes = findChildren(
           oldState.doc,
           (node) => node.type.name === name
