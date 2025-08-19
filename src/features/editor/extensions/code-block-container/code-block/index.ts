@@ -109,14 +109,6 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
         if ($from.node().type.name !== this.name) return false;
         if (!selection.empty || $from.start() !== $from.pos) return false;
 
-        if (
-          $from.node(-1).type !==
-          this.editor.state.schema.nodes.codeBlockContainer
-        ) {
-          // ファイル名なし
-          return this.editor.commands.clearNodes();
-        }
-
         // codeBlock全体を削除する
         this.editor
           .chain()
