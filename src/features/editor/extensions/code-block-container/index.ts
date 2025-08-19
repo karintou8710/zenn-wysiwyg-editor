@@ -1,11 +1,11 @@
+import type { EditorState } from "@tiptap/pm/state";
 import {
-  InputRule,
-  Node,
   type ChainedCommands,
   type ExtendedRegExpMatchArray,
+  InputRule,
+  Node,
   type Range,
 } from "@tiptap/react";
-import { type EditorState } from "@tiptap/pm/state";
 
 export const backtickInputRegex = /^```([a-z-]+(?::[a-zA-Z0-9._-]+)?)?[\s\n]$/;
 export const tildeInputRegex = /^~~~([a-z-]+(?::[a-zA-Z0-9._-]+)?)?[\s\n]$/;
@@ -34,7 +34,7 @@ const inputHandler = ({
 
   const codeFileName = state.schema.nodes.codeBlockFileName.create(
     null,
-    filename ? [state.schema.text(filename)] : []
+    filename ? [state.schema.text(filename)] : [],
   );
   const codeContent = state.schema.nodes.codeBlock.create({ language });
   const codeBlock = state.schema.nodes.codeBlockContainer.create(null, [

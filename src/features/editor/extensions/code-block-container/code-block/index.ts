@@ -1,5 +1,5 @@
-import { mergeAttributes, Node } from "@tiptap/react";
 import { Plugin, PluginKey, Selection, TextSelection } from "@tiptap/pm/state";
+import { mergeAttributes, Node } from "@tiptap/react";
 import { PrismPlugin } from "./prism-plugin";
 
 // カスタマイズのため、TiptapのBlockquoteを直接編集する
@@ -85,7 +85,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       dom.className = "code-block-wrapper-for-langname"; // 言語名表示のポジションのため
       dom.setAttribute(
         "data-language",
-        node.attrs.language || this.options.defaultLanguage
+        node.attrs.language || this.options.defaultLanguage,
       );
       const pre = document.createElement("pre");
 
@@ -133,8 +133,8 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
               $from.after(-1),
               this.editor.state.schema.nodes.paragraph.create(
                 null,
-                text ? [this.editor.state.schema.text(text)] : []
-              )
+                text ? [this.editor.state.schema.text(text)] : [],
+              ),
             );
 
             return true;
@@ -263,8 +263,8 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
               // put cursor inside the newly created code block
               tr.setSelection(
                 TextSelection.near(
-                  tr.doc.resolve(Math.max(0, tr.selection.from - 2))
-                )
+                  tr.doc.resolve(Math.max(0, tr.selection.from - 2)),
+                ),
               );
             }
 

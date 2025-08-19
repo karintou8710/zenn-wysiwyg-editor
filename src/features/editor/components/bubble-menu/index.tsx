@@ -1,7 +1,7 @@
+import { type Editor, useEditorState } from "@tiptap/react";
 import { BubbleMenu as TiptapBubbleMenu } from "@tiptap/react/menus";
-import { useEditorState, type Editor } from "@tiptap/react";
-import { cn } from "@/lib/utils";
 import { Bold, Code, Italic, Strikethrough } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 type Props = {
   editor: Editor;
@@ -51,7 +51,7 @@ export default function BubbleMenu({ editor }: Props) {
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={cn(
             "size-6 flex items-center justify-center bg-white cursor-pointer hover:bg-gray-100",
-            state.isBold && "bg-gray-200"
+            state.isBold && "bg-gray-200",
           )}
           type="button"
         >
@@ -61,7 +61,7 @@ export default function BubbleMenu({ editor }: Props) {
           onClick={() => editor.chain().focus().toggleItalic().run()}
           className={cn(
             "size-6 flex items-center justify-center bg-white cursor-pointer hover:bg-gray-100",
-            state.isItalic && "bg-gray-200"
+            state.isItalic && "bg-gray-200",
           )}
           type="button"
         >
@@ -71,7 +71,7 @@ export default function BubbleMenu({ editor }: Props) {
           onClick={() => editor.chain().focus().toggleStrike().run()}
           className={cn(
             "size-6 flex items-center justify-center bg-white cursor-pointer hover:bg-gray-100",
-            state.isStrike && "bg-gray-200"
+            state.isStrike && "bg-gray-200",
           )}
           type="button"
         >
@@ -81,7 +81,7 @@ export default function BubbleMenu({ editor }: Props) {
           onClick={() => editor.chain().focus().toggleCode().run()}
           className={cn(
             "size-6 flex items-center justify-center bg-white cursor-pointer hover:bg-gray-100",
-            state.isCode && "bg-gray-200"
+            state.isCode && "bg-gray-200",
           )}
           type="button"
         >

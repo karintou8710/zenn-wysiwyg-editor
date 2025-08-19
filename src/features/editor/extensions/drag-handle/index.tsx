@@ -1,8 +1,7 @@
-import { Editor } from "@tiptap/react";
-
-import { useDragHandle } from "./use-drag-handle";
-import { DragIcon } from "./drag-icon";
+import type { Editor } from "@tiptap/react";
 import { calcOffset } from "./calc-offset";
+import { DragIcon } from "./drag-icon";
+import { useDragHandle } from "./use-drag-handle";
 
 interface DragHandleProps {
   editor: Editor | null;
@@ -17,7 +16,7 @@ export default function DragHandle({ editor }: DragHandleProps) {
   const offsetStyles = calcOffset(dragTarget, editor);
 
   return (
-    <div
+    <button
       draggable="true"
       className="absolute size-6 cursor-grab text-gray-300"
       onDragStart={handleDragStart}
@@ -28,6 +27,6 @@ export default function DragHandle({ editor }: DragHandleProps) {
       }}
     >
       <DragIcon />
-    </div>
+    </button>
   );
 }

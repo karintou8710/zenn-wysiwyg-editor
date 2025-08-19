@@ -87,7 +87,7 @@ export const Image = Node.create<ImageOptions>({
 
             const $pos = view.state.doc.resolve(nodePos);
             const tr = view.state.tr.setSelection(
-              NodeSelection.create(view.state.doc, $pos.before())
+              NodeSelection.create(view.state.doc, $pos.before()),
             );
             view.dispatch(tr);
 

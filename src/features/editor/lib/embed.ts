@@ -1,4 +1,3 @@
-import type { EmbedType } from "../types";
 import {
   isCodepenUrl,
   isCodesandboxUrl,
@@ -10,6 +9,7 @@ import {
   isValidHttpUrl,
   isYoutubeUrl,
 } from "../lib/url";
+import type { EmbedType } from "../types";
 
 /** 渡された文字列をサニタイズする */
 export function sanitizeEmbedToken(str: string): string {
@@ -17,7 +17,7 @@ export function sanitizeEmbedToken(str: string): string {
 }
 
 export function getEmbedTypeFromElement(
-  element: HTMLElement // span要素であることを想定
+  element: HTMLElement, // span要素であることを想定
 ): EmbedType | null {
   if (element.classList.contains("zenn-embedded-card")) {
     return "card";

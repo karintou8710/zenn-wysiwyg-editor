@@ -1,16 +1,15 @@
-// @ts-ignore
+// @ts-expect-error
 import "zenn-content-css";
 import "./editor.css";
 
-import { useEditor, EditorContent } from "@tiptap/react";
-import FixedMenu from "./components/fixed-menu";
+import { EditorContent, useEditor } from "@tiptap/react";
 import { CONTENT_KEY, useLocalStorage } from "@/hooks/useLocalStorage";
-
-import { extensions } from "./extensions";
-import { INITIAL_CONTENT } from "./lib/initial-content";
 import BubbleMenu from "./components/bubble-menu";
+import FixedMenu from "./components/fixed-menu";
 import ImageBubbleMenu from "./components/image-bubble-menu";
+import { extensions } from "./extensions";
 import DragHandle from "./extensions/drag-handle";
+import { INITIAL_CONTENT } from "./lib/initial-content";
 
 function Editor() {
   const [content, setContent] = useLocalStorage(CONTENT_KEY, "");

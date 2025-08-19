@@ -4,7 +4,7 @@ import { splitBlockAs } from "@tiptap/pm/commands";
 const Heading = TiptapHeading.extend({
   addKeyboardShortcuts() {
     return {
-      // @ts-ignore: https://github.com/ueberdosis/tiptap/issues/6670
+      // @ts-expect-error: https://github.com/ueberdosis/tiptap/issues/6670
       ...this.parent?.(),
 
       Backspace: () => {

@@ -1,5 +1,5 @@
-import { getEmbedTypeFromElement } from "@/features/editor/lib/embed";
 import { Node } from "@tiptap/react";
+import { getEmbedTypeFromElement } from "@/features/editor/lib/embed";
 import { generateEmbedOutputSpec } from "./generateEmbedOutputSpec";
 
 export const Embed = Node.create({

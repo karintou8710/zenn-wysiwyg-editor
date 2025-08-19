@@ -1,7 +1,7 @@
 import { AlertCircleIcon } from "lucide-react";
+import { Toaster } from "sonner";
 import { Alert, AlertDescription } from "./components/ui/alert";
 import Editor from "./features/editor/editor";
-import { Toaster } from "sonner";
 
 function App() {
   return (

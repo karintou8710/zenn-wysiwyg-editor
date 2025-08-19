@@ -1,12 +1,12 @@
 import type { Editor } from "@tiptap/react";
-import { type DragTarget } from "./use-drag-handle";
+import type { DragTarget } from "./use-drag-handle";
 
 const DRAG_HANDLE_X_OFFSET = 25;
 
 export function calcOffset(dragTarget: DragTarget, editor: Editor) {
   const rect = dragTarget.dom.getBoundingClientRect();
   let top = rect?.top + window.scrollY;
-  let left = rect?.left + window.scrollX - DRAG_HANDLE_X_OFFSET;
+  const left = rect?.left + window.scrollX - DRAG_HANDLE_X_OFFSET;
 
   if (dragTarget.node.type === editor.schema.nodes.heading) {
     if (dragTarget.node.attrs.level === 1) {
