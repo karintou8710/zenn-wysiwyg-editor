@@ -59,14 +59,16 @@ export const Details = Node.create({
   addInputRules() {
     return [
       new InputRule({
-        find: /^:::details$/,
-        handler: ({ range, commands }) => {
+        find: /^:::details\s$/,
+        handler: ({ state, range, commands }) => {
           const detailsNode = this.type.createAndFill({
             open: false,
           });
 
+          const $from = state.doc.resolve(range.from);
+
           commands.insertContentAt(
-            { from: range.from, to: range.to },
+            { from: $from.before(), to: $from.after() },
             detailsNode
           );
         },
