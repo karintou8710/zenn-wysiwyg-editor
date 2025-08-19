@@ -61,4 +61,29 @@ export const DetailsSummary = Node.create({
       };
     };
   },
+
+  addKeyboardShortcuts() {
+    return {
+      Backspace: ({ editor }) => {
+        const { selection } = editor.state;
+        const { $from } = selection;
+
+        if (
+          !selection.empty ||
+          $from.node().type.name !== this.name ||
+          $from.start() !== $from.pos
+        ) {
+          return false;
+        }
+
+        // 親のdetailsを削除
+        editor.commands.deleteRange({
+          from: $from.before(-1),
+          to: $from.after(-1),
+        });
+
+        return true;
+      },
+    };
+  },
 });
