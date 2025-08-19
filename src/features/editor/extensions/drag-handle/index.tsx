@@ -17,6 +17,7 @@ export default function DragHandle({ editor }: DragHandleProps) {
 
   return (
     <button
+      type="button"
       draggable="true"
       className="absolute size-6 cursor-grab text-gray-300"
       onDragStart={handleDragStart}

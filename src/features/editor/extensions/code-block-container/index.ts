@@ -21,10 +21,10 @@ const inputHandler = ({
   match: ExtendedRegExpMatchArray;
   chain: () => ChainedCommands;
 }) => {
-  let language, filename;
+  let language: string, filename: string | null;
 
   // match[1]が存在し、コロンを含む場合
-  if (match[1] && match[1].includes(":")) {
+  if (match[1]?.includes(":")) {
     [language, filename] = match[1].split(":");
   } else {
     // match[1]が言語のみ、または存在しない場合
@@ -34,7 +34,7 @@ const inputHandler = ({
 
   const codeFileName = state.schema.nodes.codeBlockFileName.create(
     null,
-    filename ? [state.schema.text(filename)] : [],
+    filename ? [state.schema.text(filename)] : []
   );
   const codeContent = state.schema.nodes.codeBlock.create({ language });
   const codeBlock = state.schema.nodes.codeBlockContainer.create(null, [
