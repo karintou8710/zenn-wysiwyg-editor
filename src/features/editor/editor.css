@@ -151,7 +151,8 @@
   blockquote,
   aside,
   div.code-block-container,
-  span.embed-block {
+  span.embed-block,
+  div.details {
     &.ProseMirror-selectednode {
       position: relative;
       user-select: none;
