@@ -83,7 +83,7 @@ export const DiffCodeBlock = Node.create<CodeBlockOptions>({
       dom.className = "code-block-wrapper-for-langname"; // 言語名表示のポジションのため
       dom.setAttribute(
         "data-language",
-        node.attrs.language || this.options.defaultLanguage
+        node.attrs.language || this.options.defaultLanguage,
       );
       const pre = document.createElement("pre");
 

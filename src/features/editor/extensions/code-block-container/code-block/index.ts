@@ -80,7 +80,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
       dom.className = "code-block-wrapper-for-langname"; // 言語名表示のポジションのため
       dom.setAttribute(
         "data-language",
-        node.attrs.language || this.options.defaultLanguage
+        node.attrs.language || this.options.defaultLanguage,
       );
       const pre = document.createElement("pre");
 
@@ -116,7 +116,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
             tr.replaceRangeWith(
               $from.before(-1),
               $from.after(-1),
-              this.editor.state.schema.nodes.paragraph.create()
+              this.editor.state.schema.nodes.paragraph.create(),
             );
 
             return true;

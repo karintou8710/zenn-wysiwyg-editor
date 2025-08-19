@@ -22,7 +22,7 @@ function getCode(codeNode: ProsemirrorNode) {
 
 function createDiffDecorations(
   nodes: ChildNode[],
-  startPos: number
+  startPos: number,
 ): Decoration[] {
   const decorations: Decoration[] = [];
 
@@ -53,7 +53,7 @@ function createDiffDecorations(
       decorations.push(
         Decoration.node(lineStart - 1, to + 1, {
           class: lineNode.className,
-        })
+        }),
       );
 
       to += 2;
@@ -116,11 +116,11 @@ export function DiffPrismPlugin({
 
         const oldNodes = findChildren(
           oldState.doc,
-          (node) => node.type.name === name
+          (node) => node.type.name === name,
         );
         const newNodes = findChildren(
           newState.doc,
-          (node) => node.type.name === name
+          (node) => node.type.name === name,
         );
 
         if (

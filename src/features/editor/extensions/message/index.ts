@@ -57,7 +57,7 @@ export const Message = Node.create({
               from: $from.before(),
               to: $from.after(),
             },
-            messageNode
+            messageNode,
           );
         },
       }),
@@ -82,7 +82,7 @@ export const Message = Node.create({
                     element.className = "msg-symbol";
                     element.textContent = "!";
                     return element;
-                  })
+                  }),
                 );
               }
             });

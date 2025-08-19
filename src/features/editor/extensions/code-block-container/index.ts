@@ -35,7 +35,7 @@ const inputHandler = ({
   const isDiff = language.startsWith("diff-");
   const codeFileName = state.schema.nodes.codeBlockFileName.create(
     null,
-    filename ? [state.schema.text(filename)] : []
+    filename ? [state.schema.text(filename)] : [],
   );
   const codeContent = isDiff
     ? state.schema.nodes.diffCodeBlock.create({ language }, [
