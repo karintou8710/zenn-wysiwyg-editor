@@ -3,6 +3,13 @@ import { MarkdownSerializer } from "prosemirror-markdown";
 import type { EmbedType } from "../types";
 import { extractYoutubeVideoParameters } from "./url";
 
+// MarkdownSerializerStateの型拡張
+declare module "prosemirror-markdown" {
+  interface MarkdownSerializerState {
+    inAutolink?: boolean;
+  }
+}
+
 const markdownSerializer = new MarkdownSerializer(
   {
     paragraph(state, node) {
@@ -35,9 +42,11 @@ const markdownSerializer = new MarkdownSerializer(
     },
     message(state, node) {
       const type = node.attrs.type === "message" ? "" : node.attrs.type;
-      state.write(`:::message ${type}\n`);
+      const nestDepth = getZennNotationNestDepth(node);
+
+      state.write(`${":".repeat(nestDepth + 2)}message ${type}\n`);
       state.renderContent(node);
-      state.write("\n:::");
+      state.write(`\n${":".repeat(nestDepth + 2)}`);
       state.closeBlock(node);
     },
     messageContent(state, node) {
@@ -61,7 +70,7 @@ const markdownSerializer = new MarkdownSerializer(
           (isDiff ? "diff " : "") +
           language +
           (fileName ? `:${fileName}` : "") +
-          "\n",
+          "\n"
       );
       state.text(contentNode!.textContent, false);
       state.write("\n");
@@ -96,20 +105,30 @@ const markdownSerializer = new MarkdownSerializer(
       state.write(urlBlock);
       state.closeBlock(node);
     },
+    details(state, node) {
+      const summary = node.firstChild!;
+      const content = node.lastChild!;
+      const title = summary.textContent || "emptyTitle"; // detailsはタイトルが必須
+      const nestDepth = getZennNotationNestDepth(node);
+
+      state.write(`${":".repeat(nestDepth + 2)}details ${title}\n`);
+      state.renderContent(content);
+      state.write(":".repeat(nestDepth + 2));
+      state.closeBlock(node);
+    },
+    detailsContent(state, node) {
+      state.renderInline(node);
+    },
   },
   {
     link: {
       open(state, mark, parent, index) {
-        // @ts-expect-error
         state.inAutolink = isPlainURL(mark, parent, index);
-        // @ts-expect-error
         if (state.inAutolink) return "";
         return "[";
       },
       close(state, mark) {
-        // @ts-expect-error
         const { inAutolink } = state;
-        // @ts-expect-error
         state.inAutolink = undefined;
 
         if (inAutolink) return "";
@@ -148,7 +167,7 @@ const markdownSerializer = new MarkdownSerializer(
       mixable: true,
       expelEnclosingWhitespace: true,
     },
-  },
+  }
 );
 
 function isPlainURL(link: Mark, parent: Node, index: number) {
@@ -156,14 +175,29 @@ function isPlainURL(link: Mark, parent: Node, index: number) {
   const content = parent.child(index);
   if (
     !content.isText ||
-    content.text != link.attrs.href ||
-    content.marks[content.marks.length - 1] != link
+    content.text !== link.attrs.href ||
+    content.marks[content.marks.length - 1] !== link
   )
     return false;
   return (
-    index == parent.childCount - 1 ||
+    index === parent.childCount - 1 ||
     !link.isInSet(parent.child(index + 1).marks)
   );
+}
+
+// 子要素にあるZennの独自拡張のネストの深さを取得する
+function getZennNotationNestDepth(node: Node) {
+  let depth = 0;
+
+  for (const child of node.children) {
+    depth = Math.max(depth, getZennNotationNestDepth(child));
+  }
+
+  if (node.type.name === "details" || node.type.name === "message") {
+    depth++;
+  }
+
+  return depth;
 }
 
 export { markdownSerializer };
