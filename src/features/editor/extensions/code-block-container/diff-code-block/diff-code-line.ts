@@ -32,7 +32,6 @@ export const DiffCodeLine = Node.create({
         if ($from.node().type.name !== this.name) return false;
         if (!selection.empty) return false;
 
-        console.log($from.index());
         if (!($from.index(-1) === 0 && $from.start() === $from.pos))
           return false;
 
@@ -70,8 +69,6 @@ export const DiffCodeLine = Node.create({
           codeBlock.childCount >= 2 &&
           codeBlock.child(codeBlock.childCount - 1).childCount === 0 &&
           codeBlock.child(codeBlock.childCount - 2).childCount === 0;
-
-        console.log(isAtLineEnd, isAtRowEnd, endsWithDoubleNewline);
 
         if (!isAtLineEnd || !isAtRowEnd || !endsWithDoubleNewline) {
           return false;

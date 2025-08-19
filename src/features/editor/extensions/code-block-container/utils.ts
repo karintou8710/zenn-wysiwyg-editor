@@ -38,7 +38,6 @@ export function parseNodes(
 export function getHighlightNodes(html: string): ChildNode[] {
   const pre = document.createElement("pre");
   pre.innerHTML = html;
-  console.log(pre);
   return Array.from(pre.childNodes);
 }
 

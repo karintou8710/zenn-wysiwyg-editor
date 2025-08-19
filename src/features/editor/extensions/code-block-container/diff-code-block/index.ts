@@ -79,7 +79,6 @@ export const DiffCodeBlock = Node.create<CodeBlockOptions>({
 
   addNodeView() {
     return ({ node }) => {
-      console.log("diff");
       const dom = document.createElement("div");
       dom.className = "code-block-wrapper-for-langname"; // 言語名表示のポジションのため
       dom.setAttribute(

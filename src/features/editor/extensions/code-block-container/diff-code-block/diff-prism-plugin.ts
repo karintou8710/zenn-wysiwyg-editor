@@ -83,8 +83,6 @@ function getDecorations({
 
     const blockDecorations = createDiffDecorations(nodes, from);
 
-    console.log(blockDecorations);
-
     decorations.push(...blockDecorations);
   });
 
