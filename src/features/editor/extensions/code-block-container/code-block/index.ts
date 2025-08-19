@@ -1,4 +1,3 @@
-import { Plugin, PluginKey, Selection, TextSelection } from "@tiptap/pm/state";
 import { mergeAttributes, Node } from "@tiptap/react";
 import { PrismPlugin } from "./prism-plugin";
 
@@ -108,7 +107,6 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
         const { $from } = selection;
 
         if ($from.node().type.name !== this.name) return false;
-
         if (!selection.empty || $from.start() !== $from.pos) return false;
 
         if (
@@ -119,7 +117,6 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
           return this.editor.commands.clearNodes();
         }
 
-        const text = $from.node().textContent;
         // codeBlock全体を削除する
         this.editor
           .chain()
@@ -127,10 +124,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
             tr.replaceRangeWith(
               $from.before(-1),
               $from.after(-1),
-              this.editor.state.schema.nodes.paragraph.create(
-                null,
-                text ? [this.editor.state.schema.text(text)] : []
-              )
+              this.editor.state.schema.nodes.paragraph.create()
             );
 
             return true;
