@@ -19,6 +19,15 @@ export function getUrlPath(url: string): string {
   }
 }
 
+export function extractImageUrlAndAlt(text: string) {
+  // ![alt](url) 形式の画像URLとalt属性を抽出する
+  const match = text.match(/^!\[(.*?)\]\(([\S)]+)\)$/);
+  if (!match) return;
+
+  const [, alt, url] = match;
+  return { url, alt };
+}
+
 export function isImageURL(url: string): boolean {
   const path = getUrlPath(url);
   const imageExtensions = /\.(png|jpe?g|gif)$/i;

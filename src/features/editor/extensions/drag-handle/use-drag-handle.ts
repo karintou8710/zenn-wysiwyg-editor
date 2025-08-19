@@ -1,17 +1,18 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { Editor } from "@tiptap/react";
+import type { Node, Slice } from "@tiptap/pm/model";
 import { NodeSelection } from "@tiptap/pm/state";
-import { Node, Slice } from "@tiptap/pm/model";
+import type { Editor } from "@tiptap/react";
+import type React from "react";
+import { useCallback, useEffect, useState } from "react";
 
 // ProseMirrorの内部実装がエクスポートされてないので、自前定義
 class Dragging {
   constructor(
-    // @ts-ignore
+    // @ts-expect-error
     public slice: Slice,
-    // @ts-ignore
+    // @ts-expect-error
     public move: boolean,
-    // @ts-ignore
-    public node?: NodeSelection
+    // @ts-expect-error
+    public node?: NodeSelection,
   ) {}
 }
 
@@ -41,7 +42,7 @@ export function useDragHandle(editor: Editor | null) {
         nodeSelection: NodeSelection.create(editor.state.doc, beforePos),
       });
     },
-    [editor]
+    [editor],
   );
 
   const handleDragStart = useCallback(
@@ -57,10 +58,10 @@ export function useDragHandle(editor: Editor | null) {
       editor.view.dragging = new Dragging(
         dragTarget.nodeSelection.content(),
         true,
-        dragTarget.nodeSelection
+        dragTarget.nodeSelection,
       );
     },
-    [editor, dragTarget]
+    [editor, dragTarget],
   );
 
   const handleMouseMove = useCallback(
@@ -76,7 +77,7 @@ export function useDragHandle(editor: Editor | null) {
       // カーソルが乗った位置で、深さ１ノードのbefore位置を取得
       setTopBlockDragTarget(posWithInside.pos);
     },
-    [editor, setTopBlockDragTarget]
+    [editor, setTopBlockDragTarget],
   );
 
   const handleClick = useCallback(() => {

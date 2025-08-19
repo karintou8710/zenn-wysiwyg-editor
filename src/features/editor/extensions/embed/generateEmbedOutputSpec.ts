@@ -2,12 +2,12 @@ import type { DOMOutputSpec } from "@tiptap/pm/model";
 import type { EmbedType } from "zenn-markdown-html/lib/embed";
 import { EMBED_ORIGIN } from "../../lib/constants";
 import { sanitizeEmbedToken } from "../../lib/embed";
-import { extractYoutubeVideoParameters } from "../../lib/url";
 import { escapeHtml } from "../../lib/escape";
+import { extractYoutubeVideoParameters } from "../../lib/url";
 
 export function generateEmbedOutputSpec(
   type: EmbedType,
-  url: string
+  url: string,
 ): DOMOutputSpec {
   if (
     type === "card" ||
@@ -33,7 +33,7 @@ export function generateEmbedOutputSpec(
 
 function generateEmbedServerOutputSpec(
   type: string,
-  url: string
+  url: string,
 ): DOMOutputSpec {
   const id = `zenn-embedded__${Math.random().toString(16).slice(2)}`;
   const iframeSrc = `${EMBED_ORIGIN}/${type}#${id}`;

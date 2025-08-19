@@ -1,8 +1,8 @@
-import type { Editor } from "@tiptap/react";
-import { Extension, isNodeEmpty } from "@tiptap/react";
 import type { Node as ProsemirrorNode } from "@tiptap/pm/model";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
+import type { Editor } from "@tiptap/react";
+import { Extension, isNodeEmpty } from "@tiptap/react";
 
 export interface PlaceholderOptions {
   emptyEditorClass: string;

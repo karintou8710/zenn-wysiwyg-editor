@@ -1,3 +1,5 @@
+import { PopoverClose } from "@radix-ui/react-popover";
+import { useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -5,8 +7,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { PopoverClose } from "@radix-ui/react-popover";
-import { useRef } from "react";
 
 type Props = {
   initialAlt?: string;

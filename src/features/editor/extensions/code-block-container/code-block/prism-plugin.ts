@@ -1,44 +1,42 @@
-import { findChildren } from "@tiptap/react";
-import { Node as ProsemirrorNode } from "@tiptap/pm/model";
+import type { Node as ProsemirrorNode } from "@tiptap/pm/model";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
+import { findChildren } from "@tiptap/react";
 import Prism from "prismjs";
 
 function parseNodes(
   nodes: Node[],
-  className: string[] = []
+  className: string[] = [],
 ): { text: string; classes: string[] }[] {
-  return nodes
-    .map((node) => {
-      const classes = [...className];
+  return nodes.flatMap((node) => {
+    const classes = [...className];
 
-      // エレメントノードの場合、クラス名を取得
-      if (node.nodeType === Node.ELEMENT_NODE) {
-        const element = node as Element;
-        if (element.className) {
-          classes.push(...element.className.split(" ").filter(Boolean));
-        }
+    // エレメントノードの場合、クラス名を取得
+    if (node.nodeType === Node.ELEMENT_NODE) {
+      const element = node as Element;
+      if (element.className) {
+        classes.push(...element.className.split(" ").filter(Boolean));
       }
+    }
 
-      // 子ノードがある場合は再帰的に処理
-      if (node.childNodes && node.childNodes.length > 0) {
-        return parseNodes(Array.from(node.childNodes), classes);
-      }
+    // 子ノードがある場合は再帰的に処理
+    if (node.childNodes && node.childNodes.length > 0) {
+      return parseNodes(Array.from(node.childNodes), classes);
+    }
 
-      // テキストノードの場合
-      if (node.nodeType === Node.TEXT_NODE) {
-        return {
-          text: node.textContent || "",
-          classes,
-        };
-      }
-
+    // テキストノードの場合
+    if (node.nodeType === Node.TEXT_NODE) {
       return {
         text: node.textContent || "",
         classes,
       };
-    })
-    .flat();
+    }
+
+    return {
+      text: node.textContent || "",
+      classes,
+    };
+  });
 }
 
 function getHighlightNodes(html: string): ChildNode[] {
@@ -55,7 +53,7 @@ function highlightCode(code: string, language: string): string {
     return Prism.highlight(code, Prism.languages[targetLanguage], language);
   } catch (err: any) {
     console.warn(
-      `Language "${language}" not supported, falling back to plaintext`
+      `Language "${language}" not supported, falling back to plaintext`,
     );
     return Prism.highlight(code, Prism.languages.plaintext, "plaintext");
   }
@@ -63,7 +61,7 @@ function highlightCode(code: string, language: string): string {
 
 function createStandardDecorations(
   nodes: ChildNode[],
-  startPos: number
+  startPos: number,
 ): Decoration[] {
   const decorations: Decoration[] = [];
   let from = startPos;
@@ -86,7 +84,7 @@ function createStandardDecorations(
 
 function createDiffDecorations(
   nodes: ChildNode[],
-  startPos: number
+  startPos: number,
 ): Decoration[] {
   const decorations: Decoration[] = [];
 
@@ -94,7 +92,7 @@ function createDiffDecorations(
   // diff色は各トークンに適用する
   let to = startPos;
   Array.from(nodes).forEach((diffNode) => {
-    let lineStart = to;
+    const lineStart = to;
     let from = to;
 
     if (diffNode.nodeType === Node.TEXT_NODE) {
@@ -122,7 +120,7 @@ function createDiffDecorations(
         decorations.push(
           Decoration.inline(lineStart, to, {
             class: isInserted ? "insertedToken" : "deletedToken",
-          })
+          }),
         );
       }
     }
@@ -182,11 +180,11 @@ export function PrismPlugin({
         const newNodeName = newState.selection.$head.parent.type.name;
         const oldNodes = findChildren(
           oldState.doc,
-          (node) => node.type.name === name
+          (node) => node.type.name === name,
         );
         const newNodes = findChildren(
           newState.doc,
-          (node) => node.type.name === name
+          (node) => node.type.name === name,
         );
 
         if (

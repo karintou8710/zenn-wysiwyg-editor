@@ -1,11 +1,11 @@
+import type { EditorState } from "@tiptap/pm/state";
 import {
-  InputRule,
-  Node,
   type ChainedCommands,
   type ExtendedRegExpMatchArray,
+  InputRule,
+  Node,
   type Range,
 } from "@tiptap/react";
-import { type EditorState } from "@tiptap/pm/state";
 
 export const backtickInputRegex = /^```([a-z-]+(?::[a-zA-Z0-9._-]+)?)?[\s\n]$/;
 export const tildeInputRegex = /^~~~([a-z-]+(?::[a-zA-Z0-9._-]+)?)?[\s\n]$/;
@@ -21,10 +21,10 @@ const inputHandler = ({
   match: ExtendedRegExpMatchArray;
   chain: () => ChainedCommands;
 }) => {
-  let language, filename;
+  let language: string, filename: string | null;
 
   // match[1]が存在し、コロンを含む場合
-  if (match[1] && match[1].includes(":")) {
+  if (match[1]?.includes(":")) {
     [language, filename] = match[1].split(":");
   } else {
     // match[1]が言語のみ、または存在しない場合

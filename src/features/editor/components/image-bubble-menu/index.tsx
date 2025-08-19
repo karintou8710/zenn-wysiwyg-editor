@@ -1,6 +1,6 @@
-import { BubbleMenu as TiptapBubbleMenu } from "@tiptap/react/menus";
-import { useEditorState, type Editor } from "@tiptap/react";
 import { NodeSelection } from "@tiptap/pm/state";
+import { type Editor, useEditorState } from "@tiptap/react";
+import { BubbleMenu as TiptapBubbleMenu } from "@tiptap/react/menus";
 import AltPopover from "../alt-popover";
 
 type Props = {
@@ -11,8 +11,8 @@ export default function ImageBubbleMenu({ editor }: Props) {
   const state = useEditorState({
     editor,
     selector: ({ editor }) => {
-      let imagePos: number | undefined = undefined;
-      let alt: string | undefined = undefined;
+      let imagePos: number | undefined;
+      let alt: string | undefined;
       const { selection } = editor.state;
 
       if (
