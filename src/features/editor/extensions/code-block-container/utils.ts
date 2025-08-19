@@ -36,9 +36,10 @@ export function parseNodes(
 }
 
 export function getHighlightNodes(html: string): ChildNode[] {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-  return Array.from(doc.body.childNodes);
+  const pre = document.createElement("pre");
+  pre.innerHTML = html;
+  console.log(pre);
+  return Array.from(pre.childNodes);
 }
 
 export function highlightCode(code: string, language: string): string {
