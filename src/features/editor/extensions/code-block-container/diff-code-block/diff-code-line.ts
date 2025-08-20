@@ -99,13 +99,14 @@ export const DiffCodeLine = Node.create({
   addProseMirrorPlugins() {
     return [
       new Plugin({
-        key: new PluginKey("pasteDiffCodeLine"),
+        key: new PluginKey("diffCodeLine"),
         props: {
           handlePaste: (view, event) => {
             const { $from, $to } = view.state.selection;
-            const text = event.clipboardData?.getData("text/plain");
 
             if ($from.node().type.name !== this.name) return false;
+
+            const text = event.clipboardData?.getData("text/plain");
             if (!text) return false;
 
             const tr = view.state.tr;
@@ -123,6 +124,21 @@ export const DiffCodeLine = Node.create({
             view.dispatch(tr);
 
             return true;
+          },
+          // @ts-expect-error: undefinedを返すことを許容, 別のプラグインに処理を移す
+          clipboardTextSerializer: (slice, view) => {
+            const { state } = view;
+            const { $from, $to } = state.selection;
+
+            if (
+              $from.node().type.name !== this.name ||
+              $to.node().type.name !== this.name
+            )
+              return;
+
+            const text = slice.content.textBetween(0, slice.content.size, "\n");
+
+            return text;
           },
         },
       }),
