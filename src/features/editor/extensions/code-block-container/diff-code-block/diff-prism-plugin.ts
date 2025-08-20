@@ -4,60 +4,56 @@ import { Decoration, DecorationSet } from "@tiptap/pm/view";
 import { findChildren } from "@tiptap/react";
 import {
   getDiffCode,
-  getHighlightNodes,
+  getDiffHighlightLineNodes,
   highlightCode,
   parseNodes,
 } from "../utils";
 
+/*
+  diff-highlightは出力されるHTMLが構造化の観点で微妙なので、挙動をまとめる
+
+  基本的な挙動は以下のように行単位でブロックのspanが生成される
+  <span class="line"><span class="token">1</span></span>
+  <span class="line"><span class="token"2</span></span>
+
+  - 差分でない行はトップレベルのtextNodeとして扱われる
+  - 繋がったtextNode, insert, deleteの行は1つのspanとして出力される
+  - 改行コードが各々のトップレベルノードの末尾に含まれている。繋がったノードは途中に改行コードが含まれる。
+    - この末尾の改行コードは基本的に意味ない
+    - 次の行が最終行かつ空行の時のみ、意味を持つ（）
+*/
+
 function createDiffDecorations(
-  nodes: ChildNode[],
-  startPos: number
+  lineNodes: HTMLElement[],
+  preStart: number
 ): Decoration[] {
   const decorations: Decoration[] = [];
 
-  let to = startPos + 1;
-  Array.from(nodes).forEach((lineNode) => {
+  let to = preStart + 1; // code-lineのstart
+  lineNodes.forEach((lineNode) => {
     let from = to;
+    const lineStart = to;
 
-    if (lineNode.nodeType === Node.TEXT_NODE) {
-      // 特定のトークンに認識されなかったノード
-      const text = lineNode.textContent!.replace(/\n$/, "");
-      const lineBreakCount = (text.match(/\n/g) || []).length;
-      to = from + text.length + lineBreakCount + 2;
-    } else if (lineNode instanceof HTMLElement) {
-      // 一行のコードブロック
-      const linePosList: { from: number; to: number }[] = [];
-      let lineStartInner = from; // insert deleteは複数行つながる可能性があるので、行の開始位置を記録
+    // 一行のコードブロック
+    const parsedNodes = parseNodes(Array.from(lineNode.childNodes));
+    parsedNodes.forEach((node) => {
+      to = from + node.text.length;
 
-      const parsedNodes = parseNodes(Array.from(lineNode.childNodes));
-      parsedNodes.forEach((node, i) => {
-        const hasLineBreak = node.text.endsWith("\n");
-        const text = node.text.replace(/\n$/, "");
-        to = from + text.length;
+      if (node.classes.length) {
+        const decoration = Decoration.inline(from, to, {
+          class: node.classes.join(" "),
+        });
+        decorations.push(decoration);
+      }
 
-        if (node.classes.length) {
-          const decoration = Decoration.inline(from, to, {
-            class: node.classes.join(" "),
-          });
-          decorations.push(decoration);
-        }
+      from = to;
+    });
 
-        // 行末 (文末は改行がなくてもlinePosListに追加する)
-        if (hasLineBreak || i === parsedNodes.length - 1) {
-          linePosList.push({ from: lineStartInner - 1, to: to + 1 });
-          lineStartInner = to + 2;
-          to += 2;
-        }
+    decorations.push(
+      Decoration.node(lineStart - 1, to + 1, { class: lineNode.className })
+    );
 
-        from = to;
-      });
-
-      linePosList.forEach(({ from, to }, i) => {
-        decorations.push(
-          Decoration.node(from, to, { class: lineNode.className })
-        );
-      });
-    }
+    to += 2; // lineのspanを跨ぐ
   });
 
   return decorations;
@@ -75,14 +71,13 @@ function getDecorations({
   const decorations: Decoration[] = [];
 
   findChildren(doc, (node) => node.type.name === name).forEach((preNode) => {
-    const from = preNode.pos + 1;
+    const preStart = preNode.pos + 1;
     const language = preNode.node.attrs.language || defaultLanguage;
 
     const html = highlightCode(getDiffCode(preNode.node), language);
-    const nodes = getHighlightNodes(html);
+    const nodes = getDiffHighlightLineNodes(html);
 
-    const blockDecorations = createDiffDecorations(nodes, from);
-
+    const blockDecorations = createDiffDecorations(nodes, preStart);
     decorations.push(...blockDecorations);
   });
 

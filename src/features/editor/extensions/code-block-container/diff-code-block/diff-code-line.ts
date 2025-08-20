@@ -3,24 +3,19 @@ import { Node } from "@tiptap/react";
 export const DiffCodeLine = Node.create({
   name: "diffCodeLine",
   content: "text*",
+  marks: "",
 
   parseHTML() {
     return [
       {
-        tag: "span.diff-code-line",
+        tag: ".diff-highlight > span",
         priority: 100,
       },
     ];
   },
 
   renderHTML() {
-    return [
-      "span",
-      {
-        class: "diff-code-line",
-      },
-      0,
-    ];
+    return ["span", 0];
   },
 
   addKeyboardShortcuts() {
@@ -42,7 +37,7 @@ export const DiffCodeLine = Node.create({
             tr.replaceRangeWith(
               $from.before(-2),
               $from.after(-2),
-              this.editor.state.schema.nodes.paragraph.create(),
+              this.editor.state.schema.nodes.paragraph.create()
             );
 
             return true;

@@ -23,6 +23,11 @@
     span {
       min-width: 85px;
     }
+
+    .code-block-filename {
+      /* PC版Safariで display: table をspanにつけると、contenteditableでの編集がバグる */
+      display: inline-block;
+    }
   }
 
   .code-block-wrapper-for-langname {
@@ -40,15 +45,10 @@
     }
   }
 
-  div.code-block-filename-container {
-    .code-block-filename {
-      /* PC版Safariで display: table をspanにつけると、contenteditableでの編集がバグる */
-      display: inline-block;
+  code.diff-highlight {
+    & > span {
+      display: block;
     }
-  }
-
-  .diff-code-line {
-    display: block;
   }
 
   /* 

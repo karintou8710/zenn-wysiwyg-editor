@@ -1,8 +1,6 @@
 import { mergeAttributes, Node } from "@tiptap/react";
+import { cn } from "@/lib/utils";
 import { DiffPrismPlugin } from "./diff-prism-plugin";
-
-// カスタマイズのため、TiptapのBlockquoteを直接編集する
-// https://github.com/ueberdosis/tiptap/blob/main/packages/extension-code-block/src/code-block.ts
 
 export interface CodeBlockOptions {
   languageClassPrefix: string;
@@ -83,14 +81,17 @@ export const DiffCodeBlock = Node.create<CodeBlockOptions>({
       dom.className = "code-block-wrapper-for-langname"; // 言語名表示のポジションのため
       dom.setAttribute(
         "data-language",
-        node.attrs.language || this.options.defaultLanguage,
+        node.attrs.language || this.options.defaultLanguage
       );
       const pre = document.createElement("pre");
 
       const code = document.createElement("code");
-      code.className = node.attrs.language
-        ? this.options.languageClassPrefix + node.attrs.language
-        : "";
+      code.className = cn(
+        "diff-highlight",
+        node.attrs.language
+          ? this.options.languageClassPrefix + node.attrs.language
+          : ""
+      );
       code.textContent = node.textContent;
 
       pre.appendChild(code);

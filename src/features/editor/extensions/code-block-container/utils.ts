@@ -37,10 +37,61 @@ export function parseNodes(
   });
 }
 
-export function getHighlightNodes(html: string): ChildNode[] {
+export function getHighlightNodes(html: string) {
   const pre = document.createElement("pre");
   pre.innerHTML = html;
   return Array.from(pre.childNodes);
+}
+
+/*
+  diff-highlightの構造を行単位に変換する
+  <span class="line"><span class="token keyword">const</span>;</span>
+  <span class="line"><span class="token keyword">const</span>;</span>
+*/
+export function getDiffHighlightLineNodes(html: string) {
+  const pre = document.createElement("pre");
+  pre.innerHTML = html;
+
+  // 差分ノードでは、行ブロックなため末尾の不要な行を削除する
+  const lineNodes: HTMLElement[] = [];
+  pre.childNodes.forEach((topChild, i) => {
+    if (topChild.nodeType === Node.TEXT_NODE) {
+      const text = topChild.textContent || "";
+      const lines = text.split("\n");
+      if (text.endsWith("\n") && i !== pre.childNodes.length - 1) {
+        lines.pop();
+      }
+      lines.forEach((line) => {
+        const span = document.createElement("span");
+        span.textContent = line;
+        lineNodes.push(span);
+      });
+    } else if (topChild instanceof HTMLElement) {
+      let lineNode = document.createElement("span");
+
+      topChild.childNodes.forEach((token, j) => {
+        const text = token.textContent || "";
+        const isEnd =
+          i === pre.childNodes.length - 1 &&
+          j === topChild.childNodes.length - 1;
+
+        if (text.endsWith("\n") || isEnd) {
+          if (text.endsWith("\n")) {
+            token.textContent = text.slice(0, -1);
+          }
+
+          lineNode.appendChild(token.cloneNode(true));
+          lineNode.classList.add(...topChild.className.split(" "));
+          lineNodes.push(lineNode);
+          lineNode = document.createElement("span");
+        } else {
+          lineNode.appendChild(token.cloneNode(true));
+        }
+      });
+    }
+  });
+
+  return lineNodes;
 }
 
 export function highlightCode(code: string, language: string): string {
