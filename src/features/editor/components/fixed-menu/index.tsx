@@ -31,6 +31,7 @@ export default function FixedMenu({ editor, className }: Props) {
 
     toast("マークダウンをクリップボードにコピーしました", {
       icon: <Info size={16} />,
+      position: "bottom-center",
     });
   };
 

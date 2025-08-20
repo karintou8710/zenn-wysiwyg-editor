@@ -21,6 +21,7 @@ export const FileHandler = Extension.create({
 
             toast.error("ファイル貼り付けは現在サポートされていません", {
               icon: <CircleAlert size={16} className="text-destructive" />,
+              position: "bottom-center",
             });
             return true;
           },
