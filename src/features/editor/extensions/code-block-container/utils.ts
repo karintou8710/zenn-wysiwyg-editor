@@ -87,7 +87,6 @@ export function getDiffHighlightLineNodes(html: string) {
       }
 
       let lineNode = document.createElement("span");
-      lineNode.classList.add(...topChild.classList);
 
       topChild.childNodes.forEach((token, j) => {
         const text = token.textContent || "";
@@ -101,6 +100,7 @@ export function getDiffHighlightLineNodes(html: string) {
           }
 
           lineNode.appendChild(token.cloneNode(true));
+          lineNode.classList.add(...topChild.classList);
           lineNodes.push(lineNode);
           lineNode = document.createElement("span");
         } else {

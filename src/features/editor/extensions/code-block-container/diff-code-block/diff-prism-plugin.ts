@@ -77,6 +77,7 @@ function getDecorations({
     const nodes = getDiffHighlightLineNodes(html);
 
     const blockDecorations = createDiffDecorations(nodes, preStart);
+    console.log(blockDecorations);
     decorations.push(...blockDecorations);
   });
 
