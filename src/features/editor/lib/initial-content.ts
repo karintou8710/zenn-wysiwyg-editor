@@ -89,7 +89,7 @@ console.log(greeting("World"));</code></pre></div>
 <pre><code class="diff-highlight language-diff-c"><span>--- test.c.orig 2019-04-18 21:45:33.000000000 +0900</span>
 <span>+++ test.c      2019-04-18 21:45:07.000000000 +0900</span>
 <span>@@ -1,4 +1,5 @@</span>
-<span> #include <stdio.h></span>
+<span> #include &lt;stdio.h&gt;</span>
 <span></span>
 <span> int main(void) {</span>
 <span>-  printf("Hello, World!\\n");</span>
