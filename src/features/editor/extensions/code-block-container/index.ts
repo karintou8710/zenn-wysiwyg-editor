@@ -35,7 +35,7 @@ const inputHandler = ({
   const isDiff = language.startsWith("diff-");
   const codeFileName = state.schema.nodes.codeBlockFileName.create(
     null,
-    filename ? [state.schema.text(filename)] : [],
+    filename ? [state.schema.text(filename)] : []
   );
   const codeContent = isDiff
     ? state.schema.nodes.diffCodeBlock.create({ language }, [
@@ -73,6 +73,45 @@ export const CodeBlockContainer = Node.create({
 
   renderHTML() {
     return ["div", { class: "code-block-container" }, 0];
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      "Mod-a": () => {
+        const { state, commands } = this.editor;
+        const { selection } = state;
+        const { $from } = selection;
+
+        // カーソルがコードブロック内にあるかチェック
+        let codeBlockNode = null;
+        let codeBlockPos: { from: number; to: number } | null = null;
+
+        // 親ノードを遡ってコードブロックを探す
+        for (let depth = $from.depth; depth >= 0; depth--) {
+          const node = $from.node(depth);
+          if (node.type === state.schema.nodes.codeBlock) {
+            codeBlockNode = node;
+            codeBlockPos = {
+              from: $from.start(depth),
+              to: $from.end(depth),
+            };
+            break;
+          } else if (node.type === state.schema.nodes.diffCodeBlock) {
+            codeBlockNode = node;
+            codeBlockPos = {
+              from: $from.start(depth) + 1,
+              to: $from.end(depth) - 1,
+            };
+            break;
+          }
+        }
+
+        if (!codeBlockNode || !codeBlockPos) return false;
+
+        commands.setTextSelection(codeBlockPos);
+        return true;
+      },
+    };
   },
 
   addInputRules() {
