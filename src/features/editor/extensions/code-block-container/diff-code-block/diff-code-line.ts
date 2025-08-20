@@ -1,3 +1,5 @@
+import { Fragment, Slice } from "@tiptap/pm/model";
+import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Node } from "@tiptap/react";
 
 export const DiffCodeLine = Node.create({
@@ -92,5 +94,38 @@ export const DiffCodeLine = Node.create({
         ]);
       },
     };
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      new Plugin({
+        key: new PluginKey("pasteDiffCodeLine"),
+        props: {
+          handlePaste: (view, event) => {
+            const { $from, $to } = view.state.selection;
+            const text = event.clipboardData?.getData("text/plain");
+
+            if ($from.node().type.name !== this.name) return false;
+            if (!text) return false;
+
+            const tr = view.state.tr;
+            const nodes = text
+              .split("\n")
+              .map((line) =>
+                this.type.createAndFill(null, [view.state.schema.text(line)])
+              )
+              .filter((node) => node !== null);
+
+            const fragment = Fragment.fromArray(nodes);
+            const slice = new Slice(fragment, 1, 1);
+
+            tr.replace($from.pos, $to.pos, slice);
+            view.dispatch(tr);
+
+            return true;
+          },
+        },
+      }),
+    ];
   },
 });
