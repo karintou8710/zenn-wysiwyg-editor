@@ -86,10 +86,11 @@ console.log(greeting("World"));</code></pre></div>
 </div>
 <div class="code-block-container">
 <div class="code-block-filename-container">example.ts</div>
-<pre><code class="diff-highlight language-diff-typescript"><span class="diff-code-line">const greeting = (name: string) => {
-  return \`Hello, \${name}!\`;
-};
-console.log(greeting("World"));</span></code></pre></div>
+<pre><code class="diff-highlight language-diff-typescript"><span class="diff-code-line">const greeting = (name: string) => {</span>
+<span class="diff-code-line">-  return \`Hello, \${name}!\`;</span>
+<span class="diff-code-line">+  return \`Hi, \${name}!\`;</span>
+<span class="diff-code-line">};</span>
+<span class="diff-code-line">console.log(greeting("World"));</span></code></pre></div>
 
 <h2>引用</h2>
 <div class="code-block-container">
