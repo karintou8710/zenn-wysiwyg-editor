@@ -40,7 +40,10 @@ function getDecorations({
 
   findChildren(doc, (node) => node.type.name === name).forEach((block) => {
     const from = block.pos + 1;
-    const language = block.node.attrs.language || defaultLanguage;
+    const language =
+      block.node.attrs.language !== "diff" // diffは単体では使えない
+        ? block.node.attrs.language
+        : defaultLanguage;
 
     const html = highlightCode(block.node.textContent, language);
     const nodes = getHighlightNodes(html);
