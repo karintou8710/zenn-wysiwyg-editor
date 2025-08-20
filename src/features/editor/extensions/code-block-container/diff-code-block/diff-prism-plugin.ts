@@ -104,7 +104,7 @@ export function DiffPrismPlugin({
         const oldNodeName = oldState.selection.$head.node(-1)?.type.name;
         const newNodeName = newState.selection.$head.node(-1)?.type.name;
 
-        if (oldNodeName !== name && newNodeName !== name) {
+        if (!oldNodeName || !newNodeName) {
           return decorationSet.map(transaction.mapping, transaction.doc);
         }
 
@@ -119,8 +119,30 @@ export function DiffPrismPlugin({
 
         if (
           transaction.docChanged &&
+          // Apply decorations if:
+          // selection includes named node,
           ([oldNodeName, newNodeName].includes(name) ||
-            newNodes.length !== oldNodes.length)
+            // OR transaction adds/removes named node,
+            newNodes.length !== oldNodes.length ||
+            // OR transaction has changes that completely encapsulte a node
+            // (for example, a transaction that affects the entire document).
+            // Such transactions can happen during collab syncing via y-prosemirror, for example.
+            transaction.steps.some((step) => {
+              return (
+                // @ts-expect-error
+                step.from !== undefined &&
+                // @ts-expect-error
+                step.to !== undefined &&
+                oldNodes.some((node) => {
+                  return (
+                    // @ts-expect-error
+                    node.pos >= step.from &&
+                    // @ts-expect-error
+                    node.pos + node.node.nodeSize <= step.to
+                  );
+                })
+              );
+            }))
         ) {
           return getDecorations({
             doc: transaction.doc,

@@ -6,7 +6,7 @@ import { getHighlightNodes, highlightCode, parseNodes } from "../utils";
 
 function createStandardDecorations(
   nodes: ChildNode[],
-  startPos: number,
+  startPos: number
 ): Decoration[] {
   const decorations: Decoration[] = [];
   let from = startPos;
@@ -75,21 +75,44 @@ export function PrismPlugin({
         const newNodeName = newState.selection.$head.parent.type.name;
         const oldNodes = findChildren(
           oldState.doc,
-          (node) => node.type.name === name,
+          (node) => node.type.name === name
         );
         const newNodes = findChildren(
           newState.doc,
-          (node) => node.type.name === name,
+          (node) => node.type.name === name
         );
 
         if (
           transaction.docChanged &&
+          // Apply decorations if:
+          // selection includes named node,
           ([oldNodeName, newNodeName].includes(name) ||
-            newNodes.length !== oldNodes.length)
+            // OR transaction adds/removes named node,
+            newNodes.length !== oldNodes.length ||
+            // OR transaction has changes that completely encapsulte a node
+            // (for example, a transaction that affects the entire document).
+            // Such transactions can happen during collab syncing via y-prosemirror, for example.
+            transaction.steps.some((step) => {
+              return (
+                // @ts-expect-error
+                step.from !== undefined &&
+                // @ts-expect-error
+                step.to !== undefined &&
+                oldNodes.some((node) => {
+                  return (
+                    // @ts-expect-error
+                    node.pos >= step.from &&
+                    // @ts-expect-error
+                    node.pos + node.node.nodeSize <= step.to
+                  );
+                })
+              );
+            }))
         ) {
           return getDecorations({
             doc: transaction.doc,
             name,
+
             defaultLanguage,
           });
         }
