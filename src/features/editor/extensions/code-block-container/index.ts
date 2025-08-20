@@ -53,7 +53,7 @@ const inputHandler = ({
 
       return true;
     })
-    .setTextSelection(range.from + codeFileName.nodeSize + 1) //コンテンツの開始位置にカーソルを移動
+    .setTextSelection(range.from + codeFileName.nodeSize + (isDiff ? 2 : 1)) //コンテンツの開始位置にカーソルを移動
     .run();
 };
 

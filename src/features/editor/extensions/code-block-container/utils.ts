@@ -56,17 +56,22 @@ export function getDiffHighlightLineNodes(html: string) {
   const lineNodes: HTMLElement[] = [];
   pre.childNodes.forEach((topChild, i) => {
     if (topChild.nodeType === Node.TEXT_NODE) {
+      // テキストノードは行単位に分割する
       const text = topChild.textContent || "";
       const lines = text.split("\n");
+
       if (text.endsWith("\n") && i !== pre.childNodes.length - 1) {
+        // 文末の改行以外は不要。NodeViewと位置がズレるため削除
         lines.pop();
       }
+
       lines.forEach((line) => {
         const span = document.createElement("span");
         span.textContent = line;
         lineNodes.push(span);
       });
     } else if (topChild instanceof HTMLElement) {
+      // coordの行は特殊なため、例外的に処理
       if (topChild.classList.contains("coord")) {
         lineNodes.push(topChild.cloneNode(true) as HTMLElement);
         if (topChild.nextSibling) {
@@ -74,6 +79,7 @@ export function getDiffHighlightLineNodes(html: string) {
           topChild.nextSibling.textContent =
             topChild.nextSibling.textContent!.slice(1);
           if (topChild.nextSibling.textContent === "") {
+            // 改行のみのテキストノードであれば削除
             topChild.nextSibling.remove();
           }
         }
@@ -85,11 +91,11 @@ export function getDiffHighlightLineNodes(html: string) {
 
       topChild.childNodes.forEach((token, j) => {
         const text = token.textContent || "";
-        const isEnd =
+        const isCodeEnd =
           i === pre.childNodes.length - 1 &&
           j === topChild.childNodes.length - 1;
 
-        if (text.endsWith("\n") || isEnd) {
+        if (text.endsWith("\n") || isCodeEnd) {
           if (text.endsWith("\n")) {
             token.textContent = text.slice(0, -1);
           }
