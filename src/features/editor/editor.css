@@ -23,6 +23,11 @@
     span {
       min-width: 85px;
     }
+
+    .code-block-filename {
+      /* PC版Safariで display: table をspanにつけると、contenteditableでの編集がバグる */
+      display: inline-block;
+    }
   }
 
   .code-block-wrapper-for-langname {
@@ -40,20 +45,81 @@
     }
   }
 
-  div.code-block-filename-container {
-    .code-block-filename {
-      /* PC版Safariで display: table をspanにつけると、contenteditableでの編集がバグる */
-      display: inline-block;
+  code.diff-highlight {
+    & > span {
+      display: block;
     }
   }
 
-  pre {
-    .insertedToken {
-      background-color: #00921b33;
+  /* 
+    detailsタグとcontenteditableの併用が厳しいため、divにクラスをつける。 
+    zenn-content-css からスタイルはコピーする
+  */
+  .details {
+    font-size: 0.95em;
+    margin: 1rem 0;
+    line-height: 1.7;
+
+    summary {
+      cursor: default;
+      display: flex;
+      align-items: center;
+
+      button {
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transform: rotate(90deg);
+
+        &:hover {
+          background: oklch(96.7% 0.003 264.542);
+        }
+
+        .triangle {
+          background: black;
+          height: calc(tan(60deg) * 10px / 2);
+          width: 10px;
+          clip-path: polygon(50% 0, 100% 100%, 0 100%);
+        }
+      }
+
+      div {
+        margin-left: 0.5rem;
+        flex: 1;
+      }
     }
 
-    .deletedToken {
-      background-color: #da363233;
+    &[data-open] {
+      /*  ネストされる場合があるため、直下のみ反映 */
+      & > summary {
+        border-radius: 14px 14px 0 0;
+        box-shadow: none;
+        background: #edf2f7; /* var(--c-bg-dim); */
+        border-bottom: none;
+
+        button {
+          transform: rotate(180deg);
+
+          &:hover {
+            background: oklch(92.8% 0.006 264.531);
+          }
+        }
+      }
+    }
+
+    .details-content {
+      padding: 0.5em 0.9em;
+      border: 1px solid #d6e3ed; /* var(--c-border) */
+      border-radius: 0 0 14px 14px;
+      background: #fff /* var(--c-bg-base) */;
+    }
+
+    /*  ネストされる場合があるため、直下のみ反映 */
+    &:not([data-open]) > .details-content {
+      display: none;
     }
   }
 }
@@ -81,7 +147,8 @@
   blockquote,
   aside,
   div.code-block-container,
-  span.embed-block {
+  span.embed-block,
+  div.details {
     &.ProseMirror-selectednode {
       position: relative;
       user-select: none;

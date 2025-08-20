@@ -2,18 +2,18 @@ import LakeImage from "@/assets/sikotuko.jpeg";
 
 export const INITIAL_CONTENT = `
 <p>
-    Zennの記事を<b>WYSIWYGエディタ</b>で執筆することができます。<br/>
-    ショートカット記法を使うことで、Markdownのように簡単に記事を編集可能です。
+    <span>Zennの記事を</span><b><span>WYSIWYGエディタ</span></b><span>で執筆することができます。</span><br/>
+    <span>ショートカット記法を使うことで、Markdownのように簡単に記事を編集可能です。</span>
 </p>
 <aside class="msg alert">
     <div class="msg-content">
-        <p>現在は開発途中であり、<b>アップデートにより文書構造が変更される可能性がある</b>ため、大事な文書は書き終えた後にコピーを取ることをお勧めします。</p>
+        <p><span>現在は開発途中であり、</span><b><span>アップデートにより文書構造が変更される可能性がある</span></b><span>ため、大事な文書は書き終えた後にコピーを取ることをお勧めします。</span></p>
     </div>
 </aside>
 
-<h2>段落</h2>
-<p><code>Enter</code>で新たな段落を生成します。</p>
-<p><code>Shift + Enter</code>は段落内での改行を挿入します。<br/>見た目は改行の方が余白小さいです。</p>
+<h2><span>段落</span></h2>
+<p><code><span>Enter</span></code><span>で新たな段落を生成します。</span></p>
+<p><code><span>Shift + Enter</span></code><span>は段落内での改行を挿入します。</span><br/><span>見た目は改
 <h2>見出し</h2>
 <div class="code-block-container">
 <div class="code-block-filename-container"></div>
@@ -77,7 +77,6 @@ url(貼り付け)</code>
 };
 console.log(greeting("World"));</code></pre></div>
 <h3>diff対応</h3>
-<p>スタイルが完全に適用されないバグが残っています。</p>
 <p>言語名の先頭に<code>diff-</code>をつけてください。</p>
 <div class="code-block-container">
 <div class="code-block-filename-container"></div>
@@ -87,9 +86,15 @@ console.log(greeting("World"));</code></pre></div>
 </div>
 <div class="code-block-container">
 <div class="code-block-filename-container">example.ts</div>
-<pre><code class="language-diff-typescript">console.log("Hello, World!");
-- let a = 1;
-+ let b = 2;</code></pre></div>
+<pre><code class="diff-highlight language-diff-c"><span>--- test.c.orig 2019-04-18 21:45:33.000000000 +0900</span>
+<span>+++ test.c      2019-04-18 21:45:07.000000000 +0900</span>
+<span>@@ -1,4 +1,5 @@</span>
+<span> #include <stdio.h></span>
+<span></span>
+<span> int main(void) {</span>
+<span>-  printf("Hello, World!\\n");</span>
+<span>+  puts("Hello, World!");</span>
+<span> }</span></code></pre></div>
 
 <h2>引用</h2>
 <div class="code-block-container">
@@ -136,6 +141,18 @@ console.log(greeting("World"));</code></pre></div>
 <aside class="msg alert">
     <div class="msg-content"><p>Alert</p></div>
 </aside>
+
+<h2>アコーディオン</h2>
+<div class="code-block-container">
+<div class="code-block-filename-container"></div>
+<pre>
+<code class="language-plaintext">:::details</code>
+</pre>
+</div>
+<details>
+<summary>アコーディオンのタイトル</summary>
+<div class="details-content">アコーディオンの内容</div>
+</details>
 
 <h2>インラインスタイル</h2>
 <div class="code-block-container">

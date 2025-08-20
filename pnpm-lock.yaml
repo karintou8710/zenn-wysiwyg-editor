@@ -89,9 +89,6 @@ importers:
       lucide-react:
         specifier: ^0.539.0
         version: 0.539.0(react@19.1.1)
-      menus:
-        specifier: link:@tiptap/react/menus
-        version: link:@tiptap/react/menus
       next-themes:
         specifier: ^0.4.6
         version: 0.4.6(react-dom@19.1.1(react@19.1.1))(react@19.1.1)

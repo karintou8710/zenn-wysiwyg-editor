@@ -14,6 +14,11 @@ import type { Extensions } from "@tiptap/react";
 import { CodeBlockContainer } from "./extensions/code-block-container";
 import { CodeBlock } from "./extensions/code-block-container/code-block";
 import { CodeBlockFileName } from "./extensions/code-block-container/code-block-file-name";
+import { DiffCodeBlock } from "./extensions/code-block-container/diff-code-block";
+import { DiffCodeLine } from "./extensions/code-block-container/diff-code-block/diff-code-line";
+import { Details } from "./extensions/details";
+import { DetailsContent } from "./extensions/details/content";
+import { DetailsSummary } from "./extensions/details/summary";
 import { Embed } from "./extensions/embed";
 import { EmbedPasteHandler } from "./extensions/embed/embedPasteHandler";
 import Figure from "./extensions/figure";
@@ -47,10 +52,15 @@ export const extensions: Extensions = [
   CodeBlockContainer,
   CodeBlock,
   CodeBlockFileName,
+  DiffCodeLine,
+  DiffCodeBlock,
   Figure,
   Image,
   Caption,
   Embed,
+  Details,
+  DetailsSummary,
+  DetailsContent,
 
   // === Marks ===
   Bold,

@@ -12,8 +12,28 @@ export function fromMarkdown(text: string) {
   addCodeBlockFileName(dom);
   removeEmbedDeco(dom);
   removeCodeBlockEndNewLine(dom);
+  adjustDiffCodeBlock(dom);
 
   return dom.innerHTML;
+}
+
+function adjustDiffCodeBlock(dom: HTMLElement) {
+  const diffCodes = dom.querySelectorAll("code.diff-highlight");
+
+  diffCodes.forEach((code) => {
+    code.childNodes.forEach((child) => {
+      if (child.nodeType === Node.TEXT_NODE) {
+        // トップレベルのテキストノードは行なのでspanで囲む
+        const span = document.createElement("span");
+        span.appendChild(child.cloneNode());
+
+        child.parentElement?.replaceChild(span, child);
+      } else if (child instanceof HTMLElement) {
+        // spanの装飾はDecorationでするため削除。削除しないとパースでエラーになる
+        child.innerHTML = child.textContent || "";
+      }
+    });
+  });
 }
 
 function removeMessageSymbol(dom: HTMLElement) {
@@ -38,14 +58,24 @@ function addCodeBlockFileName(dom: HTMLElement) {
   });
 }
 
-// 原因は不明だが、マークダウンペーストだと末尾に余分な改行が1つ増える
 function removeCodeBlockEndNewLine(dom: HTMLElement) {
-  const codeBlocks = dom.querySelectorAll("pre code");
+  // 原因は不明だが、マークダウンペーストだと通常なら文末、差分なら行末に余分な改行が1つ増える
+  const codeBlocks = dom.querySelectorAll("pre code:not(.diff-highlight)");
   codeBlocks.forEach((codeBlock) => {
     const code = codeBlock.textContent || "";
     if (code.endsWith("\n")) {
       codeBlock.textContent = code.slice(0, -1);
     }
+  });
+
+  const diffCodeBlocks = dom.querySelectorAll("pre code.diff-highlight");
+  diffCodeBlocks.forEach((codeBlock) => {
+    codeBlock.childNodes.forEach((child) => {
+      const code = child.textContent || "";
+      if (code.endsWith("\n")) {
+        child.textContent = code.slice(0, -1);
+      }
+    });
   });
 }
 

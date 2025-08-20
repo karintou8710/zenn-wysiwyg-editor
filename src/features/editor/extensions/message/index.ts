@@ -47,25 +47,18 @@ export const Message = Node.create({
     return [
       new InputRule({
         find: /^:::(message|alert)\s$/,
-        handler: ({ state, chain, range, match }) => {
+        handler: ({ state, commands, range, match }) => {
           const type = match[1];
-          const messageContentNode = state.schema.nodes.messageContent.create(
-            null,
-            state.schema.nodes.paragraph.create(),
-          );
+          const messageNode = this.type.createAndFill({ type: type });
 
-          const messageNode = this.type.create(
-            { type: type },
-            messageContentNode,
+          const $from = state.doc.resolve(range.from);
+          commands.insertContentAt(
+            {
+              from: $from.before(),
+              to: $from.after(),
+            },
+            messageNode,
           );
-
-          chain()
-            .deleteRange({
-              from: range.from - 1,
-              to: range.to + 1,
-            })
-            .insertContentAt(range.from - 1, messageNode)
-            .run();
         },
       }),
     ];

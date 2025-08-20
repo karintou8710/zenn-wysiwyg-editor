@@ -32,11 +32,16 @@ const inputHandler = ({
     filename = null;
   }
 
+  const isDiff = language.startsWith("diff-");
   const codeFileName = state.schema.nodes.codeBlockFileName.create(
     null,
-    filename ? [state.schema.text(filename)] : []
+    filename ? [state.schema.text(filename)] : [],
   );
-  const codeContent = state.schema.nodes.codeBlock.create({ language });
+  const codeContent = isDiff
+    ? state.schema.nodes.diffCodeBlock.create({ language }, [
+        state.schema.nodes.diffCodeLine.create(null, []),
+      ])
+    : state.schema.nodes.codeBlock.create({ language });
   const codeBlock = state.schema.nodes.codeBlockContainer.create(null, [
     codeFileName,
     codeContent,
@@ -48,14 +53,14 @@ const inputHandler = ({
 
       return true;
     })
-    .setTextSelection(range.from + codeFileName.nodeSize + 1) //コンテンツの開始位置にカーソルを移動
+    .setTextSelection(range.from + codeFileName.nodeSize + (isDiff ? 2 : 1)) //コンテンツの開始位置にカーソルを移動
     .run();
 };
 
 export const CodeBlockContainer = Node.create({
   name: "codeBlockContainer",
   group: "block",
-  content: "codeBlockFileName codeBlock",
+  content: "codeBlockFileName (codeBlock | diffCodeBlock)",
 
   parseHTML() {
     return [
@@ -68,6 +73,45 @@ export const CodeBlockContainer = Node.create({
 
   renderHTML() {
     return ["div", { class: "code-block-container" }, 0];
+  },
+
+  addKeyboardShortcuts() {
+    return {
+      "Mod-a": () => {
+        const { state, commands } = this.editor;
+        const { selection } = state;
+        const { $from } = selection;
+
+        // カーソルがコードブロック内にあるかチェック
+        let codeBlockNode = null;
+        let codeBlockPos: { from: number; to: number } | null = null;
+
+        // 親ノードを遡ってコードブロックを探す
+        for (let depth = $from.depth; depth >= 0; depth--) {
+          const node = $from.node(depth);
+          if (node.type === state.schema.nodes.codeBlock) {
+            codeBlockNode = node;
+            codeBlockPos = {
+              from: $from.start(depth),
+              to: $from.end(depth),
+            };
+            break;
+          } else if (node.type === state.schema.nodes.diffCodeBlock) {
+            codeBlockNode = node;
+            codeBlockPos = {
+              from: $from.start(depth) + 1,
+              to: $from.end(depth) - 1,
+            };
+            break;
+          }
+        }
+
+        if (!codeBlockNode || !codeBlockPos) return false;
+
+        commands.setTextSelection(codeBlockPos);
+        return true;
+      },
+    };
   },
 
   addInputRules() {
