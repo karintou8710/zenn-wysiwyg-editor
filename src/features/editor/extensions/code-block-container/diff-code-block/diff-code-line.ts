@@ -4,6 +4,7 @@ export const DiffCodeLine = Node.create({
   name: "diffCodeLine",
   content: "text*",
   marks: "",
+  code: true,
 
   parseHTML() {
     return [
@@ -49,38 +50,46 @@ export const DiffCodeLine = Node.create({
 
       // exit node on triple enter
       Enter: ({ editor }) => {
-        const { state } = editor;
-        const { selection } = state;
-        const { $from, empty } = selection;
+        return editor.commands.first(({ chain }) => [
+          () => {
+            const { state } = editor;
+            const { selection } = state;
+            const { $from, empty } = selection;
 
-        if (!empty || $from.parent.type !== this.type) {
-          return false;
-        }
+            if (!empty || $from.parent.type !== this.type) {
+              return false;
+            }
 
-        const codeBlock = $from.node(-1);
-        const isAtLineEnd = $from.parentOffset === $from.parent.nodeSize - 2;
-        const isAtRowEnd = $from.index(-1) === codeBlock.childCount - 1;
-        const endsWithDoubleNewline =
-          codeBlock.childCount >= 2 &&
-          codeBlock.child(codeBlock.childCount - 1).childCount === 0 &&
-          codeBlock.child(codeBlock.childCount - 2).childCount === 0;
+            const codeBlock = $from.node(-1);
+            const isAtLineEnd =
+              $from.parentOffset === $from.parent.nodeSize - 2;
+            const isAtRowEnd = $from.index(-1) === codeBlock.childCount - 1;
+            const endsWithDoubleNewline =
+              codeBlock.childCount >= 2 &&
+              codeBlock.child(codeBlock.childCount - 1).childCount === 0 &&
+              codeBlock.child(codeBlock.childCount - 2).childCount === 0;
 
-        if (!isAtLineEnd || !isAtRowEnd || !endsWithDoubleNewline) {
-          return false;
-        }
+            if (!isAtLineEnd || !isAtRowEnd || !endsWithDoubleNewline) {
+              return false;
+            }
 
-        return editor
-          .chain()
-          .insertContentAt($from.pos + 3, {
-            type: "paragraph",
-          })
-          .setTextSelection($from.pos + 3)
-          .command(({ tr }) => {
-            tr.delete($from.pos - 3, $from.pos);
+            return chain()
+              .insertContentAt($from.pos + 3, {
+                type: "paragraph",
+              })
+              .setTextSelection($from.pos + 3)
+              .command(({ tr }) => {
+                tr.delete($from.pos - 3, $from.pos);
 
-            return true;
-          })
-          .run();
+                return true;
+              })
+              .run();
+          },
+          ({ commands }) => {
+            // コードブロックだと<br/>が挿入されるので、先に改行で分割する
+            return commands.splitBlock();
+          },
+        ]);
       },
     };
   },

@@ -67,7 +67,21 @@ export function getDiffHighlightLineNodes(html: string) {
         lineNodes.push(span);
       });
     } else if (topChild instanceof HTMLElement) {
+      if (topChild.classList.contains("coord")) {
+        lineNodes.push(topChild.cloneNode(true) as HTMLElement);
+        if (topChild.nextSibling) {
+          // coordの次のノードは改行TextNodeなので、先頭の改行を削除
+          topChild.nextSibling.textContent =
+            topChild.nextSibling.textContent!.slice(1);
+          if (topChild.nextSibling.textContent === "") {
+            topChild.nextSibling.remove();
+          }
+        }
+        return;
+      }
+
       let lineNode = document.createElement("span");
+      lineNode.classList.add(...topChild.classList);
 
       topChild.childNodes.forEach((token, j) => {
         const text = token.textContent || "";
@@ -81,7 +95,6 @@ export function getDiffHighlightLineNodes(html: string) {
           }
 
           lineNode.appendChild(token.cloneNode(true));
-          lineNode.classList.add(...topChild.className.split(" "));
           lineNodes.push(lineNode);
           lineNode = document.createElement("span");
         } else {

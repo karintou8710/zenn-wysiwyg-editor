@@ -21,6 +21,7 @@ import {
   - 改行コードが各々のトップレベルノードの末尾に含まれている。繋がったノードは途中に改行コードが含まれる。
     - この末尾の改行コードは基本的に意味ない
     - 次の行が最終行かつ空行の時のみ、意味を持つ（）
+    - coordの場合は改行コードが含まれず、次の行にTextNode「\n」が続く
 */
 
 function createDiffDecorations(
@@ -34,7 +35,6 @@ function createDiffDecorations(
     let from = to;
     const lineStart = to;
 
-    // 一行のコードブロック
     const parsedNodes = parseNodes(Array.from(lineNode.childNodes));
     parsedNodes.forEach((node) => {
       to = from + node.text.length;
@@ -48,7 +48,6 @@ function createDiffDecorations(
 
       from = to;
     });
-
     decorations.push(
       Decoration.node(lineStart - 1, to + 1, { class: lineNode.className })
     );
