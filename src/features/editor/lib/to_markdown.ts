@@ -71,7 +71,7 @@ const markdownSerializer = new MarkdownSerializer(
           (isDiff ? "diff " : "") +
           language +
           (fileName ? `:${fileName}` : "") +
-          "\n"
+          "\n",
       );
       const text = isDiff
         ? getDiffCode(preContentNode)
@@ -172,7 +172,7 @@ const markdownSerializer = new MarkdownSerializer(
       mixable: true,
       expelEnclosingWhitespace: true,
     },
-  }
+  },
 );
 
 function isPlainURL(link: Mark, parent: Node, index: number) {

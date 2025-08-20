@@ -26,7 +26,7 @@ import {
 
 function createDiffDecorations(
   lineNodes: HTMLElement[],
-  preStart: number
+  preStart: number,
 ): Decoration[] {
   const decorations: Decoration[] = [];
 
@@ -49,7 +49,7 @@ function createDiffDecorations(
       from = to;
     });
     decorations.push(
-      Decoration.node(lineStart - 1, to + 1, { class: lineNode.className })
+      Decoration.node(lineStart - 1, to + 1, { class: lineNode.className }),
     );
 
     to += 2; // lineのspanを跨ぐ
@@ -77,7 +77,7 @@ function getDecorations({
     const nodes = getDiffHighlightLineNodes(html);
 
     const blockDecorations = createDiffDecorations(nodes, preStart);
-    console.log(blockDecorations);
+
     decorations.push(...blockDecorations);
   });
 
@@ -111,11 +111,11 @@ export function DiffPrismPlugin({
 
         const oldNodes = findChildren(
           oldState.doc,
-          (node) => node.type.name === name
+          (node) => node.type.name === name,
         );
         const newNodes = findChildren(
           newState.doc,
-          (node) => node.type.name === name
+          (node) => node.type.name === name,
         );
 
         if (

@@ -4,7 +4,7 @@ import Prism from "prismjs";
 // NOTE: nodesが<span>とtextノードのみであり、ネストなしの必要がある
 export function parseNodes(
   nodes: Node[],
-  className: string[] = []
+  className: string[] = [],
 ): { text: string; classes: string[] }[] {
   return nodes.flatMap((node) => {
     const classes = [...className];
@@ -121,7 +121,7 @@ export function highlightCode(code: string, language: string): string {
     return Prism.highlight(code, Prism.languages[targetLanguage], language);
   } catch (err: any) {
     console.warn(
-      `Language "${language}" not supported, falling back to plaintext`
+      `Language "${language}" not supported, falling back to plaintext`,
     );
     return Prism.highlight(code, Prism.languages.plaintext, "plaintext");
   }

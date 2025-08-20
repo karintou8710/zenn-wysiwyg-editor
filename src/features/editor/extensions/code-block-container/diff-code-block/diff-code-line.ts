@@ -40,7 +40,7 @@ export const DiffCodeLine = Node.create({
             tr.replaceRangeWith(
               $from.before(-2),
               $from.after(-2),
-              this.editor.state.schema.nodes.paragraph.create()
+              this.editor.state.schema.nodes.paragraph.create(),
             );
 
             return true;
@@ -115,8 +115,8 @@ export const DiffCodeLine = Node.create({
               .map((line) =>
                 this.type.createAndFill(
                   null,
-                  line ? [view.state.schema.text(line)] : []
-                )
+                  line ? [view.state.schema.text(line)] : [],
+                ),
               )
               .filter((node) => node !== null);
 

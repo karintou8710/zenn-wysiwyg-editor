@@ -52,7 +52,7 @@ function addCodeBlockFileName(dom: HTMLElement) {
       fileNameDom.className = "code-block-filename-container";
       codeBlockContainer.insertBefore(
         fileNameDom,
-        codeBlockContainer.firstChild
+        codeBlockContainer.firstChild,
       );
     }
   });
@@ -82,7 +82,7 @@ function removeCodeBlockEndNewLine(dom: HTMLElement) {
 // URL単体の埋め込み要素は、不要なリンクとパラグラフを持つので削除する
 function removeEmbedDeco(dom: HTMLElement) {
   const embeds = dom.querySelectorAll(
-    ".zenn-embedded-github, .zenn-embedded-tweet, .zenn-embedded-card, .embed-youtube"
+    ".zenn-embedded-github, .zenn-embedded-tweet, .zenn-embedded-card, .embed-youtube",
   );
   embeds.forEach((embed) => {
     // 不要なリンクを削除

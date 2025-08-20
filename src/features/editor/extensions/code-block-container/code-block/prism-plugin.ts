@@ -6,7 +6,7 @@ import { getHighlightNodes, highlightCode, parseNodes } from "../utils";
 
 function createStandardDecorations(
   nodes: ChildNode[],
-  startPos: number
+  startPos: number,
 ): Decoration[] {
   const decorations: Decoration[] = [];
   let from = startPos;
@@ -75,11 +75,11 @@ export function PrismPlugin({
         const newNodeName = newState.selection.$head.parent.type.name;
         const oldNodes = findChildren(
           oldState.doc,
-          (node) => node.type.name === name
+          (node) => node.type.name === name,
         );
         const newNodes = findChildren(
           newState.doc,
-          (node) => node.type.name === name
+          (node) => node.type.name === name,
         );
 
         if (
