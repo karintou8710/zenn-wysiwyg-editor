@@ -121,18 +121,12 @@ export function highlightCode(code: string, language: string): string {
   }
 }
 
-export function getDiffCode(codeNode: ProsemirrorNode) {
-  let code = "";
-  let isFirst = true;
+export function getDiffCode(codeNode: ProsemirrorNode): string {
+  const lines: string[] = [];
 
-  codeNode.children.forEach((child) => {
-    if (!isFirst) {
-      code += "\n";
-    } else {
-      isFirst = false;
-    }
-
-    code += child.textContent;
+  codeNode.forEach((child) => {
+    lines.push(child.textContent || "");
   });
-  return code;
+
+  return lines.join("\n");
 }
