@@ -22,41 +22,53 @@ function getCode(codeNode: ProsemirrorNode) {
 
 function createDiffDecorations(
   nodes: ChildNode[],
-  startPos: number,
+  startPos: number
 ): Decoration[] {
   const decorations: Decoration[] = [];
 
   let to = startPos + 1;
   Array.from(nodes).forEach((lineNode) => {
-    const lineStart = to;
     let from = to;
 
     if (lineNode.nodeType === Node.TEXT_NODE) {
+      // 特定のトークンに認識されなかったノード
       const text = lineNode.textContent!.replace(/\n$/, "");
       const lineBreakCount = (text.match(/\n/g) || []).length;
       to = from + text.length + lineBreakCount + 2;
     } else if (lineNode instanceof HTMLElement) {
-      parseNodes(Array.from(lineNode.childNodes)).forEach((node) => {
+      // 一行のコードブロック
+      const linePosList: { from: number; to: number }[] = [];
+      let lineStartInner = from; // insert deleteは複数行つながる可能性があるので、行の開始位置を記録
+
+      const parsedNodes = parseNodes(Array.from(lineNode.childNodes));
+      parsedNodes.forEach((node, i) => {
+        const hasLineBreak = node.text.endsWith("\n");
         const text = node.text.replace(/\n$/, "");
         to = from + text.length;
 
         if (node.classes.length) {
+          console.log("node.classes", node.classes);
           const decoration = Decoration.inline(from, to, {
             class: node.classes.join(" "),
           });
           decorations.push(decoration);
         }
 
+        // 行末 (文末は改行がなくてもlinePosListに追加する)
+        if (hasLineBreak || i === parsedNodes.length - 1) {
+          linePosList.push({ from: lineStartInner - 1, to: to + 1 });
+          lineStartInner = to + 2;
+          to += 2;
+        }
+
         from = to;
       });
 
-      decorations.push(
-        Decoration.node(lineStart - 1, to + 1, {
-          class: lineNode.className,
-        }),
-      );
-
-      to += 2;
+      linePosList.forEach(({ from, to }, i) => {
+        decorations.push(
+          Decoration.node(from, to, { class: lineNode.className })
+        );
+      });
     }
   });
 
@@ -82,6 +94,8 @@ function getDecorations({
     const nodes = getHighlightNodes(html);
 
     const blockDecorations = createDiffDecorations(nodes, from);
+
+    console.log(blockDecorations);
 
     decorations.push(...blockDecorations);
   });
@@ -116,11 +130,11 @@ export function DiffPrismPlugin({
 
         const oldNodes = findChildren(
           oldState.doc,
-          (node) => node.type.name === name,
+          (node) => node.type.name === name
         );
         const newNodes = findChildren(
           newState.doc,
-          (node) => node.type.name === name,
+          (node) => node.type.name === name
         );
 
         if (

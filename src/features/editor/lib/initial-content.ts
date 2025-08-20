@@ -77,7 +77,6 @@ url(貼り付け)</code>
 };
 console.log(greeting("World"));</code></pre></div>
 <h3>diff対応</h3>
-<p>スタイルが完全に適用されないバグが残っています。</p>
 <p>言語名の先頭に<code>diff-</code>をつけてください。</p>
 <div class="code-block-container">
 <div class="code-block-filename-container"></div>
@@ -87,9 +86,10 @@ console.log(greeting("World"));</code></pre></div>
 </div>
 <div class="code-block-container">
 <div class="code-block-filename-container">example.ts</div>
-<pre><code class="language-diff-typescript">console.log("Hello, World!");
-- let a = 1;
-+ let b = 2;</code></pre></div>
+<pre><code class="diff-highlight language-diff-typescript"><span class="diff-code-line">const greeting = (name: string) => {
+  return \`Hello, \${name}!\`;
+};
+console.log(greeting("World"));</span></code></pre></div>
 
 <h2>引用</h2>
 <div class="code-block-container">
