@@ -113,7 +113,10 @@ export const DiffCodeLine = Node.create({
             const nodes = text
               .split("\n")
               .map((line) =>
-                this.type.createAndFill(null, [view.state.schema.text(line)])
+                this.type.createAndFill(
+                  null,
+                  line ? [view.state.schema.text(line)] : []
+                )
               )
               .filter((node) => node !== null);
 
