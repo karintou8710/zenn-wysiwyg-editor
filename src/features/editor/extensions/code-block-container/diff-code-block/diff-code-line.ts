@@ -88,6 +88,14 @@ export const DiffCodeLine = Node.create({
               .run();
           },
           ({ commands }) => {
+            const { state } = editor;
+            const { selection } = state;
+            const { $from } = selection;
+
+            if ($from.parent.type !== this.type) {
+              return false;
+            }
+
             // コードブロックだと<br/>が挿入されるので、先に改行で分割する
             return commands.splitBlock();
           },
