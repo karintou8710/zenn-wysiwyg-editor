@@ -2,23 +2,12 @@ import type { Node as ProsemirrorNode } from "@tiptap/pm/model";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Decoration, DecorationSet } from "@tiptap/pm/view";
 import { findChildren } from "@tiptap/react";
-import { getHighlightNodes, highlightCode, parseNodes } from "../utils";
-
-function getCode(codeNode: ProsemirrorNode) {
-  let code = "";
-  let isFirst = true;
-
-  codeNode.children.forEach((child) => {
-    if (!isFirst) {
-      code += "\n";
-    } else {
-      isFirst = false;
-    }
-
-    code += child.textContent;
-  });
-  return code;
-}
+import {
+  getDiffCode,
+  getHighlightNodes,
+  highlightCode,
+  parseNodes,
+} from "../utils";
 
 function createDiffDecorations(
   nodes: ChildNode[],
@@ -47,7 +36,6 @@ function createDiffDecorations(
         to = from + text.length;
 
         if (node.classes.length) {
-          console.log("node.classes", node.classes);
           const decoration = Decoration.inline(from, to, {
             class: node.classes.join(" "),
           });
@@ -90,12 +78,10 @@ function getDecorations({
     const from = preNode.pos + 1;
     const language = preNode.node.attrs.language || defaultLanguage;
 
-    const html = highlightCode(getCode(preNode.node), language);
+    const html = highlightCode(getDiffCode(preNode.node), language);
     const nodes = getHighlightNodes(html);
 
     const blockDecorations = createDiffDecorations(nodes, from);
-
-    console.log(blockDecorations);
 
     decorations.push(...blockDecorations);
   });

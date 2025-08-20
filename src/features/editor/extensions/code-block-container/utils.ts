@@ -1,3 +1,4 @@
+import type { Node as ProsemirrorNode } from "@tiptap/pm/model";
 import Prism from "prismjs";
 
 // NOTE: nodesが<span>とtextノードのみであり、ネストなしの必要がある
@@ -39,7 +40,6 @@ export function parseNodes(
 export function getHighlightNodes(html: string): ChildNode[] {
   const pre = document.createElement("pre");
   pre.innerHTML = html;
-  console.log(html);
   return Array.from(pre.childNodes);
 }
 
@@ -55,4 +55,20 @@ export function highlightCode(code: string, language: string): string {
     );
     return Prism.highlight(code, Prism.languages.plaintext, "plaintext");
   }
+}
+
+export function getDiffCode(codeNode: ProsemirrorNode) {
+  let code = "";
+  let isFirst = true;
+
+  codeNode.children.forEach((child) => {
+    if (!isFirst) {
+      code += "\n";
+    } else {
+      isFirst = false;
+    }
+
+    code += child.textContent;
+  });
+  return code;
 }

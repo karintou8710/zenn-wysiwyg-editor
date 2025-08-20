@@ -1,5 +1,6 @@
 import type { Mark, Node } from "@tiptap/pm/model";
 import { MarkdownSerializer } from "prosemirror-markdown";
+import { getDiffCode } from "../extensions/code-block-container/utils";
 import type { EmbedType } from "../types";
 import { extractYoutubeVideoParameters } from "./url";
 
@@ -57,22 +58,26 @@ const markdownSerializer = new MarkdownSerializer(
     },
     codeBlockContainer(state, node) {
       const fileName = node.firstChild!.textContent;
-      const contentNode = node.lastChild!;
+      const preContentNode = node.lastChild!; // 通常 or 差分ブロック
 
-      const backticks = contentNode.textContent.match(/`{3,}/gm);
+      const backticks = preContentNode.textContent.match(/`{3,}/gm);
       const fence = backticks ? backticks.sort().slice(-1)[0] + "`" : "```";
-      const isDiff = contentNode.attrs.language?.startsWith("diff-");
+      const isDiff = preContentNode.attrs.language?.startsWith("diff-");
       const language =
-        contentNode.attrs.language?.replace("diff-", "") || "plaintext";
+        preContentNode.attrs.language?.replace("diff-", "") || "plaintext";
 
       state.write(
         fence +
           (isDiff ? "diff " : "") +
           language +
           (fileName ? `:${fileName}` : "") +
-          "\n",
+          "\n"
       );
-      state.text(contentNode!.textContent, false);
+      const text = isDiff
+        ? getDiffCode(preContentNode)
+        : preContentNode.textContent || "";
+
+      state.text(text, false);
       state.write("\n");
       state.write(fence);
       state.closeBlock(node);
@@ -167,7 +172,7 @@ const markdownSerializer = new MarkdownSerializer(
       mixable: true,
       expelEnclosingWhitespace: true,
     },
-  },
+  }
 );
 
 function isPlainURL(link: Mark, parent: Node, index: number) {
