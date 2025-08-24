@@ -56,7 +56,7 @@ Zenn 独自ノード
 - [x] CodeSandbox
 - [x] StackBlitz
 - [x] SpeakerDeck
-- [ ] Figma
+- [x] Figma
 - [ ] Docswell
 - [ ] SlideShare
 
