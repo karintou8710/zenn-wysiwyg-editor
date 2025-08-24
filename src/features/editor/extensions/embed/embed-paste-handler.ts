@@ -2,6 +2,7 @@ import type { Node } from "@tiptap/pm/model";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import type { EditorView } from "@tiptap/pm/view";
 import { Extension } from "@tiptap/react";
+import { showToast } from "@/lib/toast";
 import { getEmbedTypeFromUrl } from "../../lib/embed";
 import { extractSpeakerDeckEmbedParams } from "../../lib/url";
 
@@ -63,12 +64,31 @@ function createSpeakerDeckNode(view: EditorView, url: string) {
 
   const tempId = `temp-${Math.random().toString(36)}`;
 
+  const deleteTempNode = () => {
+    view.state.doc.descendants((n, pos) => {
+      if (n.type.name === "speakerDeckEmbed" && n.attrs.tempId === tempId) {
+        view.dispatch(
+          view.state.tr
+            .delete(pos, pos + n.nodeSize)
+            .setMeta("addToHistory", false),
+        );
+        return true;
+      }
+    });
+  };
+
   fetch(
     `http://localhost:8787/api/speakerdeck/embed?url=${encodeURIComponent(url)}`,
   )
     .then((response) => {
-      const data = response.json();
-      return data;
+      if (!response.ok) {
+        if (response.status === 400) {
+          throw "URLの形式が異なります。";
+        } else {
+          throw "サーバーエラーが発生しました。時間をおいてから再度お試しください。";
+        }
+      }
+      return response.json();
     })
     .then((data) => {
       const embedId = data.embedId;
@@ -86,6 +106,18 @@ function createSpeakerDeckNode(view: EditorView, url: string) {
           return true;
         }
       });
+    })
+    .catch((error) => {
+      deleteTempNode();
+      if (typeof error === "string") {
+        showToast(error, "error");
+      } else {
+        console.error("Failed to fetch SpeakerDeck embed:", error);
+        showToast(
+          "ネットワークエラーが発生しました。時間をおいてから再度お試しください。",
+          "error",
+        );
+      }
     });
 
   return view.state.schema.nodes.speakerDeckEmbed.create({
