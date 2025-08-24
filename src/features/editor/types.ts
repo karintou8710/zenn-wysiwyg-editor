@@ -21,3 +21,8 @@ export type EmbedServerType = Extract<
   EmbedType,
   "tweet" | "card" | "mermaid" | "github" | "gist"
 >;
+
+export type SpeakerDeckEmbedResponse = {
+  embedId: string;
+  slideIndex?: number | null;
+};

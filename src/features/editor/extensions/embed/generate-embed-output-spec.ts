@@ -3,7 +3,10 @@ import type { EmbedType } from "zenn-markdown-html/lib/embed";
 import { EMBED_ORIGIN } from "../../lib/constants";
 import { sanitizeEmbedToken } from "../../lib/embed";
 import { escapeHtml } from "../../lib/escape";
-import { extractYoutubeVideoParameters } from "../../lib/url";
+import {
+  extractDocswellEmbedUrl,
+  extractYoutubeVideoParameters,
+} from "../../lib/url";
 
 export function generateEmbedOutputSpec(
   type: EmbedType,
@@ -26,6 +29,10 @@ export function generateEmbedOutputSpec(
     return generateEmbedCodepenOutputSpec(url);
   } else if (type === "youtube") {
     return generateEmbedYoutubeOutputSpec(url);
+  } else if (type === "figma") {
+    return generateEmbedFigmaOutputSpec(url);
+  } else if (type === "docswell") {
+    return generateEmbedDocswellOutputSpec(url);
   }
 
   throw new Error(`Unsupported embed type: ${type}`);
@@ -163,6 +170,52 @@ function generateEmbedYoutubeOutputSpec(url: string): DOMOutputSpec {
           "accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
         allowfullscreen: true,
         loading: "lazy",
+      },
+    ],
+  ];
+}
+
+function generateEmbedFigmaOutputSpec(url: string): DOMOutputSpec {
+  return [
+    "span",
+    {
+      class: "embed-block embed-figma",
+    },
+    [
+      "iframe",
+      {
+        src: url, // node.attrs.urlの段階でembed用に変換済み
+        frameborder: "no",
+        scrolling: "no",
+        loading: "lazy",
+        style: "aspect-ratio: 16/9",
+        width: "100%",
+        allowfullscreen: true,
+      },
+    ],
+  ];
+}
+
+function generateEmbedDocswellOutputSpec(url: string): DOMOutputSpec {
+  const slideUrl = extractDocswellEmbedUrl(url);
+  if (!slideUrl) {
+    throw new Error(`Invalid Docswell URL: ${url}`);
+  }
+
+  return [
+    "span",
+    {
+      class: "embed-block embed-docswell",
+    },
+    [
+      "iframe",
+      {
+        src: slideUrl,
+        allowfullscreen: true,
+        class: "docswell-iframe",
+        width: "100%",
+        style:
+          "border: 1px solid #ccc; display: block; margin: 0px auto; padding: 0px; aspect-ratio: 16/9",
       },
     ],
   ];

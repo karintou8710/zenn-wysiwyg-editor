@@ -1,9 +1,12 @@
 import {
   isCodepenUrl,
   isCodesandboxUrl,
+  isDocswellUrl,
+  isFigmaUrl,
   isGistUrl,
   isGithubUrl,
   isJsfiddleUrl,
+  isSpeakerDeckUrl,
   isStackblitzUrl,
   isTweetUrl,
   isValidHttpUrl,
@@ -37,6 +40,10 @@ export function getEmbedTypeFromElement(
     return "jsfiddle";
   } else if (element.classList.contains("embed-youtube")) {
     return "youtube";
+  } else if (element.classList.contains("embed-figma")) {
+    return "figma";
+  } else if (element.classList.contains("embed-docswell")) {
+    return "docswell";
   }
 
   return null;
@@ -59,7 +66,14 @@ export function getEmbedTypeFromUrl(url: string): EmbedType | null {
     return "stackblitz";
   } else if (isYoutubeUrl(url)) {
     return "youtube";
+  } else if (isSpeakerDeckUrl(url)) {
+    return "speakerdeck";
+  } else if (isFigmaUrl(url)) {
+    return "figma";
+  } else if (isDocswellUrl(url)) {
+    return "docswell";
   } else if (isValidHttpUrl(url)) {
+    // 一番最後にする
     return "card";
   }
 

@@ -55,10 +55,10 @@ Zenn 独自ノード
 - [x] JSFiddle
 - [x] CodeSandbox
 - [x] StackBlitz
-- [ ] Figma
-- [ ] Docswell
-- [ ] SlideShare
-- [ ] SpeakerDeck
+- [x] SpeakerDeck
+- [x] Figma
+- [x] Docswell
+- [ ] SlideShare ()
 
 機能
 
