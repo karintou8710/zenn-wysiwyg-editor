@@ -183,17 +183,17 @@ export function isFigmaUrl(url: string): boolean {
   );
 }
 
-export function isSpeakerDeckSlideUrl(url: string): boolean {
-  return /^https:\/\/speakerdeck\.com\/[-\w]+\/[-\w]+$/.test(url);
+// スライドと埋め込みURLを含む
+export function isSpeakerDeckUrl(url: string): boolean {
+  return /^https:\/\/speakerdeck\.com\//.test(url);
 }
 
 export function extractSpeakerDeckEmbedParams(
   url: string,
 ): { embedId: string; slideIndex: string | null } | null {
-  const match =
-    /^https:\/\/speakerdeck\.com\/player\/([a-zA-Z0-9_-]+)[a-zA-Z0-9\-_/.@?&=%,+]*$/.exec(
-      url,
-    );
+  const match = /^https:\/\/speakerdeck\.com\/player\/([a-zA-Z0-9_-]+)/.exec(
+    url,
+  );
   if (!match) {
     return null;
   }

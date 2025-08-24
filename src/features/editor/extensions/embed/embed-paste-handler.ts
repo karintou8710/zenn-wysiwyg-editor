@@ -1,7 +1,9 @@
+import type { Node } from "@tiptap/pm/model";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
-
+import type { EditorView } from "@tiptap/pm/view";
 import { Extension } from "@tiptap/react";
 import { getEmbedTypeFromUrl } from "../../lib/embed";
+import { extractSpeakerDeckEmbedParams } from "../../lib/url";
 
 export const EmbedPasteHandler = Extension.create({
   name: "embedPasteHandler",
@@ -34,16 +36,46 @@ function pasteHandlerPlugin(): Plugin {
         const type = getEmbedTypeFromUrl(textContent);
         if (!type) return false;
 
-        const node = state.schema.nodes.embed.create({
-          url: textContent,
-          type,
-        });
+        let node: Node;
+        if (type === "speakerdeck") {
+          node = createSpeakerDeckNode(view, textContent);
+        } else {
+          node = state.schema.nodes.embed.create({
+            url: textContent,
+            type,
+          });
+        }
 
         const { tr } = state;
-        tr.replaceRangeWith(selection.from, selection.to, node);
+        tr.replaceSelectionWith(node);
         view.dispatch(tr);
         return true;
       },
     },
   });
+}
+
+function createSpeakerDeckNode(view: EditorView, url: string) {
+  const params = extractSpeakerDeckEmbedParams(url);
+  if (params) {
+    return view.state.schema.nodes.speakerDeckEmbed.create(params);
+  }
+
+  fetch(
+    `http://localhost:8787/api/speakerdeck/embed?url=${encodeURIComponent(url)}`,
+  )
+    .then((response) => {
+      const data = response.json();
+      return data;
+    })
+    .then((data) => {
+      const embedId = data.embedId;
+      const node = view.state.schema.nodes.speakerDeckEmbed.create({
+        embedId,
+        loading: false,
+      });
+      view.dispatch(view.state.tr.replaceSelectionWith(node));
+    });
+
+  return view.state.schema.nodes.speakerDeckEmbed.create({ loading: true });
 }

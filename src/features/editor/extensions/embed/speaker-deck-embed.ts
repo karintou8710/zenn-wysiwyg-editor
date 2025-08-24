@@ -1,9 +1,10 @@
-import { Node } from "@tiptap/react";
+import { Node, ReactRenderer } from "@tiptap/react";
+import LoadingCard from "../../components/loading-card";
 import { escapeHtml } from "../../lib/escape";
 import { extractSpeakerDeckEmbedParams } from "../../lib/url";
 
 export const SpeakerDeckEmbed = Node.create({
-  name: "spckedDeckEmbed",
+  name: "speakerDeckEmbed",
   group: "block",
   atom: true,
   marks: "",
@@ -16,6 +17,10 @@ export const SpeakerDeckEmbed = Node.create({
       },
       slideIndex: {
         default: null,
+        rendered: false,
+      },
+      loading: {
+        default: false,
         rendered: false,
       },
     };
@@ -35,7 +40,6 @@ export const SpeakerDeckEmbed = Node.create({
           const decodedUrl = decodeURIComponent(src);
 
           const embedParams = extractSpeakerDeckEmbedParams(decodedUrl);
-          console.log(embedParams);
           if (!embedParams) return false;
 
           return {
@@ -64,5 +68,33 @@ export const SpeakerDeckEmbed = Node.create({
         },
       ],
     ];
+  },
+
+  addNodeView() {
+    return ({ node }) => {
+      const span = document.createElement("span");
+      span.setAttribute("class", "embed-block embed-speakerdeck");
+
+      if (node.attrs.loading) {
+        const component = new ReactRenderer(LoadingCard, {
+          editor: this.editor,
+        });
+        return { dom: component.element };
+      }
+
+      const iframe = document.createElement("iframe");
+      iframe.setAttribute(
+        "src",
+        `https://speakerdeck.com/player/${escapeHtml(node.attrs.embedId)}?slide=${escapeHtml(node.attrs.slideIndex || "1")}`,
+      );
+      iframe.setAttribute("scrolling", "no");
+      iframe.setAttribute("allowfullscreen", "true");
+      iframe.setAttribute("loading", "lazy");
+      iframe.setAttribute("allow", "encrypted-media");
+
+      span.appendChild(iframe);
+
+      return { dom: span };
+    };
   },
 });

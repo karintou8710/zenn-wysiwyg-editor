@@ -4,6 +4,7 @@ import {
   isGistUrl,
   isGithubUrl,
   isJsfiddleUrl,
+  isSpeakerDeckUrl,
   isStackblitzUrl,
   isTweetUrl,
   isValidHttpUrl,
@@ -59,7 +60,10 @@ export function getEmbedTypeFromUrl(url: string): EmbedType | null {
     return "stackblitz";
   } else if (isYoutubeUrl(url)) {
     return "youtube";
+  } else if (isSpeakerDeckUrl(url)) {
+    return "speakerdeck";
   } else if (isValidHttpUrl(url)) {
+    // 一番最後にする
     return "card";
   }
 
