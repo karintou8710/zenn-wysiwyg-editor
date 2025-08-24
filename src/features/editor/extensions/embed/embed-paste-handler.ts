@@ -3,6 +3,7 @@ import { Plugin, PluginKey } from "@tiptap/pm/state";
 import type { EditorView } from "@tiptap/pm/view";
 import { Extension } from "@tiptap/react";
 import { showToast } from "@/lib/toast";
+import { EMBED_BACKEND_ORIGIN } from "../../lib/constants";
 import { getEmbedTypeFromUrl } from "../../lib/embed";
 import { extractSpeakerDeckEmbedParams } from "../../lib/url";
 
@@ -78,7 +79,7 @@ function createSpeakerDeckNode(view: EditorView, url: string) {
   };
 
   fetch(
-    `http://localhost:8787/api/speakerdeck/embed?url=${encodeURIComponent(url)}`,
+    `${EMBED_BACKEND_ORIGIN}/api/speakerdeck/embed?url=${encodeURIComponent(url)}`,
   )
     .then((response) => {
       if (!response.ok) {
