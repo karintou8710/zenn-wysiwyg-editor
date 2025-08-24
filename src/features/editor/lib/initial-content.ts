@@ -220,7 +220,7 @@ console.log(greeting("World"));</code></pre></div>
 
 <h3>Figma</h3>
 <span class="embed-block embed-figma">
-    <iframe src="https://www.figma.com/proto/ENYwxbHMyJX2RMx4FQMgNf/Sample?node-id=0-1&t=PKJf9rxcuorXkzdr-1"></iframe>
+    <iframe src="https://www.figma.com/embed?embed_host=zenn&url=https://www.figma.com/proto/ENYwxbHMyJX2RMx4FQMgNf/Sample?node-id=0-1&t=PKJf9rxcuorXkzdr-1"></iframe>
 </span>
 
 <h3>SpeakerDeck</h3>

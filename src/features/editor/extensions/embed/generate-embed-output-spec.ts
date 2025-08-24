@@ -179,7 +179,7 @@ function generateEmbedFigmaOutputSpec(url: string): DOMOutputSpec {
     [
       "iframe",
       {
-        src: `https://www.figma.com/embed?embed_host=zenn&url=${sanitizeEmbedToken(url)}`,
+        src: url, // node.attrs.urlの段階でembed用に変換済み
         frameborder: "no",
         scrolling: "no",
         loading: "lazy",

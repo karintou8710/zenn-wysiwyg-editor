@@ -4,8 +4,8 @@ import type { EditorView } from "@tiptap/pm/view";
 import { Extension } from "@tiptap/react";
 import { showToast } from "@/lib/toast";
 import { EMBED_BACKEND_ORIGIN } from "../../lib/constants";
-import { getEmbedTypeFromUrl } from "../../lib/embed";
-import { extractSpeakerDeckEmbedParams } from "../../lib/url";
+import { getEmbedTypeFromUrl, sanitizeEmbedToken } from "../../lib/embed";
+import { extractSpeakerDeckEmbedParams, isFigmaUrl } from "../../lib/url";
 import type { SpeakerDeckEmbedResponse } from "../../types";
 
 export const EmbedPasteHandler = Extension.create({
@@ -43,13 +43,17 @@ function pasteHandlerPlugin(): Plugin {
         let node: Node;
         if (type === "speakerdeck") {
           node = createSpeakerDeckNode(view, textContent);
+        } else if (isFigmaUrl(textContent)) {
+          node = state.schema.nodes.embed.create({
+            url: `https://www.figma.com/embed?embed_host=zenn&url=${sanitizeEmbedToken(textContent)}`,
+            type,
+          });
         } else {
           node = state.schema.nodes.embed.create({
             url: textContent,
             type,
           });
         }
-
         tr.replaceSelectionWith(node);
         view.dispatch(tr);
         return true;
