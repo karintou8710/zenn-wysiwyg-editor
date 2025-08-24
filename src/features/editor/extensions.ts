@@ -21,6 +21,7 @@ import { DetailsContent } from "./extensions/details/content";
 import { DetailsSummary } from "./extensions/details/summary";
 import { Embed } from "./extensions/embed";
 import { EmbedPasteHandler } from "./extensions/embed/embedPasteHandler";
+import { SpeakerDeckEmbed } from "./extensions/embed/speacker-deck-embed";
 import Figure from "./extensions/figure";
 import { Caption } from "./extensions/figure/caption";
 import { Image } from "./extensions/figure/image";
@@ -61,6 +62,7 @@ export const extensions: Extensions = [
   Details,
   DetailsSummary,
   DetailsContent,
+  SpeakerDeckEmbed,
 
   // === Marks ===
   Bold,

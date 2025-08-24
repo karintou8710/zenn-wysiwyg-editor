@@ -218,6 +218,11 @@ console.log(greeting("World"));</code></pre></div>
     <iframe src="https://www.youtube.com/watch?v=DTpGfpLybr0"></iframe>
 </span>
 
+<h3>SpeakerDeck</h3>
+<span class="embed-block embed-speakerdeck">
+    <iframe src="https://speakerdeck.com/player/67cb0732d56b47c99ad11077f97dddf2"></iframe>
+</span>
+
 <h2>対応状況・バグ報告</h2>
 <p><a href="https://github.com/karintou8710/zenn-wysiwyg-editor">GitHubのレポジトリ</a>をご確認ください。</p>
 `;
