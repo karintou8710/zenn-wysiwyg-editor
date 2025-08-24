@@ -58,7 +58,7 @@ Zenn 独自ノード
 - [x] SpeakerDeck
 - [x] Figma
 - [x] Docswell
-- [ ] SlideShare ()
+- [ ] SlideShare
 
 機能
 
