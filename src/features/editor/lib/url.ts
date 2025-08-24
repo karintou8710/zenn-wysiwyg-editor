@@ -182,3 +182,24 @@ export function isFigmaUrl(url: string): boolean {
     url,
   );
 }
+
+// スライドと埋め込みURLを含む
+export function isSpeakerDeckUrl(url: string): boolean {
+  return /^https:\/\/speakerdeck\.com\//.test(url);
+}
+
+export function extractSpeakerDeckEmbedParams(
+  url: string,
+): { embedId: string; slideIndex: string | null } | null {
+  const match = /^https:\/\/speakerdeck\.com\/player\/([a-zA-Z0-9_-]+)/.exec(
+    url,
+  );
+  if (!match) {
+    return null;
+  }
+
+  const query = new URL(url).searchParams;
+  const slideIndex = query.get("slide");
+
+  return { embedId: match[1], slideIndex };
+}

@@ -12,7 +12,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Textarea } from "@/components/ui/textarea";
-import { fromMarkdown } from "../../lib/from_markdown";
+import { fromMarkdown } from "../../lib/from-markdown";
 
 type Props = {
   editor: Editor;

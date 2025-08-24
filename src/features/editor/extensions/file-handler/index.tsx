@@ -1,7 +1,6 @@
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Extension } from "@tiptap/react";
-import { CircleAlert } from "lucide-react";
-import { toast } from "sonner";
+import { showToast } from "@/lib/toast";
 
 export const FileHandler = Extension.create({
   name: "fileHandler",
@@ -19,10 +18,7 @@ export const FileHandler = Extension.create({
             event.preventDefault();
             event.stopPropagation();
 
-            toast.error("ファイル貼り付けは現在サポートされていません", {
-              icon: <CircleAlert size={16} className="text-destructive" />,
-              position: "bottom-center",
-            });
+            showToast("ファイル貼り付けは現在サポートされていません", "error");
             return true;
           },
         },

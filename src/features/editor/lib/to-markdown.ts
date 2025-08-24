@@ -124,6 +124,11 @@ const markdownSerializer = new MarkdownSerializer(
     detailsContent(state, node) {
       state.renderInline(node);
     },
+    speakerDeckEmbed(state, node) {
+      const urlBlock = `@[speakerdeck](${node.attrs.embedId}${node.attrs.slideIndex ? `?slide=${node.attrs.slideIndex}` : ""})`;
+      state.write(urlBlock);
+      state.closeBlock(node);
+    },
   },
   {
     link: {
