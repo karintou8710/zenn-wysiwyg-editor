@@ -219,6 +219,7 @@ console.log(greeting("World"));</code></pre></div>
 </span>
 
 <h3>SpeakerDeck</h3>
+<p>スライドURLか埋め込みURLを貼り付けてください。ページ指定のクエリにも対応済みです。</p>
 <span class="embed-block embed-speakerdeck">
     <iframe src="https://speakerdeck.com/player/67cb0732d56b47c99ad11077f97dddf2"></iframe>
 </span>
