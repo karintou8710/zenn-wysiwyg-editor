@@ -46,16 +46,27 @@ export const Link = TiptapLink.extend({
           component = null;
         }
       };
+      const currentLinkRange = () => {
+        const pos = view.posAtDOM(a, 0);
+        if (pos === -1) return null;
+        const node = view.state.doc.nodeAt(pos); // TextNode
+        if (!node) return null;
+        return { from: pos, to: pos + node.nodeSize };
+      };
       const handleDelete = () => {
         // 位置はイベント時に動的に取得することで、最新の状態を参照できる
-        const pos = view.posAtDOM(a, 0);
-        const node = view.state.doc.nodeAt(pos); // TextNode
-        if (!pos || !node) return null;
+        const range = currentLinkRange();
+        if (!range) return;
 
-        this.editor.commands.command(({ tr }) => {
-          tr.removeMark(pos, pos + node.nodeSize, this.type);
-          return true;
-        });
+        this.editor
+          .chain()
+          .command(({ tr }) => {
+            tr.removeMark(range.from, range.to, this.type);
+            return true;
+          })
+          .setTextSelection(range.from)
+          .focus()
+          .run();
         destroyComponent();
       };
 
@@ -73,6 +84,14 @@ export const Link = TiptapLink.extend({
                 return;
               }
 
+              this.editor
+                .chain()
+                .setTextSelection(currentLinkRange()?.from || 0)
+                .focus()
+                .run();
+
+              // 属性を更新すると、リンクが再描画されて a要素が置き換わる。
+              // なのでcurrentLinkRangeはupdateAttributesの前に呼び出す
               updateAttributes({ href: href });
               destroyComponent();
             },
