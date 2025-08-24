@@ -229,6 +229,11 @@ console.log(greeting("World"));</code></pre></div>
     <iframe src="https://speakerdeck.com/player/67cb0732d56b47c99ad11077f97dddf2"></iframe>
 </span>
 
+<h3>Docswell</h3>
+<span class="embed-block embed-docswell">
+    <iframe src="https://www.docswell.com/s/6567719/ZX63P2-2025-08-25-041145"></iframe>
+</span>
+
 <h2>対応状況・バグ報告</h2>
 <p><a href="https://github.com/karintou8710/zenn-wysiwyg-editor">GitHubのレポジトリ</a>をご確認ください。</p>
 `;
