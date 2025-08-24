@@ -1,4 +1,4 @@
-import { Trash, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import type { MouseEvent } from "react";
 import { useId, useState } from "react";
 import { Button } from "@/components/ui/button";
