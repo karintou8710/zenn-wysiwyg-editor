@@ -1,6 +1,7 @@
 import {
   isCodepenUrl,
   isCodesandboxUrl,
+  isDocswellUrl,
   isFigmaUrl,
   isGistUrl,
   isGithubUrl,
@@ -41,6 +42,8 @@ export function getEmbedTypeFromElement(
     return "youtube";
   } else if (element.classList.contains("embed-figma")) {
     return "figma";
+  } else if (element.classList.contains("embed-docswell")) {
+    return "docswell";
   }
 
   return null;
@@ -67,6 +70,8 @@ export function getEmbedTypeFromUrl(url: string): EmbedType | null {
     return "speakerdeck";
   } else if (isFigmaUrl(url)) {
     return "figma";
+  } else if (isDocswellUrl(url)) {
+    return "docswell";
   } else if (isValidHttpUrl(url)) {
     // 一番最後にする
     return "card";
