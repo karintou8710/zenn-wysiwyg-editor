@@ -6,6 +6,7 @@ import { showToast } from "@/lib/toast";
 import { EMBED_BACKEND_ORIGIN } from "../../lib/constants";
 import { getEmbedTypeFromUrl } from "../../lib/embed";
 import { extractSpeakerDeckEmbedParams } from "../../lib/url";
+import type { SpeakerDeckEmbedResponse } from "../../types";
 
 export const EmbedPasteHandler = Extension.create({
   name: "embedPasteHandler",
@@ -89,15 +90,14 @@ function createSpeakerDeckNode(view: EditorView, url: string) {
           throw "サーバーエラーが発生しました。時間をおいてから再度お試しください。";
         }
       }
-      return response.json();
+      return response.json() as Promise<SpeakerDeckEmbedResponse>;
     })
     .then((data) => {
-      const embedId = data.embedId;
-
       view.state.doc.descendants((n, pos) => {
         if (n.type.name === "speakerDeckEmbed" && n.attrs.tempId === tempId) {
           const node = view.state.schema.nodes.speakerDeckEmbed.create({
-            embedId,
+            embedId: data.embedId,
+            slideIndex: data.slideIndex,
           });
           view.dispatch(
             view.state.tr
