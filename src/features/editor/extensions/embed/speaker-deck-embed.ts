@@ -55,7 +55,7 @@ export const SpeakerDeckEmbed = Node.create({
     return [
       "span",
       {
-        class: "embed-block embed-jsfiddle",
+        class: "embed-block embed-speakerdeck",
       },
       [
         "iframe",

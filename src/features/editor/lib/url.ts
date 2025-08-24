@@ -198,9 +198,8 @@ export function extractSpeakerDeckEmbedParams(
     return null;
   }
 
-  const query = new URL(url).search;
-  const params = new URLSearchParams(query);
-  const slideIndex = params.get("slide");
+  const query = new URL(url).searchParams;
+  const slideIndex = query.get("slide");
 
   return { embedId: match[1], slideIndex };
 }
