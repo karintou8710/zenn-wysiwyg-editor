@@ -19,9 +19,9 @@ export const SpeakerDeckEmbed = Node.create({
         default: null,
         rendered: false,
       },
-      loading: {
-        default: false,
-        rendered: false,
+      tempId: {
+        // 一時的なID（ローディング後にノードを特定するため）
+        default: null,
       },
     };
   },
@@ -75,7 +75,7 @@ export const SpeakerDeckEmbed = Node.create({
       const span = document.createElement("span");
       span.setAttribute("class", "embed-block embed-speakerdeck");
 
-      if (node.attrs.loading) {
+      if (node.attrs.tempId) {
         const component = new ReactRenderer(LoadingCard, {
           editor: this.editor,
         });

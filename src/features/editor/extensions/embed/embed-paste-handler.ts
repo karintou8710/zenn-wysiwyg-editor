@@ -21,6 +21,7 @@ function pasteHandlerPlugin(): Plugin {
         const { state } = view;
         const { selection } = state;
         const { empty } = selection;
+        const { tr } = state;
 
         // 範囲選択の場合はデフォルトのリンクマークの挙動にする
         if (!empty) {
@@ -46,7 +47,6 @@ function pasteHandlerPlugin(): Plugin {
           });
         }
 
-        const { tr } = state;
         tr.replaceSelectionWith(node);
         view.dispatch(tr);
         return true;
@@ -61,6 +61,8 @@ function createSpeakerDeckNode(view: EditorView, url: string) {
     return view.state.schema.nodes.speakerDeckEmbed.create(params);
   }
 
+  const tempId = `temp-${Math.random().toString(36)}`;
+
   fetch(
     `http://localhost:8787/api/speakerdeck/embed?url=${encodeURIComponent(url)}`,
   )
@@ -70,12 +72,24 @@ function createSpeakerDeckNode(view: EditorView, url: string) {
     })
     .then((data) => {
       const embedId = data.embedId;
-      const node = view.state.schema.nodes.speakerDeckEmbed.create({
-        embedId,
-        loading: false,
+
+      view.state.doc.descendants((n, pos) => {
+        if (n.type.name === "speakerDeckEmbed" && n.attrs.tempId === tempId) {
+          const node = view.state.schema.nodes.speakerDeckEmbed.create({
+            embedId,
+          });
+          view.dispatch(
+            view.state.tr
+              .replaceRangeWith(pos, pos + n.nodeSize, node)
+              .setMeta("addToHistory", false),
+          );
+          return true;
+        }
       });
-      view.dispatch(view.state.tr.replaceSelectionWith(node));
     });
 
-  return view.state.schema.nodes.speakerDeckEmbed.create({ loading: true });
+  return view.state.schema.nodes.speakerDeckEmbed.create({
+    loading: true,
+    tempId,
+  });
 }
