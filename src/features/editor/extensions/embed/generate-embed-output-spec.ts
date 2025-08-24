@@ -26,6 +26,8 @@ export function generateEmbedOutputSpec(
     return generateEmbedCodepenOutputSpec(url);
   } else if (type === "youtube") {
     return generateEmbedYoutubeOutputSpec(url);
+  } else if (type === "figma") {
+    return generateEmbedFigmaOutputSpec(url);
   }
 
   throw new Error(`Unsupported embed type: ${type}`);
@@ -163,6 +165,27 @@ function generateEmbedYoutubeOutputSpec(url: string): DOMOutputSpec {
           "accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture",
         allowfullscreen: true,
         loading: "lazy",
+      },
+    ],
+  ];
+}
+
+function generateEmbedFigmaOutputSpec(url: string): DOMOutputSpec {
+  return [
+    "span",
+    {
+      class: "embed-block embed-figma",
+    },
+    [
+      "iframe",
+      {
+        src: url, // node.attrs.urlの段階でembed用に変換済み
+        frameborder: "no",
+        scrolling: "no",
+        loading: "lazy",
+        style: "aspect-ratio: 16/9",
+        width: "100%",
+        allowfullscreen: true,
       },
     ],
   ];

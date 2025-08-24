@@ -218,6 +218,11 @@ console.log(greeting("World"));</code></pre></div>
     <iframe src="https://www.youtube.com/watch?v=DTpGfpLybr0"></iframe>
 </span>
 
+<h3>Figma</h3>
+<span class="embed-block embed-figma">
+    <iframe src="https://www.figma.com/embed?embed_host=zenn&url=https://www.figma.com/proto/ENYwxbHMyJX2RMx4FQMgNf/Sample?node-id=0-1&t=PKJf9rxcuorXkzdr-1"></iframe>
+</span>
+
 <h3>SpeakerDeck</h3>
 <p>スライドURLか埋め込みURLを貼り付けてください。ページ指定のクエリにも対応済みです。</p>
 <span class="embed-block embed-speakerdeck">

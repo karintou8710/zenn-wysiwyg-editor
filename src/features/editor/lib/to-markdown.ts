@@ -104,9 +104,20 @@ const markdownSerializer = new MarkdownSerializer(
         if (!videoId) new Error("Invalid YouTube URL");
 
         urlBlock = `https://www.youtube.com/watch?v=${videoId}`;
+      } else if (type === "figma") {
+        const query = new URL(node.attrs.url).searchParams;
+        const url = query.get("url");
+        if (!url) throw new Error("Invalid Figma URL");
+
+        urlBlock = `@[figma](${url})`;
+      } else if (type === "codepen") {
+        const url = node.attrs.url.replace("/embed/", "/pen/");
+
+        urlBlock = `@[codepen](${url})`;
       } else {
         urlBlock = `@[${type}](${node.attrs.url})`;
       }
+
       state.write(urlBlock);
       state.closeBlock(node);
     },
