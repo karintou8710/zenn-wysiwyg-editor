@@ -63,7 +63,6 @@ function getFootnotes(tr: Transaction) {
   let footnotesRange: { from: number; to: number } | undefined;
   const footnoteItems: Node[] = [];
   tr.doc.descendants((node, pos) => {
-    console.log(node.type.name);
     if (node.type.name === "footnoteItem") {
       footnoteItems.push(node);
     } else if (node.type.name === "footnotes") {

@@ -13,6 +13,9 @@ export function fromMarkdown(text: string) {
   removeEmbedDeco(dom);
   removeCodeBlockEndNewLine(dom);
   adjustDiffCodeBlock(dom);
+  adjustFootnotes(dom);
+
+  console.log(dom.innerHTML);
 
   return dom.innerHTML;
 }
@@ -111,5 +114,20 @@ function removeEmbedDeco(dom: HTMLElement) {
     }
 
     notUsedP.parentElement?.replaceChild(embed, notUsedP);
+  });
+}
+
+function adjustFootnotes(dom: HTMLElement) {
+  const footnotes = dom.querySelector("section.footnotes");
+  footnotes?.firstChild?.remove(); // titleを削除
+
+  const items = footnotes?.querySelectorAll("li");
+  items?.forEach((item) => {
+    const backRefAnchor = item.querySelector("a");
+    const id = backRefAnchor?.getAttribute("href")?.replace("#", "");
+    if (!id) throw new Error("footnote back reference id not found");
+
+    item.setAttribute("data-footnote-reference-id", id);
+    backRefAnchor?.remove();
   });
 }

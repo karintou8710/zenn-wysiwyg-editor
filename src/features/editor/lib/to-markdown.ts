@@ -148,6 +148,9 @@ const markdownSerializer = new MarkdownSerializer(
       state.write("\n\n");
       state.renderContent(node);
     },
+    footnotesList(state, node) {
+      state.renderContent(node);
+    },
     footnoteItem(state, node) {
       state.footnoteItem = (state.footnoteItem || 0) + 1;
       state.write(`[^${state.footnoteItem}]: `);
