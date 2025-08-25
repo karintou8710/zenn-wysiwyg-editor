@@ -63,10 +63,13 @@ function getFootnotes(tr: Transaction) {
   let footnotesRange: { from: number; to: number } | undefined;
   const footnoteItems: Node[] = [];
   tr.doc.descendants((node, pos) => {
+    console.log(node.type.name);
     if (node.type.name === "footnoteItem") {
       footnoteItems.push(node);
     } else if (node.type.name === "footnotes") {
       footnotesRange = { from: pos, to: pos + node.nodeSize };
+    } else if (node.type.name === "footnotesList") {
+      // 子要素を探索する
     } else {
       return false;
     }
@@ -79,6 +82,7 @@ export function updateFootnotes(tr: Transaction, state: EditorState) {
 
   const footnoteItemType = state.schema.nodes.footnoteItem;
   const footnotesType = state.schema.nodes.footnotes;
+  const footnotesListType = state.schema.nodes.footnotesList;
 
   const { footnotesRange, footnoteItems } = getFootnotes(tr);
 
@@ -97,9 +101,12 @@ export function updateFootnotes(tr: Transaction, state: EditorState) {
     const footnoteId = footnoteReferences[i].attrs.footnoteId;
 
     if (footnoteId in mappingId2FootnoteItem) {
-      const footnote = mappingId2FootnoteItem[footnoteId];
+      const footnoteItem = mappingId2FootnoteItem[footnoteId];
       newFootnotes.push(
-        footnoteItemType.create({ ...footnote.attrs }, footnote.content),
+        footnoteItemType.create(
+          { ...footnoteItem.attrs },
+          footnoteItem.content,
+        ),
       );
     } else {
       const newNode = footnoteItemType.create(
@@ -119,15 +126,18 @@ export function updateFootnotes(tr: Transaction, state: EditorState) {
       tr.delete(footnotesRange.from, footnotesRange.to);
     }
   } else if (!footnotesRange) {
-    // 脚注がない場合は脚注を新規追加
+    // 脚注がない場合は新規追加
     tr.insert(
       tr.doc.content.size,
-      footnotesType.create(undefined, Fragment.from(newFootnotes)),
+      footnotesType.create(
+        null,
+        footnotesListType.create(null, Fragment.from(newFootnotes)),
+      ),
     );
   } else {
     tr.replaceWith(
-      footnotesRange.from + 1, // footnotes start
-      footnotesRange.to - 1, // footnotes end
+      footnotesRange.from + 2, // footnotesList start
+      footnotesRange.to - 2, // footnotesList end
       Fragment.from(newFootnotes),
     );
   }

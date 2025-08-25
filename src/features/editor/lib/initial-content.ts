@@ -121,6 +121,23 @@ console.log(greeting("World"));</code></pre></div>
 </div>
 <hr />
 
+<h2>脚注</h2>
+
+<p>脚注は以下のショートカット記法で追加できます。textは空でも動作します。</p>
+
+<div class="code-block-container">
+<div class="code-block-filename-container"></div>
+<pre>
+<code class="language-plaintext">[^text]</code>
+</pre>
+</div>
+</div>
+
+<p>脚注の例<sup class="footnote-ref"><a href="#footnote-1" id="ref-footnote-1">[1]</a></sup>です。
+複数の脚注に対応しています。<sup class="footnote-ref"><a href="#footnote-2" id="ref-footnote-2" >2</a></sup></p>
+<p>クリックで脚注参照を選択、ダブルクリックで脚注へスクロールします。</p>
+
+
 <h2>メッセージ</h2>
 <div class="code-block-container">
 <div class="code-block-filename-container"></div>
@@ -237,7 +254,10 @@ console.log(greeting("World"));</code></pre></div>
 <h2>対応状況・バグ報告</h2>
 <p><a href="https://github.com/karintou8710/zenn-wysiwyg-editor">GitHubのレポジトリ</a>をご確認ください。</p>
 
-<section>
-    <li><a href="https://github.com/karintou8710/zenn-wysiwyg-editor/issues">GitHub Issues</a></li>
+<section class="footnotes">
+    <ol class="footnotes-list">
+        <li id="footnote-1" data-footnote-reference-id="ref-footnote-1" class="footnote-item"><p>脚注1</p></li>
+        <li id="footnote-2" data-footnote-reference-id="ref-footnote-2" class="footnote-item"><p>脚注2</p></li>
+    </ol>
 </section>
 `;
