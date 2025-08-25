@@ -1,4 +1,5 @@
 import { Plugin, PluginKey } from "@tiptap/pm/state";
+import { AddMarkStep } from "@tiptap/pm/transform";
 import { Node } from "@tiptap/react";
 import { getRandomString } from "@/lib/utils";
 
@@ -145,6 +146,30 @@ const FootnoteReference = Node.create({
 
             return editor.chain().setNodeSelection(nodePos).run();
           },
+        },
+
+        // 脚注参照ノードがマークを受け取っていたら削除する
+        appendTransaction(transactions, _, newState) {
+          const newTr = newState.tr;
+          let modified = false;
+
+          transactions.forEach((tr) => {
+            tr.steps.forEach((step) => {
+              if (!(step instanceof AddMarkStep)) return;
+
+              newState.doc.nodesBetween(step.from, step.to, (node, pos) => {
+                if (newState.schema.nodes.footnoteReference === node.type) {
+                  modified = true;
+                  newTr.removeMark(pos, pos + node.nodeSize, step.mark);
+                }
+              });
+            });
+          });
+
+          if (modified) {
+            return newTr;
+          }
+          return null;
         },
       }),
     ];
