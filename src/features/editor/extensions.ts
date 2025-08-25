@@ -1,7 +1,6 @@
 import Blockquote from "@tiptap/extension-blockquote";
 import Bold from "@tiptap/extension-bold";
 import Code from "@tiptap/extension-code";
-import Document from "@tiptap/extension-document";
 import HardBreak from "@tiptap/extension-hard-break";
 import HorizentalRule from "@tiptap/extension-horizontal-rule";
 import Italic from "@tiptap/extension-italic";
@@ -19,6 +18,7 @@ import { DiffCodeLine } from "./extensions/code-block-container/diff-code-block/
 import { Details } from "./extensions/details";
 import { DetailsContent } from "./extensions/details/content";
 import { DetailsSummary } from "./extensions/details/summary";
+import Document from "./extensions/document";
 import { Embed } from "./extensions/embed";
 import { EmbedPasteHandler } from "./extensions/embed/embed-paste-handler";
 import { SpeakerDeckEmbed } from "./extensions/embed/speaker-deck-embed";
@@ -26,6 +26,10 @@ import Figure from "./extensions/figure";
 import { Caption } from "./extensions/figure/caption";
 import { Image } from "./extensions/figure/image";
 import { FileHandler } from "./extensions/file-handler";
+import FootnoteItem from "./extensions/footnotes/footnote-item";
+import FootnoteReference from "./extensions/footnotes/footnote-reference";
+import Footnotes from "./extensions/footnotes/footnotes";
+import { FootnotesList } from "./extensions/footnotes/footnotes-list";
 import Heading from "./extensions/heading";
 import { Link } from "./extensions/link";
 import { Message } from "./extensions/message";
@@ -63,6 +67,10 @@ export const extensions: Extensions = [
   DetailsSummary,
   DetailsContent,
   SpeakerDeckEmbed,
+  FootnoteReference,
+  Footnotes,
+  FootnoteItem,
+  FootnotesList,
 
   // === Marks ===
   Bold,

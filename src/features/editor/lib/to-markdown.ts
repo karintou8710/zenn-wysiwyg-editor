@@ -8,6 +8,7 @@ import { extractYoutubeVideoParameters } from "./url";
 declare module "prosemirror-markdown" {
   interface MarkdownSerializerState {
     inAutolink?: boolean;
+    footnoteItem?: number;
   }
 }
 
@@ -138,6 +139,22 @@ const markdownSerializer = new MarkdownSerializer(
     speakerDeckEmbed(state, node) {
       const urlBlock = `@[speakerdeck](${node.attrs.embedId}${node.attrs.slideIndex ? `?slide=${node.attrs.slideIndex}` : ""})`;
       state.write(urlBlock);
+      state.closeBlock(node);
+    },
+    footnoteReference(state, node) {
+      state.write(`[^${node.attrs.referenceNumber}]`);
+    },
+    footnotes(state, node) {
+      state.write("\n\n");
+      state.renderContent(node);
+    },
+    footnotesList(state, node) {
+      state.renderContent(node);
+    },
+    footnoteItem(state, node) {
+      state.footnoteItem = (state.footnoteItem || 0) + 1;
+      state.write(`[^${state.footnoteItem}]: `);
+      state.renderInline(node);
       state.closeBlock(node);
     },
   },

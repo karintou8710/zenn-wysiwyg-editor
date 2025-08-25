@@ -22,7 +22,8 @@ export default function BubbleMenu({ editor }: Props) {
       editor={editor}
       options={{ placement: "top", offset: 12 }}
       shouldShow={({ editor }) => {
-        const { selection } = editor.state;
+        const { state } = editor;
+        const { selection } = state;
         const { $from, $to } = selection;
 
         if (selection.empty) {
@@ -30,7 +31,7 @@ export default function BubbleMenu({ editor }: Props) {
         }
 
         let isShow = true;
-        editor.state.doc.nodesBetween($from.pos, $to.pos, (node, _, parent) => {
+        state.doc.nodesBetween($from.pos, $to.pos, (node, _, parent) => {
           if (!node.isLeaf || !parent) return;
 
           const allowedMarkSet = parent.type.markSet;
@@ -38,6 +39,12 @@ export default function BubbleMenu({ editor }: Props) {
             allowedMarkSet !== null &&
             !allowedMarkSet.includes(editor.schema.marks.bold)
           ) {
+            isShow = false;
+            return false;
+          }
+
+          // 脚注参照を含む場合は非表示
+          if (node.type === state.schema.nodes.footnoteReference) {
             isShow = false;
             return false;
           }
