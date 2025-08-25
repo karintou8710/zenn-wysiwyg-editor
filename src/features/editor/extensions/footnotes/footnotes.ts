@@ -80,6 +80,35 @@ const Footnotes = Node.create({
 
           return null;
         },
+
+        props: {
+          // drop無効化
+          handleDrop: (view, event) => {
+            const { pos } = view.posAtCoords({
+              left: event.clientX,
+              top: event.clientY,
+            }) || { pos: 0 };
+
+            // dropターゲットがfootnotesノード内かチェック
+            const $pos = view.state.doc.resolve(pos);
+            let inFootnotes = false;
+
+            for (let i = $pos.depth; i > 0; i--) {
+              if ($pos.node(i).type.name === this.name) {
+                inFootnotes = true;
+                break;
+              }
+            }
+
+            // footnotesノード内へのdropを防ぐ
+            if (inFootnotes) {
+              event.preventDefault();
+              return true;
+            }
+
+            return false;
+          },
+        },
       }),
     ];
   },
