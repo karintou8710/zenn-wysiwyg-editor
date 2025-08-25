@@ -122,6 +122,14 @@ console.log(greeting("World"));</code></pre></div>
 <hr />
 
 <h2>テーブル</h2>
+<p>以下の記法では、20個までの行・列のテーブルを追加できます。</p>
+<div class="code-block-container">
+<div class="code-block-filename-container"></div>
+<pre>
+<code class="language-plaintext">:::table3-4</code>
+</pre>
+</div>
+</div>
 <table>
   <tbody>
     <tr>

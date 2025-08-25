@@ -29,7 +29,7 @@ https://zenn.dev/karintou/articles/eabe0354fcc947
   - [ ] リンク画像
 - [x] テキストリンク
 - [x] 脚注
-- [ ] テーブル
+- [x] テーブル
 - [ ] 数式
 
 マーク
