@@ -7,6 +7,12 @@ import Italic from "@tiptap/extension-italic";
 import { BulletList, ListItem, OrderedList } from "@tiptap/extension-list";
 import Paragraph from "@tiptap/extension-paragraph";
 import Strike from "@tiptap/extension-strike";
+import {
+  Table,
+  TableCell,
+  TableHeader,
+  TableRow,
+} from "@tiptap/extension-table";
 import Text from "@tiptap/extension-text";
 import { Dropcursor, TrailingNode, UndoRedo } from "@tiptap/extensions";
 import type { Extensions } from "@tiptap/react";
@@ -71,6 +77,10 @@ export const extensions: Extensions = [
   Footnotes,
   FootnoteItem,
   FootnotesList,
+  Table,
+  TableCell,
+  TableHeader,
+  TableRow,
 
   // === Marks ===
   Bold,
