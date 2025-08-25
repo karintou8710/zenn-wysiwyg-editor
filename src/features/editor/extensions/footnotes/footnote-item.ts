@@ -1,4 +1,6 @@
+import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Node } from "@tiptap/react";
+import { isChildOf } from "../../lib/node";
 
 declare module "@tiptap/react" {
   interface Commands<ReturnType> {
@@ -81,6 +83,32 @@ const FootnoteItem = Node.create({
           return false;
         },
     };
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      // footnoteItemに貼り付けることで分割される現象を防ぐ
+      // Link貼り付けの後に実行する
+      new Plugin({
+        key: new PluginKey("footnoteItemPaste"),
+        props: {
+          handlePaste: (view, event) => {
+            const { state } = view;
+            const { selection } = state;
+            const text = event.clipboardData?.getData("text/plain") || "";
+            if (!text) return false;
+
+            const $pos = state.doc.resolve(selection.from);
+            if (isChildOf($pos, "footnote")) return false;
+
+            const tr = state.tr;
+            tr.insertText(text, selection.from, selection.to);
+            view.dispatch(tr);
+            return true;
+          },
+        },
+      }),
+    ];
   },
 });
 
