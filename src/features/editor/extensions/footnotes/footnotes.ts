@@ -18,19 +18,26 @@ const Footnotes = Node.create({
   },
 
   renderHTML() {
-    return [
-      "section",
-      { class: "footnotes" },
-      [
-        "span",
-        {
-          class: "footnotes-title",
-          contenteditable: "false",
-        },
-        "脚注",
-      ],
-      ["ol", { class: "footnotes-list" }, 0],
-    ];
+    return ["section", { class: "footnotes" }, 0];
+  },
+
+  addNodeView() {
+    return () => {
+      const dom = document.createElement("section");
+      dom.classList.add("footnotes");
+
+      const title = document.createElement("span");
+      title.classList.add("footnotes-title");
+      title.setAttribute("contenteditable", "false");
+      title.textContent = "脚注";
+      dom.appendChild(title);
+
+      const content = document.createElement("ol");
+      content.classList.add("footnotes-list");
+      dom.appendChild(content);
+
+      return { dom, contentDOM: content };
+    };
   },
 
   addProseMirrorPlugins() {

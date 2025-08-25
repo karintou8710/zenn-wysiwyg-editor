@@ -1,5 +1,13 @@
 import { Node } from "@tiptap/react";
 
+declare module "@tiptap/react" {
+  interface Commands<ReturnType> {
+    footnote: {
+      focusFootnote: (id: string) => ReturnType;
+    };
+  }
+}
+
 const FootnoteItem = Node.create({
   name: "footnoteItem",
   content: "text*", // footnoteReferenceを含めないようにする
@@ -48,6 +56,31 @@ const FootnoteItem = Node.create({
       },
       ["p", 0],
     ];
+  },
+
+  addCommands() {
+    return {
+      focusFootnote:
+        (id: string) =>
+        ({ editor, chain }) => {
+          const matchedFootnote = editor.$node("footnoteItem", {
+            id: id,
+          });
+
+          if (matchedFootnote) {
+            chain()
+              .focus()
+              .setTextSelection(
+                matchedFootnote.from + matchedFootnote.content.size,
+              )
+              .scrollIntoView()
+              .run();
+
+            return true;
+          }
+          return false;
+        },
+    };
   },
 });
 

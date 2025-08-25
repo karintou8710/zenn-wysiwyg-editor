@@ -1,3 +1,4 @@
+import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Node } from "@tiptap/react";
 import { getRandomString } from "@/lib/utils";
 
@@ -15,6 +16,7 @@ const FootnoteReference = Node.create({
   group: "inline",
   atom: true,
   draggable: false,
+  marks: "",
 
   addAttributes() {
     return {
@@ -75,6 +77,25 @@ const FootnoteReference = Node.create({
     ];
   },
 
+  // スクロール周りはエディタで制御するため、DOMイベントは無視する
+  addNodeView() {
+    return ({ node }) => {
+      const dom = document.createElement("sup");
+      dom.className = "footnote-ref";
+
+      const anchor = document.createElement("a");
+      anchor.setAttribute("id", node.attrs.id);
+      anchor.textContent = `[${node.attrs.referenceNumber ?? "?"}]`;
+
+      dom.appendChild(anchor);
+
+      return {
+        dom,
+        contentDOM: null,
+      };
+    };
+  },
+
   addCommands() {
     return {
       addFootnote:
@@ -100,6 +121,32 @@ const FootnoteReference = Node.create({
           chain().deleteRange(range).addFootnote().run();
         },
       },
+    ];
+  },
+
+  addProseMirrorPlugins() {
+    const { editor } = this;
+    return [
+      new Plugin({
+        key: new PluginKey("footnoteRefClick"),
+
+        props: {
+          // 脚注にスクロール
+          handleDoubleClickOn: (_, __, node, ___, event) => {
+            if (node.type.name !== this.name) return false;
+            event.preventDefault();
+            const id = node.attrs.footnoteId;
+            return editor.commands.focusFootnote(id);
+          },
+          // 脚注参照を選択
+          handleClickOn: (_, __, node, nodePos, event) => {
+            if (node.type.name !== this.name) return false;
+            event.preventDefault();
+
+            return editor.chain().setNodeSelection(nodePos).run();
+          },
+        },
+      }),
     ];
   },
 });
