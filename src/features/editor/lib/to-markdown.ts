@@ -9,6 +9,7 @@ declare module "prosemirror-markdown" {
   interface MarkdownSerializerState {
     inAutolink?: boolean;
     footnoteItem?: number;
+    tableRowIsFirst?: boolean;
   }
 }
 
@@ -156,6 +157,40 @@ const markdownSerializer = new MarkdownSerializer(
       state.write(`[^${state.footnoteItem}]: `);
       state.renderInline(node);
       state.closeBlock(node);
+    },
+    table(state, node) {
+      state.renderContent(node);
+      state.closeBlock(node);
+    },
+    tableRow(state, node) {
+      state.tableRowIsFirst = true;
+      state.renderContent(node);
+      state.write("\n");
+
+      if (node.firstChild?.type.name === "tableHeader") {
+        // ヘッダー行の下に区切り行を追加
+        state.write("| ");
+        for (let i = 0; i < node.childCount; i++) {
+          state.write("--- | ");
+        }
+        state.write("\n");
+      }
+    },
+    tableHeader(state, node) {
+      if (state.tableRowIsFirst) {
+        state.tableRowIsFirst = false;
+        state.write("| ");
+      }
+      state.renderInline(node);
+      state.write(" | ");
+    },
+    tableCell(state, node) {
+      if (state.tableRowIsFirst) {
+        state.tableRowIsFirst = false;
+        state.write("| ");
+      }
+      state.renderInline(node);
+      state.write(" | ");
     },
   },
   {

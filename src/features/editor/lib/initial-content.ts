@@ -121,6 +121,38 @@ console.log(greeting("World"));</code></pre></div>
 </div>
 <hr />
 
+<h2>テーブル</h2>
+<p>以下の記法では、20個までの行・列のテーブルを追加できます。</p>
+<div class="code-block-container">
+<div class="code-block-filename-container"></div>
+<pre>
+<code class="language-plaintext">:::table3-4</code>
+</pre>
+</div>
+</div>
+<table>
+  <tbody>
+    <tr>
+      <th>Head</th>
+      <th>Head</th>
+      <th>Head</th>
+      <th>Head</th>
+    </tr>
+    <tr>
+      <td>Text</td>
+      <td>Text</td>
+      <td>Text</td>
+      <td>Text</td>
+    </tr>
+    <tr>
+      <td>Text</td>
+      <td>Text</td>
+      <td>Text</td>
+      <td>Text</td>
+    </tr>
+  </tbody>
+</table>
+
 <h2>脚注</h2>
 
 <p>脚注は以下のショートカット記法で追加できます。textは空でも動作します。</p>
