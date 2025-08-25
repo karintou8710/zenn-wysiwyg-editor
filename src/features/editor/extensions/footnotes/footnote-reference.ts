@@ -116,7 +116,7 @@ const FootnoteReference = Node.create({
     // [^text] の形式 (空のテキストでも良い)
     return [
       {
-        find: /\[\^(.*?)\]/,
+        find: /\[\^(.*?)\]\s$/,
         type: this.type,
         handler({ range, chain }) {
           chain().deleteRange(range).addFootnote().run();
