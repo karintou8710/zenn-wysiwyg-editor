@@ -91,15 +91,13 @@ const FootnoteReference = Node.create({
   },
 
   addInputRules() {
-    // [^text] の形式
+    // [^text] の形式 (空のテキストでも良い)
     return [
       {
         find: /\[\^(.*?)\]/,
         type: this.type,
-        handler({ range, match, chain }) {
-          if (match[1]) {
-            chain().deleteRange(range).addFootnote().run();
-          }
+        handler({ range, chain }) {
+          chain().deleteRange(range).addFootnote().run();
         },
       },
     ];
