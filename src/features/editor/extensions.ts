@@ -29,6 +29,7 @@ import { FileHandler } from "./extensions/file-handler";
 import FootnoteItem from "./extensions/footnotes/footnote-item";
 import FootnoteReference from "./extensions/footnotes/footnote-reference";
 import Footnotes from "./extensions/footnotes/footnotes";
+import { FootnotesList } from "./extensions/footnotes/footnotes-list";
 import Heading from "./extensions/heading";
 import { Link } from "./extensions/link";
 import { Message } from "./extensions/message";
@@ -69,6 +70,7 @@ export const extensions: Extensions = [
   FootnoteReference,
   Footnotes,
   FootnoteItem,
+  FootnotesList,
 
   // === Marks ===
   Bold,

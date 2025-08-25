@@ -129,7 +129,7 @@ const FootnoteReference = Node.create({
     const { editor } = this;
     return [
       new Plugin({
-        key: new PluginKey("footnoteRefClick"),
+        key: new PluginKey("footnoteRef"),
 
         props: {
           // 脚注にスクロール

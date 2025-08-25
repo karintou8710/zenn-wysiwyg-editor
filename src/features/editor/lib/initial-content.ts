@@ -236,4 +236,8 @@ console.log(greeting("World"));</code></pre></div>
 
 <h2>対応状況・バグ報告</h2>
 <p><a href="https://github.com/karintou8710/zenn-wysiwyg-editor">GitHubのレポジトリ</a>をご確認ください。</p>
+
+<section>
+    <li><a href="https://github.com/karintou8710/zenn-wysiwyg-editor/issues">GitHub Issues</a></li>
+</section>
 `;
