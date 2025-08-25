@@ -74,7 +74,9 @@ export const extensions: Extensions = [
   Footnotes,
   FootnoteItem,
   FootnotesList,
-  Table,
+  Table.configure({
+    allowTableNodeSelection: true,
+  }),
   TableCell,
   TableHeader,
   TableRow,
