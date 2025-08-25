@@ -123,7 +123,7 @@ function adjustFootnotes(dom: HTMLElement) {
 
   const items = footnotes?.querySelectorAll("li");
   items?.forEach((item) => {
-    const backRefAnchor = item.querySelector("a");
+    const backRefAnchor = item.querySelector("a.footnote-backref");
     const id = backRefAnchor?.getAttribute("href")?.replace("#", "");
     if (!id) throw new Error("footnote back reference id not found");
 
