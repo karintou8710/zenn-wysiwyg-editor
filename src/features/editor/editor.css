@@ -122,6 +122,17 @@
       display: none;
     }
   }
+
+  sup.footnote-ref {
+    cursor: pointer;
+  }
+
+  table {
+    th,
+    td {
+      min-width: 80px;
+    }
+  }
 }
 
 /* Selection */

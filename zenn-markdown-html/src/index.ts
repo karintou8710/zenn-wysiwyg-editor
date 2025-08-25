@@ -1,27 +1,26 @@
-import markdownIt from "markdown-it";
-import { sanitize } from "./sanitizer";
-import { embedGenerators } from "./embed";
-import { MarkdownOptions } from "./types";
-
 // plugis
 import markdownItImSize from "@steelydylan/markdown-it-imsize";
+import markdownIt from "markdown-it";
 import markdownItAnchor from "markdown-it-anchor";
+import mdContainer from "markdown-it-container";
+import mdFootnote from "markdown-it-footnote";
+import mdInlineComments from "markdown-it-inline-comments";
+import mdTaskLists from "markdown-it-task-lists";
+import { embedGenerators } from "./embed";
+import { sanitize } from "./sanitizer";
+import type { MarkdownOptions } from "./types";
 import { mdBr } from "./utils/md-br";
-import { mdKatex } from "./utils/md-katex";
-import { mdCustomBlock } from "./utils/md-custom-block";
-import { mdLinkAttributes } from "./utils/md-link-attributes";
-import { mdSourceMap } from "./utils/md-source-map";
-import { mdLinkifyToCard } from "./utils/md-linkify-to-card";
-import { mdRendererFence } from "./utils/md-renderer-fence";
-import { mdImage } from "./utils/md-image";
 import {
   containerDetailsOptions,
   containerMessageOptions,
 } from "./utils/md-container";
-import mdContainer from "markdown-it-container";
-import mdFootnote from "markdown-it-footnote";
-import mdTaskLists from "markdown-it-task-lists";
-import mdInlineComments from "markdown-it-inline-comments";
+import { mdCustomBlock } from "./utils/md-custom-block";
+import { mdImage } from "./utils/md-image";
+import { mdKatex } from "./utils/md-katex";
+import { mdLinkAttributes } from "./utils/md-link-attributes";
+import { mdLinkifyToCard } from "./utils/md-linkify-to-card";
+import { mdRendererFence } from "./utils/md-renderer-fence";
+import { mdSourceMap } from "./utils/md-source-map";
 
 const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
   if (!(text && text.length)) return "";
@@ -69,7 +68,12 @@ const markdownToHtml = (text: string, options?: MarkdownOptions): string => {
     '<span class="footnotes-title">脚注</span>\n' +
     '<ol class="footnotes-list">\n';
 
-  return sanitize(md.render(text));
+  // docIdは複数のコメントが1ページに指定されたときに脚注のリンク先が重複しないように指定する
+  // 1ページの中で重複しなければ問題ないため、ごく短いランダムな文字列とする
+  // - https://github.com/zenn-dev/zenn-community/issues/356
+  // - https://github.com/markdown-it/markdown-it-footnote/pull/8
+  const docId = Math.random().toString(36).substring(2);
+  return sanitize(md.render(text, { docId }));
 };
 
 export default markdownToHtml;

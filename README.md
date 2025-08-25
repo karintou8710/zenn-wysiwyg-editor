@@ -28,8 +28,8 @@ https://zenn.dev/karintou/articles/eabe0354fcc947
   - [ ] 横幅設定
   - [ ] リンク画像
 - [x] テキストリンク
-- [ ] テーブル
-- [ ] 脚注
+- [x] 脚注
+- [x] テーブル
 - [ ] 数式
 
 マーク
@@ -58,7 +58,7 @@ Zenn 独自ノード
 - [x] SpeakerDeck
 - [x] Figma
 - [x] Docswell
-- [ ] SlideShare ()
+- [ ] SlideShare
 
 機能
 

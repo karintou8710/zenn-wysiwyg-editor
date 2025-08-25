@@ -26,7 +26,7 @@ export function useDragHandle(editor: Editor | null) {
   const [dragTarget, setDragTarget] = useState<DragTarget | null>(null);
 
   const setTopBlockDragTarget = useCallback(
-    (pos: number) => {
+    (pos: number, forbidNodes: string[]) => {
       if (!editor) return;
 
       const $pos = editor.state.doc.resolve(pos);
@@ -35,6 +35,7 @@ export function useDragHandle(editor: Editor | null) {
       const node = editor.state.doc.nodeAt(beforePos);
 
       if (!node || !dom) return;
+      if (forbidNodes.includes(node.type.name)) return;
 
       setDragTarget({
         dom,
@@ -75,7 +76,7 @@ export function useDragHandle(editor: Editor | null) {
       if (!posWithInside) return;
 
       // カーソルが乗った位置で、深さ１ノードのbefore位置を取得
-      setTopBlockDragTarget(posWithInside.pos);
+      setTopBlockDragTarget(posWithInside.pos, ["footnotes"]);
     },
     [editor, setTopBlockDragTarget],
   );
