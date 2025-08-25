@@ -7,7 +7,7 @@ import Italic from "@tiptap/extension-italic";
 import { BulletList, ListItem, OrderedList } from "@tiptap/extension-list";
 import Paragraph from "@tiptap/extension-paragraph";
 import Strike from "@tiptap/extension-strike";
-import { TableCell, TableHeader, TableRow } from "@tiptap/extension-table";
+import { TableRow } from "@tiptap/extension-table";
 import Text from "@tiptap/extension-text";
 import { Dropcursor, TrailingNode, UndoRedo } from "@tiptap/extensions";
 import type { Extensions } from "@tiptap/react";
@@ -36,6 +36,8 @@ import { Link } from "./extensions/link";
 import { Message } from "./extensions/message";
 import { MessageContent } from "./extensions/message/message-content";
 import { Placeholder } from "./extensions/placeholder";
+import { TableCell } from "./extensions/tables/cell";
+import { TableHeader } from "./extensions/tables/header";
 import { Table } from "./extensions/tables/table";
 import { isChildOf } from "./lib/node";
 
