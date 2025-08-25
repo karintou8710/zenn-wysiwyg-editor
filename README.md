@@ -28,8 +28,8 @@ https://zenn.dev/karintou/articles/eabe0354fcc947
   - [ ] 横幅設定
   - [ ] リンク画像
 - [x] テキストリンク
+- [x] 脚注
 - [ ] テーブル
-- [ ] 脚注
 - [ ] 数式
 
 マーク
