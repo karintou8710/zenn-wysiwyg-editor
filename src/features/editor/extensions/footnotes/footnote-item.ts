@@ -99,7 +99,7 @@ const FootnoteItem = Node.create({
             if (!text) return false;
 
             const $pos = state.doc.resolve(selection.from);
-            if (isChildOf($pos, "footnote")) return false;
+            if (!isChildOf($pos, "footnotes")) return false;
 
             const tr = state.tr;
             tr.insertText(text, selection.from, selection.to);
