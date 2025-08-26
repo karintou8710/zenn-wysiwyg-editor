@@ -95,8 +95,7 @@ export const extensions: Extensions = [
   UndoRedo,
   TrailingNode,
   Placeholder.configure({
-    placeholder: ({ editor, node, pos }) => {
-      const $pos = editor.state.doc.resolve(pos);
+    placeholder: ({ editor, node }) => {
       if (node.type === editor.schema.nodes.caption) {
         return "キャプションを入力";
       } else if (

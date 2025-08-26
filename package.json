@@ -12,7 +12,6 @@
     "check": "run-s check:*",
     "fix": "biome check --write ./src",
     "preview": "vite preview",
-    "test": "vitest run --config=vitest.browser.config.ts",
     "test:browser": "vitest run --config=vitest.browser.config.ts",
     "test:node": "vitest run --config=vitest.config.ts",
     "test:all": "pnpm test:node && pnpm test:browser"
