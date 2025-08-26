@@ -4,7 +4,12 @@ import Code from "@tiptap/extension-code";
 import HardBreak from "@tiptap/extension-hard-break";
 import HorizentalRule from "@tiptap/extension-horizontal-rule";
 import Italic from "@tiptap/extension-italic";
-import { BulletList, ListItem, OrderedList } from "@tiptap/extension-list";
+import {
+  BulletList,
+  ListItem,
+  ListKeymap,
+  OrderedList,
+} from "@tiptap/extension-list";
 import Paragraph from "@tiptap/extension-paragraph";
 import Strike from "@tiptap/extension-strike";
 import { TableRow } from "@tiptap/extension-table";
@@ -112,4 +117,5 @@ export const extensions: Extensions = [
   EmbedPasteHandler,
   Dropcursor,
   FileHandler,
+  ListKeymap,
 ];
