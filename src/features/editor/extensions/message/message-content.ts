@@ -22,4 +22,20 @@ export const MessageContent = Node.create({
       0,
     ];
   },
+
+  addKeyboardShortcuts() {
+    return {
+      Backspace: () => {
+        const { selection } = this.editor.state;
+        const { $from } = selection;
+        if ($from.depth === 0 || $from.node(-1).type.name !== this.name)
+          return false;
+
+        if (!selection.empty || $from.start() !== $from.pos) return false;
+
+        console.log(this.editor.commands.unsetMessage());
+        return true;
+      },
+    };
+  },
 });
