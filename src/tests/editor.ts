@@ -6,6 +6,7 @@ let ___global_container: HTMLElement | null = null;
 
 beforeEach(() => {
   ___global_container = document.createElement("div");
+  ___global_container.setAttribute("class", "znc");
   document.body.appendChild(___global_container);
 });
 
