@@ -29,13 +29,12 @@ export const Figure = Node.create({
   isolating: true,
   draggable: true,
   selectable: true,
-  priority: 1000,
 
   parseHTML() {
     return [
       {
-        tag: "p:has(img):has(em)",
-        priority: 100,
+        tag: "p:has(img))", // Zennのレンダリングでは、キャプションなしがemを含まない
+        priority: 100, // 段落よりも優先度を高くする
       },
     ];
   },
