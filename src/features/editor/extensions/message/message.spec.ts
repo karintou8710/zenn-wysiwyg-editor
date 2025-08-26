@@ -1,7 +1,6 @@
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
-// テスト用のMessage拡張機能（依存関係を最小化）
 import { Editor } from "@tiptap/react";
 import { afterEach, describe, expect, it } from "vitest";
 import { Message } from "./message";

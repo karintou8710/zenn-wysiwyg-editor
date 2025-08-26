@@ -93,7 +93,7 @@ export const Message = Node.create({
                 ],
               },
             )
-            .setTextSelection(range.start + 1)
+            .setTextSelection(range.start + 3) // paragraph の startに移動
             .run();
         },
       unsetMessage:
@@ -125,7 +125,7 @@ export const Message = Node.create({
 
           return chain()
             .insertContentAt(range, content)
-            .setTextSelection(from + 1)
+            .setTextSelection(from + 1) // paragraph の startに移動
             .run();
         },
     };
