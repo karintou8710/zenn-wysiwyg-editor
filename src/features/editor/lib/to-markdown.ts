@@ -1,6 +1,6 @@
 import type { Mark, Node } from "@tiptap/pm/model";
 import { MarkdownSerializer } from "prosemirror-markdown";
-import { getDiffCode } from "../extensions/code-block-container/utils";
+import { getDiffCode } from "../extensions/nodes/code-block-container/utils";
 import type { EmbedType } from "../types";
 import { extractYoutubeVideoParameters } from "./url";
 

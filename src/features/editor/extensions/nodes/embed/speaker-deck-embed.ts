@@ -1,7 +1,7 @@
 import { Node, ReactRenderer } from "@tiptap/react";
-import LoadingCard from "../../components/loading-card";
-import { escapeHtml } from "../../lib/escape";
-import { extractSpeakerDeckEmbedParams } from "../../lib/url";
+import LoadingCard from "../../../components/loading-card";
+import { escapeHtml } from "../../../lib/escape";
+import { extractSpeakerDeckEmbedParams } from "../../../lib/url";
 
 export const SpeakerDeckEmbed = Node.create({
   name: "speakerDeckEmbed",

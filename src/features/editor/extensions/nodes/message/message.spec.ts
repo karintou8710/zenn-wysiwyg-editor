@@ -3,8 +3,8 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import { Editor } from "@tiptap/react";
 import { afterEach, describe, expect, it } from "vitest";
-import { fromMarkdown } from "../../lib/from-markdown";
-import { markdownSerializer } from "../../lib/to-markdown";
+import { fromMarkdown } from "../../../lib/from-markdown";
+import { markdownSerializer } from "../../../lib/to-markdown";
 import { Message } from "./message";
 import { MessageContent } from "./message-content";
 

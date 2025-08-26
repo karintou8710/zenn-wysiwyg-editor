@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build:module": "pnpm -F zenn-markdown-html build",
-    "build": "pnpm build:module && tsc -b && vite build",
+    "build:app": "tsc -b && vite build",
+    "build": "pnpm build:module && pnpm build:app",
     "check:lint": "biome lint ./src",
     "check:format": "biome format ./src",
     "check": "run-s check:*",
