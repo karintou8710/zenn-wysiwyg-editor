@@ -1,6 +1,6 @@
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { InputRule, mergeAttributes, Node } from "@tiptap/react";
-import { extractImageUrlAndAlt, isImageURL } from "../../lib/url";
+import { extractImageUrlAndAlt, isImageURL } from "../../../lib/url";
 
 export interface FigureOptions {
   HTMLAttributes: Record<string, any>;

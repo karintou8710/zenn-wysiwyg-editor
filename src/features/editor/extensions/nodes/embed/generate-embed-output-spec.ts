@@ -1,12 +1,12 @@
 import type { DOMOutputSpec } from "@tiptap/pm/model";
 import type { EmbedType } from "zenn-markdown-html/lib/embed";
-import { EMBED_ORIGIN } from "../../lib/constants";
-import { sanitizeEmbedToken } from "../../lib/embed";
-import { escapeHtml } from "../../lib/escape";
+import { EMBED_ORIGIN } from "../../../lib/constants";
+import { sanitizeEmbedToken } from "../../../lib/embed";
+import { escapeHtml } from "../../../lib/escape";
 import {
   extractDocswellEmbedUrl,
   extractYoutubeVideoParameters,
-} from "../../lib/url";
+} from "../../../lib/url";
 
 export function generateEmbedOutputSpec(
   type: EmbedType,

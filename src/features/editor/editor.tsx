@@ -8,7 +8,7 @@ import BubbleMenu from "./components/bubble-menu";
 import FixedMenu from "./components/fixed-menu";
 import ImageBubbleMenu from "./components/image-bubble-menu";
 import { extensions } from "./extensions";
-import DragHandle from "./extensions/drag-handle";
+import DragHandle from "./extensions/functionality/drag-handle";
 import { INITIAL_CONTENT } from "./lib/initial-content";
 
 function Editor() {

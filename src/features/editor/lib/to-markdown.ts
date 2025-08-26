@@ -1,6 +1,6 @@
 import type { Mark, Node } from "@tiptap/pm/model";
 import { MarkdownSerializer } from "prosemirror-markdown";
-import { getDiffCode } from "../extensions/code-block-container/utils";
+import { getDiffCode } from "../extensions/nodes/code-block-container/utils";
 import type { EmbedType } from "../types";
 import { extractYoutubeVideoParameters } from "./url";
 
@@ -47,9 +47,11 @@ const markdownSerializer = new MarkdownSerializer(
       const type = node.attrs.type === "message" ? "" : node.attrs.type;
       const nestDepth = getZennNotationNestDepth(node);
 
-      state.write(`${":".repeat(nestDepth + 2)}message ${type}\n`);
+      state.write(
+        `${":".repeat(nestDepth + 2)}message${type ? ` ${type}` : ""}\n`,
+      );
       state.renderContent(node);
-      state.write(`\n${":".repeat(nestDepth + 2)}`);
+      state.write(`${":".repeat(nestDepth + 2)}`);
       state.closeBlock(node);
     },
     messageContent(state, node) {

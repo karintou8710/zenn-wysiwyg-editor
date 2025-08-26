@@ -4,42 +4,46 @@ import Code from "@tiptap/extension-code";
 import HardBreak from "@tiptap/extension-hard-break";
 import HorizentalRule from "@tiptap/extension-horizontal-rule";
 import Italic from "@tiptap/extension-italic";
-import { BulletList, ListItem, OrderedList } from "@tiptap/extension-list";
+import {
+  BulletList,
+  ListItem,
+  ListKeymap,
+  OrderedList,
+} from "@tiptap/extension-list";
 import Paragraph from "@tiptap/extension-paragraph";
 import Strike from "@tiptap/extension-strike";
 import { TableRow } from "@tiptap/extension-table";
 import Text from "@tiptap/extension-text";
 import { Dropcursor, TrailingNode, UndoRedo } from "@tiptap/extensions";
-import type { Extensions } from "@tiptap/react";
-import { CodeBlockContainer } from "./extensions/code-block-container";
-import { CodeBlock } from "./extensions/code-block-container/code-block";
-import { CodeBlockFileName } from "./extensions/code-block-container/code-block-file-name";
-import { DiffCodeBlock } from "./extensions/code-block-container/diff-code-block";
-import { DiffCodeLine } from "./extensions/code-block-container/diff-code-block/diff-code-line";
-import { Details } from "./extensions/details";
-import { DetailsContent } from "./extensions/details/content";
-import { DetailsSummary } from "./extensions/details/summary";
-import Document from "./extensions/document";
-import { Embed } from "./extensions/embed";
-import { EmbedPasteHandler } from "./extensions/embed/embed-paste-handler";
-import { SpeakerDeckEmbed } from "./extensions/embed/speaker-deck-embed";
-import Figure from "./extensions/figure";
-import { Caption } from "./extensions/figure/caption";
-import { Image } from "./extensions/figure/image";
-import { FileHandler } from "./extensions/file-handler";
-import FootnoteItem from "./extensions/footnotes/footnote-item";
-import FootnoteReference from "./extensions/footnotes/footnote-reference";
-import Footnotes from "./extensions/footnotes/footnotes";
-import { FootnotesList } from "./extensions/footnotes/footnotes-list";
-import Heading from "./extensions/heading";
-import { Link } from "./extensions/link";
-import { Message } from "./extensions/message";
-import { MessageContent } from "./extensions/message/message-content";
-import { Placeholder } from "./extensions/placeholder";
-import { TableCell } from "./extensions/tables/cell";
-import { TableHeader } from "./extensions/tables/header";
-import { Table } from "./extensions/tables/table";
-import { isChildOf } from "./lib/node";
+import { type Extensions, findParentNode } from "@tiptap/react";
+import { FileHandler } from "./extensions/functionality/file-handler";
+import { Placeholder } from "./extensions/functionality/placeholder";
+import { Link } from "./extensions/marks/link";
+import { CodeBlockContainer } from "./extensions/nodes/code-block-container";
+import { CodeBlock } from "./extensions/nodes/code-block-container/code-block";
+import { CodeBlockFileName } from "./extensions/nodes/code-block-container/code-block-file-name";
+import { DiffCodeBlock } from "./extensions/nodes/code-block-container/diff-code-block";
+import { DiffCodeLine } from "./extensions/nodes/code-block-container/diff-code-block/diff-code-line";
+import { Details } from "./extensions/nodes/details";
+import { DetailsContent } from "./extensions/nodes/details/content";
+import { DetailsSummary } from "./extensions/nodes/details/summary";
+import Document from "./extensions/nodes/document";
+import { Embed } from "./extensions/nodes/embed";
+import { EmbedPasteHandler } from "./extensions/nodes/embed/embed-paste-handler";
+import { SpeakerDeckEmbed } from "./extensions/nodes/embed/speaker-deck-embed";
+import { Figure } from "./extensions/nodes/figure";
+import { Caption } from "./extensions/nodes/figure/caption";
+import { Image } from "./extensions/nodes/figure/image";
+import FootnoteItem from "./extensions/nodes/footnotes/footnote-item";
+import FootnoteReference from "./extensions/nodes/footnotes/footnote-reference";
+import Footnotes from "./extensions/nodes/footnotes/footnotes";
+import { FootnotesList } from "./extensions/nodes/footnotes/footnotes-list";
+import Heading from "./extensions/nodes/heading";
+import { Message } from "./extensions/nodes/message/message";
+import { MessageContent } from "./extensions/nodes/message/message-content";
+import { TableCell } from "./extensions/nodes/tables/cell";
+import { TableHeader } from "./extensions/nodes/tables/header";
+import { Table } from "./extensions/nodes/tables/table";
 
 export const extensions: Extensions = [
   // === Core ===
@@ -96,11 +100,14 @@ export const extensions: Extensions = [
   UndoRedo,
   TrailingNode,
   Placeholder.configure({
-    placeholder: ({ editor, node, pos }) => {
-      const $pos = editor.state.doc.resolve(pos);
+    placeholder: ({ editor, node }) => {
       if (node.type === editor.schema.nodes.caption) {
         return "キャプションを入力";
-      } else if (isChildOf($pos, editor.schema.nodes.table.name)) {
+      } else if (
+        findParentNode((node) => node.type === editor.schema.nodes.table)(
+          editor.state.selection,
+        )
+      ) {
         return "";
       }
 
@@ -110,4 +117,5 @@ export const extensions: Extensions = [
   EmbedPasteHandler,
   Dropcursor,
   FileHandler,
+  ListKeymap,
 ];

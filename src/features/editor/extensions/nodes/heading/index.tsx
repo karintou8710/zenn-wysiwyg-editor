@@ -21,11 +21,9 @@ const Heading = TiptapHeading.extend({
         if ($from.node().type.name !== this.name) return false;
         if ($from.start() === $from.pos) return false;
 
-        return splitBlockAs(() => {
-          return {
-            type: this.editor.schema.nodes.paragraph,
-          };
-        })(this.editor.state, this.editor.view.dispatch);
+        return splitBlockAs(() => ({
+          type: this.editor.schema.nodes.paragraph,
+        }))(this.editor.state, this.editor.view.dispatch);
       },
     };
   },

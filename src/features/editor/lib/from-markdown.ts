@@ -15,8 +15,6 @@ export function fromMarkdown(text: string) {
   adjustDiffCodeBlock(dom);
   adjustFootnotes(dom);
 
-  console.log(dom.innerHTML);
-
   return dom.innerHTML;
 }
 

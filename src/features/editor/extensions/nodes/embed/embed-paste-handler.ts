@@ -3,10 +3,10 @@ import { Plugin, PluginKey } from "@tiptap/pm/state";
 import type { EditorView } from "@tiptap/pm/view";
 import { Extension } from "@tiptap/react";
 import { showToast } from "@/lib/toast";
-import { EMBED_BACKEND_ORIGIN } from "../../lib/constants";
-import { getEmbedTypeFromUrl, sanitizeEmbedToken } from "../../lib/embed";
-import { extractSpeakerDeckEmbedParams, isFigmaUrl } from "../../lib/url";
-import type { SpeakerDeckEmbedResponse } from "../../types";
+import { EMBED_BACKEND_ORIGIN } from "../../../lib/constants";
+import { getEmbedTypeFromUrl, sanitizeEmbedToken } from "../../../lib/embed";
+import { extractSpeakerDeckEmbedParams, isFigmaUrl } from "../../../lib/url";
+import type { SpeakerDeckEmbedResponse } from "../../../types";
 
 export const EmbedPasteHandler = Extension.create({
   name: "embedPasteHandler",
