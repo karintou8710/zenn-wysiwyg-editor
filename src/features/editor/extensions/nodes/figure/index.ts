@@ -19,7 +19,7 @@ declare module "@tiptap/react" {
 }
 
 // ![image](src)
-export const inputRegex = /(?:^|\s)(!\[(.+|:?)]\((\S+)\))$/;
+export const inputRegex = /(?:^|\s)(!\[(.+|:?)]\((\S+)\))\s$/;
 
 export const Figure = Node.create({
   name: "figure",

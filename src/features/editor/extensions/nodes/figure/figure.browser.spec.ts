@@ -18,10 +18,10 @@ describe("InputRule", () => {
     });
 
     editor.chain().focus().setTextSelection(1).run();
-    await userEvent.type(editor.view.dom, `![支笏湖](${LakeImage}) `);
+    await userEvent.type(editor.view.dom, `!{\\[}支笏湖{\\]}(${LakeImage}) `);
 
     const docString = editor.state.doc.toString();
-    expect(docString).toBe('doc(figure(image, caption("支笏湖")))');
+    expect(docString).toBe("doc(figure(image, caption))");
     expect(editor.state.selection.from).toBe(3);
     expect(editor.state.doc.firstChild?.firstChild?.attrs).toEqual({
       src: LakeImage,
@@ -37,7 +37,7 @@ describe("InputRule", () => {
     });
 
     editor.chain().focus().setTextSelection(2).run();
-    await userEvent.type(editor.view.dom, `![支笏湖](${LakeImage}) `);
+    await userEvent.type(editor.view.dom, `!{\\[}支笏湖{\\]}(${LakeImage}) `);
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe(`doc(paragraph("T![支笏湖](${LakeImage}) ext"))`);
@@ -69,8 +69,8 @@ describe("キー入力", () => {
     await userEvent.type(editor.view.dom, "{Enter}");
 
     const docString = editor.state.doc.toString();
-    expect(docString).toBe(`doc(figure(image, caption("支笏湖"))), paragraph`);
-    expect(editor.state.selection.from).toBe(6);
+    expect(docString).toBe(`doc(figure(image, caption("支笏湖")), paragraph)`);
+    expect(editor.state.selection.from).toBe(9);
   });
 
   it("キャプションの先頭で左矢印キーを押すと前のノードに移動する", async () => {
@@ -87,16 +87,16 @@ describe("キー入力", () => {
 
     await wait(50); // カーソルの同期を待つ
 
-    expect(editor.state.selection.from).toBe(8); // "Before" の最後
+    expect(editor.state.selection.from).toBe(7); // "Before" の最後
   });
 
-  it("ミッセージの末尾で右矢印キーを押すと次のノードに移動する", async () => {
+  it("キャプションの末尾で右矢印キーを押すと次のノードに移動する", async () => {
     const editor = renderTiptapEditor({
-      content: `<p>Before</p><p><img src='${LakeImage}' alt='支笏湖'><em>支笏湖</em></p><p>After</p>`,
+      content: `<p><img src='${LakeImage}' alt='支笏湖'><em>支笏湖</em></p><p>After</p>`,
       extensions: [Document, Paragraph, Text, Figure, Caption, Image],
     });
 
-    editor.chain().focus().setTextSelection(7).run();
+    editor.chain().focus().setTextSelection(6).run();
 
     await wait(50); // カーソルの同期を待つ
 
@@ -104,6 +104,6 @@ describe("キー入力", () => {
 
     await wait(50); // カーソルの同期を待つ
 
-    expect(editor.state.selection.from).toBe(11); // "After" の最初
+    expect(editor.state.selection.from).toBe(9); // "After" の最初
   });
 });
