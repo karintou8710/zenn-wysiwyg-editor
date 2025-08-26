@@ -1,12 +1,9 @@
 import { Plugin, PluginKey } from "@tiptap/pm/state";
-import { InputRule, mergeAttributes, Node } from "@tiptap/react";
+import { findParentNode, InputRule, Node } from "@tiptap/react";
+import { getSliceText } from "@/features/editor/lib/node";
 import { extractImageUrlAndAlt, isImageURL } from "../../../lib/url";
 
-export interface FigureOptions {
-  HTMLAttributes: Record<string, any>;
-}
-
-export interface InsertFigureOptions {
+export interface SetFigureOptions {
   src: string;
   alt?: string;
   caption?: string;
@@ -15,7 +12,8 @@ export interface InsertFigureOptions {
 declare module "@tiptap/react" {
   interface Commands<ReturnType> {
     figure: {
-      insertFigureAt: (pos: number, options: InsertFigureOptions) => ReturnType;
+      setFigure: (options: SetFigureOptions) => ReturnType;
+      clearFigure: () => ReturnType;
     };
   }
 }
@@ -33,12 +31,6 @@ export const Figure = Node.create({
   selectable: true,
   priority: 1000,
 
-  addOptions() {
-    return {
-      HTMLAttributes: {},
-    };
-  },
-
   parseHTML() {
     return [
       {
@@ -49,21 +41,15 @@ export const Figure = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      "p",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes, {
-        "data-figure": "",
-      }),
-      0,
-    ];
+    return ["p", HTMLAttributes, 0];
   },
 
   addCommands() {
     return {
-      insertFigureAt:
-        (pos, options) =>
+      setFigure:
+        (options) =>
         ({ commands }) => {
-          return commands.insertContentAt(pos, {
+          return commands.insertContent({
             type: this.name,
             content: [
               {
@@ -82,6 +68,21 @@ export const Figure = Node.create({
             ],
           });
         },
+      clearFigure:
+        () =>
+        ({ commands, state }) => {
+          const { selection } = state;
+          const parent = findParentNode((node) => node.type.name === this.name)(
+            selection,
+          );
+
+          if (!parent) return false;
+
+          return commands.deleteRange({
+            from: parent.pos,
+            to: parent.pos + parent.node.nodeSize,
+          });
+        },
     };
   },
 
@@ -92,10 +93,7 @@ export const Figure = Node.create({
         handler: ({ match, chain, range }) => {
           const [, , alt, src] = match;
 
-          chain()
-            .deleteRange(range)
-            .insertFigureAt(range.from, { src, alt })
-            .run();
+          chain().deleteRange(range).setFigure({ src, alt }).run();
         },
       }),
     ];
@@ -112,18 +110,14 @@ export const Figure = Node.create({
             const { selection } = state;
             const { empty } = selection;
 
-            // 範囲選択の場合はデフォルトのリンクマークの挙動にする
+            // 範囲選択の場合はデフォルトのリンクテキストの挙動にする
             if (!empty) {
               return false;
             }
 
-            let textContent = "";
-
-            slice.content.forEach((node) => {
-              textContent += node.textContent;
-            });
-
             let url: string | undefined, alt: string | undefined;
+
+            const textContent = getSliceText(slice);
             const params = extractImageUrlAndAlt(textContent);
             if (params) {
               url = params.url;
@@ -138,7 +132,7 @@ export const Figure = Node.create({
             this.editor
               .chain()
               .deleteRange({ from: selection.from, to: selection.to })
-              .insertFigureAt(selection.from, { src: url, alt })
+              .setFigure({ src: url, alt })
               .run();
             return true;
           },
