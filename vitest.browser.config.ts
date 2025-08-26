@@ -4,6 +4,7 @@ import { defineConfig } from "vitest/config";
 export default defineConfig({
   plugins: [react()],
   test: {
+    setupFiles: ["./setup-browser-test.ts"],
     browser: {
       enabled: true,
       provider: "playwright",
