@@ -33,7 +33,7 @@ import Footnotes from "./extensions/footnotes/footnotes";
 import { FootnotesList } from "./extensions/footnotes/footnotes-list";
 import Heading from "./extensions/heading";
 import { Link } from "./extensions/link";
-import { Message } from "./extensions/message";
+import { Message } from "./extensions/message/message";
 import { MessageContent } from "./extensions/message/message-content";
 import { Placeholder } from "./extensions/placeholder";
 import { TableCell } from "./extensions/tables/cell";
