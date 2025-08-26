@@ -10,7 +10,7 @@ import Strike from "@tiptap/extension-strike";
 import { TableRow } from "@tiptap/extension-table";
 import Text from "@tiptap/extension-text";
 import { Dropcursor, TrailingNode, UndoRedo } from "@tiptap/extensions";
-import type { Extensions } from "@tiptap/react";
+import { type Extensions, findParentNode } from "@tiptap/react";
 import { CodeBlockContainer } from "./extensions/code-block-container";
 import { CodeBlock } from "./extensions/code-block-container/code-block";
 import { CodeBlockFileName } from "./extensions/code-block-container/code-block-file-name";
@@ -33,13 +33,12 @@ import Footnotes from "./extensions/footnotes/footnotes";
 import { FootnotesList } from "./extensions/footnotes/footnotes-list";
 import Heading from "./extensions/heading";
 import { Link } from "./extensions/link";
-import { Message } from "./extensions/message";
+import { Message } from "./extensions/message/message";
 import { MessageContent } from "./extensions/message/message-content";
 import { Placeholder } from "./extensions/placeholder";
 import { TableCell } from "./extensions/tables/cell";
 import { TableHeader } from "./extensions/tables/header";
 import { Table } from "./extensions/tables/table";
-import { isChildOf } from "./lib/node";
 
 export const extensions: Extensions = [
   // === Core ===
@@ -96,11 +95,14 @@ export const extensions: Extensions = [
   UndoRedo,
   TrailingNode,
   Placeholder.configure({
-    placeholder: ({ editor, node, pos }) => {
-      const $pos = editor.state.doc.resolve(pos);
+    placeholder: ({ editor, node }) => {
       if (node.type === editor.schema.nodes.caption) {
         return "キャプションを入力";
-      } else if (isChildOf($pos, editor.schema.nodes.table.name)) {
+      } else if (
+        findParentNode((node) => node.type === editor.schema.nodes.table)(
+          editor.state.selection,
+        )
+      ) {
         return "";
       }
 

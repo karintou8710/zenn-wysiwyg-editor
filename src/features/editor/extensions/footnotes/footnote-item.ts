@@ -1,6 +1,5 @@
 import { Plugin, PluginKey } from "@tiptap/pm/state";
-import { Node } from "@tiptap/react";
-import { isChildOf } from "../../lib/node";
+import { findParentNode, Node } from "@tiptap/react";
 
 declare module "@tiptap/react" {
   interface Commands<ReturnType> {
@@ -98,8 +97,12 @@ const FootnoteItem = Node.create({
             const text = event.clipboardData?.getData("text/plain") || "";
             if (!text) return false;
 
-            const $pos = state.doc.resolve(selection.from);
-            if (!isChildOf($pos, "footnotes")) return false;
+            if (
+              !findParentNode(
+                (node) => node.type === state.schema.nodes.footnotes,
+              )(selection)
+            )
+              return false;
 
             const tr = state.tr;
             tr.insertText(text, selection.from, selection.to);
