@@ -33,7 +33,6 @@ export const MessageContent = Node.create({
 
         if (!selection.empty || $from.start() !== $from.pos) return false;
 
-        console.log(this.editor.commands.unsetMessage());
         return true;
       },
     };
