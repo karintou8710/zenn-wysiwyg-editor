@@ -54,6 +54,9 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Build Module
+        run: pnpm build:module
+
       - name: Run Node.js tests
         run: pnpm test:node
 
@@ -80,6 +83,9 @@ jobs:
 
       - name: Setup Playwright Browsers
         run: pnpm exec playwright install --with-deps
+
+      - name: Build Module
+        run: pnpm build:module
 
       - name: Run browser tests
         run: pnpm test:browser
