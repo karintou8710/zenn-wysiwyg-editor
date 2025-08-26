@@ -1,8 +1,19 @@
 import { InputRule, mergeAttributes, Node } from "@tiptap/react";
+import { cn } from "@/lib/utils";
 import { createMessageSymbolDecorationPlugin } from "./message-symbol-decoration-plugin";
 
+export type MessageType = "message" | "alert";
+
 export interface MessageOptions {
-  type?: "message" | "alert";
+  type?: MessageType;
+}
+
+declare module "@tiptap/react" {
+  interface Commands<ReturnType> {
+    message: {
+      setMessage: (attrs: { type: MessageType }) => ReturnType;
+    };
+  }
 }
 
 export const Message = Node.create({
@@ -37,28 +48,32 @@ export const Message = Node.create({
     return [
       "aside",
       mergeAttributes(HTMLAttributes, {
-        class: `msg ${node.attrs.type === "alert" ? "alert" : ""}`,
+        class: cn("msg", {
+          alert: node.attrs.type === "alert",
+        }),
       }),
       0,
     ];
+  },
+
+  addCommands() {
+    return {
+      setMessage:
+        ({ type }) =>
+        ({ commands }) => {
+          return commands.wrapIn(this.name, { type });
+        },
+    };
   },
 
   addInputRules() {
     return [
       new InputRule({
         find: /^:::(message|alert)\s$/,
-        handler: ({ state, commands, range, match }) => {
-          const type = match[1];
-          const messageNode = this.type.createAndFill({ type: type });
+        handler: ({ chain, range, match }) => {
+          const type = match[1] as MessageType;
 
-          const $from = state.doc.resolve(range.from);
-          commands.insertContentAt(
-            {
-              from: $from.before(),
-              to: $from.after(),
-            },
-            messageNode,
-          );
+          chain().deleteRange(range).setMessage({ type }).run();
         },
       }),
     ];
