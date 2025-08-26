@@ -33,7 +33,7 @@ export const Figure = Node.create({
   parseHTML() {
     return [
       {
-        tag: "p:has(img))", // Zennのレンダリングでは、キャプションなしがemを含まない
+        tag: "p:has(img)", // Zennのレンダリングでは、キャプションなしがemを含まない
         priority: 100, // 段落よりも優先度を高くする
       },
     ];
