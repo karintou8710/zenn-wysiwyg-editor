@@ -6,7 +6,6 @@ import { describe, expect, it } from "vitest";
 import LakeImage from "@/assets/sikotuko.jpeg";
 import { setSelection, waitSelectionChange } from "@/tests/dom";
 import { renderTiptapEditor } from "@/tests/editor";
-import { wait } from "@/tests/utils";
 import { Figure } from ".";
 import { Caption } from "./caption";
 import { Image } from "./image";

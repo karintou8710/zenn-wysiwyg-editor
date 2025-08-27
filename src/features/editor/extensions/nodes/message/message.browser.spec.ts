@@ -3,8 +3,8 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import { userEvent } from "@vitest/browser/context";
 import { describe, expect, it } from "vitest";
+import { waitSelectionChange } from "@/tests/dom";
 import { renderTiptapEditor } from "@/tests/editor";
-import { wait } from "@/tests/utils";
 import { Message } from "./message";
 import { MessageContent } from "./message-content";
 
@@ -92,13 +92,13 @@ describe("キー入力", () => {
       extensions: [Document, Paragraph, Text, Message, MessageContent],
     });
 
-    editor.chain().focus().setTextSelection(11).run();
+    await waitSelectionChange(() => {
+      editor.chain().focus().setTextSelection(11).run();
+    });
 
-    await wait(50); // カーソルの同期を待つ
-
-    await userEvent.type(editor.view.dom, "{ArrowLeft}");
-
-    await wait(50); // カーソルの同期を待つ
+    await waitSelectionChange(async () => {
+      await userEvent.type(editor.view.dom, "{ArrowLeft}");
+    });
 
     expect(editor.state.selection.from).toBe(7); // "Before" の最後
   });
@@ -110,13 +110,13 @@ describe("キー入力", () => {
       extensions: [Document, Paragraph, Text, Message, MessageContent],
     });
 
-    editor.chain().focus().setTextSelection(7).run();
+    await waitSelectionChange(() => {
+      editor.chain().focus().setTextSelection(7).run();
+    });
 
-    await wait(50); // カーソルの同期を待つ
-
-    await userEvent.type(editor.view.dom, "{ArrowRight}");
-
-    await wait(50); // カーソルの同期を待つ
+    await waitSelectionChange(async () => {
+      await userEvent.type(editor.view.dom, "{ArrowRight}");
+    });
 
     expect(editor.state.selection.from).toBe(11); // "After" の最初
   });
@@ -130,20 +130,18 @@ describe("範囲選択", () => {
       extensions: [Document, Paragraph, Text, Message, MessageContent],
     });
 
-    editor
-      .chain()
-      .focus()
-      .setTextSelection({
-        from: 5,
-        to: 12,
-      })
-      .run();
-
-    await wait(50); // カーソルの同期を待つ
+    await waitSelectionChange(() => {
+      editor
+        .chain()
+        .focus()
+        .setTextSelection({
+          from: 5,
+          to: 12,
+        })
+        .run();
+    });
 
     await userEvent.keyboard("{Backspace}");
-
-    await wait(50); // カーソルの同期を待つ
 
     expect(editor.state.doc.toString()).toBe('doc(paragraph("Befoext"))');
     expect(editor.state.selection.from).toBe(5);
@@ -156,20 +154,17 @@ describe("範囲選択", () => {
       extensions: [Document, Paragraph, Text, Message, MessageContent],
     });
 
-    editor
-      .chain()
-      .focus()
-      .setTextSelection({
-        from: 5,
-        to: 12,
-      })
-      .run();
-
-    await wait(50); // カーソルの同期を待つ
-
+    await waitSelectionChange(() => {
+      editor
+        .chain()
+        .focus()
+        .setTextSelection({
+          from: 5,
+          to: 12,
+        })
+        .run();
+    });
     await userEvent.keyboard("{Backspace}");
-
-    await wait(50); // カーソルの同期を待つ
 
     expect(editor.state.doc.toString()).toBe(
       'doc(message(messageContent(paragraph("Tefter"))))',
