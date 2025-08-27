@@ -1,10 +1,10 @@
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
-import { userEvent } from "@vitest/browser/context";
+import { page, userEvent } from "@vitest/browser/context";
 import { describe, expect, it } from "vitest";
 import LakeImage from "@/assets/sikotuko.jpeg";
-import { setSelection } from "@/tests/dom";
+import { setSelection, waitSelectionChange } from "@/tests/dom";
 import { renderTiptapEditor } from "@/tests/editor";
 import { wait } from "@/tests/utils";
 import { Figure } from ".";
@@ -80,13 +80,13 @@ describe("キー入力", () => {
       extensions: [Document, Paragraph, Text, Figure, Caption, Image],
     });
 
-    editor.chain().focus().setTextSelection(11).run();
+    await waitSelectionChange(() => {
+      editor.chain().focus().setTextSelection(11).run();
+    });
 
-    await wait(50); // カーソルの同期を待つ
-
-    await userEvent.type(editor.view.dom, "{ArrowLeft}");
-
-    await wait(50); // カーソルの同期を待つ
+    await waitSelectionChange(async () => {
+      await userEvent.type(editor.view.dom, "{ArrowLeft}");
+    });
 
     expect(editor.state.selection.from).toBe(7); // "Before" の最後
   });
@@ -97,13 +97,13 @@ describe("キー入力", () => {
       extensions: [Document, Paragraph, Text, Figure, Caption, Image],
     });
 
-    editor.chain().focus().setTextSelection(6).run();
+    await waitSelectionChange(() => {
+      editor.chain().focus().setTextSelection(6).run();
+    });
 
-    await wait(50); // カーソルの同期を待つ
-
-    await userEvent.type(editor.view.dom, "{ArrowRight}");
-
-    await wait(50); // カーソルの同期を待つ
+    await waitSelectionChange(async () => {
+      await userEvent.type(editor.view.dom, "{ArrowRight}");
+    });
 
     expect(editor.state.selection.from).toBe(9); // "After" の最初
   });
@@ -121,16 +121,15 @@ describe("ペースト", () => {
     document.body.appendChild(p);
 
     setSelection(p);
+    expect(window.getSelection()?.anchorNode).toBe(p);
 
     await userEvent.copy();
-
-    editor.chain().focus().setTextSelection(1).run();
-
-    await wait(50); // カーソルの同期を待つ
+    await waitSelectionChange(() => {
+      editor.chain().focus().setTextSelection(1).run();
+    });
 
     await userEvent.paste();
-
-    await wait(50); // ペーストの同期を待つ
+    await expect.element(page.getByRole("img")).toBeVisible();
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe("doc(figure(image, caption))");
@@ -140,6 +139,8 @@ describe("ペースト", () => {
       alt: "支笏湖",
       width: null,
     });
+
+    p.remove(); // クリーンアップ
   });
 
   it("拡張子がjpegの画像URLをペーストするとFigureノードが作成される", async () => {
@@ -154,24 +155,30 @@ describe("ペースト", () => {
     document.body.appendChild(p);
 
     setSelection(p);
-
+    expect(window.getSelection()?.anchorNode).toBe(p);
     await userEvent.copy();
-
-    editor.chain().focus().setTextSelection(1).run();
-
-    await wait(50); // カーソルの同期を待つ
+    await waitSelectionChange(() => {
+      editor.chain().focus().setTextSelection(1).run();
+    });
 
     await userEvent.paste();
 
-    await wait(50); // ペーストの同期を待つ
+    // altがないとgetByRoleで弾かれる
+    editor.commands.command(({ tr }) => {
+      tr.setNodeAttribute(1, "alt", "支笏湖");
+      return true;
+    });
+    await expect.element(page.getByRole("img")).toBeVisible();
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe("doc(figure(image, caption))");
     expect(editor.state.selection.from).toBe(3);
     expect(editor.state.doc.firstChild?.firstChild?.attrs).toEqual({
       src: url,
-      alt: "",
+      alt: "支笏湖",
       width: null,
     });
+
+    p.remove(); // クリーンアップ
   });
 });
