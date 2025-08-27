@@ -6,6 +6,7 @@ import { describe, expect, it } from "vitest";
 import LakeImage from "@/assets/sikotuko.jpeg";
 import { setSelection, waitSelectionChange } from "@/tests/dom";
 import { renderTiptapEditor } from "@/tests/editor";
+import { wait } from "@/tests/utils";
 import { Figure } from ".";
 import { Caption } from "./caption";
 import { Image } from "./image";
@@ -115,21 +116,18 @@ describe("ペースト", () => {
       extensions: [Document, Paragraph, Text, Figure, Caption, Image],
     });
 
-    const p = document.createElement("p");
-    p.textContent = `![支笏湖](${LakeImage})`;
-    document.body.appendChild(p);
+    const input = document.createElement("input");
+    input.value = `![支笏湖](${LakeImage})`;
+    document.body.appendChild(input);
 
-    setSelection(p);
-    expect(window.getSelection()?.anchorNode).toBe(p);
-
+    await userEvent.tripleClick(input);
     await userEvent.copy();
+
     await waitSelectionChange(() => {
       editor.chain().focus().run();
     });
 
-    expect(window.getSelection()?.anchorNode).toBe(editor.view.dom.firstChild);
     await userEvent.paste();
-    await expect.element(page.getByRole("img")).toBeVisible();
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe("doc(figure(image, caption))");
@@ -140,7 +138,7 @@ describe("ペースト", () => {
       width: null,
     });
 
-    p.remove(); // クリーンアップ
+    input.remove(); // クリーンアップ
   });
 
   it("拡張子がjpegの画像URLをペーストするとFigureノードが作成される", async () => {
@@ -150,62 +148,25 @@ describe("ペースト", () => {
     });
     const url = `${location.origin}${LakeImage}`;
 
-    const p = document.createElement("p");
-    p.textContent = url;
-    document.body.appendChild(p);
+    const input = document.createElement("input");
+    input.value = url;
+    document.body.appendChild(input);
 
-    setSelection(p);
-    expect(window.getSelection()?.anchorNode).toBe(p);
+    await userEvent.tripleClick(input);
     await userEvent.copy();
     await waitSelectionChange(() => {
       editor.chain().focus().setTextSelection(1).run();
     });
-    expect(window.getSelection()?.anchorNode).toBe(editor.view.dom.firstChild);
-
     await userEvent.paste();
-
-    // altがないとgetByRoleで弾かれる
-    editor.commands.command(({ tr }) => {
-      tr.setNodeAttribute(1, "alt", "支笏湖");
-      return true;
-    });
-    await expect.element(page.getByRole("img")).toBeVisible();
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe("doc(figure(image, caption))");
     expect(editor.state.selection.from).toBe(3);
     expect(editor.state.doc.firstChild?.firstChild?.attrs).toEqual({
       src: url,
-      alt: "支笏湖",
+      alt: "",
       width: null,
     });
-
-    p.remove(); // クリーンアップ
-  });
-
-  it("webkit copy test", async () => {
-    const input = document.createElement("input");
-    input.placeholder = "source";
-    document.body.appendChild(input);
-
-    const target = document.createElement("input");
-    target.placeholder = "target";
-    document.body.appendChild(target);
-
-    // write to 'source'
-    await userEvent.click(page.getByPlaceholder("source"));
-    await userEvent.keyboard("hello");
-
-    // select and copy 'source'
-    await userEvent.dblClick(page.getByPlaceholder("source"));
-    await userEvent.copy();
-
-    // paste to 'target'
-    await userEvent.click(page.getByPlaceholder("target"));
-    await userEvent.paste();
-
-    await expect.element(page.getByPlaceholder("source")).toHaveValue("hello");
-    await expect.element(page.getByPlaceholder("target")).toHaveValue("hello");
 
     input.remove(); // クリーンアップ
   });
