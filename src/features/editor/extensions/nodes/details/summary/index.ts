@@ -76,13 +76,7 @@ export const DetailsSummary = Node.create({
           return false;
         }
 
-        // 親のdetailsを削除
-        editor.commands.deleteRange({
-          from: $from.before(-1),
-          to: $from.after(-1),
-        });
-
-        return true;
+        return editor.commands.unsetDetails();
       },
     };
   },

@@ -1,4 +1,19 @@
-import { InputRule, mergeAttributes, Node } from "@tiptap/react";
+import {
+  findChildren,
+  findParentNode,
+  InputRule,
+  mergeAttributes,
+  Node,
+} from "@tiptap/react";
+
+declare module "@tiptap/react" {
+  interface Commands<ReturnType> {
+    details: {
+      setDetails: () => ReturnType;
+      unsetDetails: () => ReturnType;
+    };
+  }
+}
 
 export const Details = Node.create({
   name: "details",
@@ -40,6 +55,100 @@ export const Details = Node.create({
     ];
   },
 
+  addCommands() {
+    return {
+      setDetails:
+        () =>
+        ({ state, chain }) => {
+          const { schema, selection } = state;
+          const { $from, $to } = selection;
+          const range = $from.blockRange($to);
+
+          if (!range) {
+            return false;
+          }
+
+          const slice = state.doc.slice(range.start, range.end);
+          const match = schema.nodes.detailsContent.contentMatch.matchFragment(
+            slice.content,
+          );
+
+          if (!match) {
+            return false;
+          }
+
+          const content = slice.toJSON()?.content || [];
+
+          return chain()
+            .insertContentAt(
+              { from: range.start, to: range.end },
+              {
+                type: this.name,
+                attrs: { open: true },
+                content: [
+                  {
+                    type: "detailsSummary",
+                  },
+                  {
+                    type: "detailsContent",
+                    content,
+                  },
+                ],
+              },
+            )
+            .setTextSelection(range.start + 2)
+            .run();
+        },
+
+      unsetDetails:
+        () =>
+        ({ state, chain }) => {
+          const { selection, schema } = state;
+          const details = findParentNode((node) => node.type === this.type)(
+            selection,
+          );
+
+          if (!details) {
+            return false;
+          }
+
+          const detailsSummaries = findChildren(
+            details.node,
+            (node) => node.type === schema.nodes.detailsSummary,
+          );
+          const detailsContents = findChildren(
+            details.node,
+            (node) => node.type === schema.nodes.detailsContent,
+          );
+
+          if (!detailsSummaries.length || !detailsContents.length) {
+            return false;
+          }
+
+          const detailsSummary = detailsSummaries[0];
+          const detailsContent = detailsContents[0];
+          const from = details.pos;
+          const $from = state.doc.resolve(from);
+          const to = from + details.node.nodeSize;
+          const range = { from, to };
+          const content = (detailsContent.node.content.toJSON() as []) || [];
+          const defaultTypeForSummary =
+            $from.parent.type.contentMatch.defaultType;
+          console.log(defaultTypeForSummary);
+
+          const summaryContent = defaultTypeForSummary
+            ?.create(null, detailsSummary.node.content)
+            .toJSON();
+          const mergedContent = [summaryContent, ...content];
+
+          return chain()
+            .insertContentAt(range, mergedContent)
+            .setTextSelection(from + 1)
+            .run();
+        },
+    };
+  },
+
   addNodeView() {
     return ({ node }) => {
       const dom = document.createElement("div");
@@ -60,17 +169,8 @@ export const Details = Node.create({
     return [
       new InputRule({
         find: /^:::details\s$/,
-        handler: ({ state, range, commands }) => {
-          const detailsNode = this.type.createAndFill({
-            open: false,
-          });
-
-          const $from = state.doc.resolve(range.from);
-
-          commands.insertContentAt(
-            { from: $from.before(), to: $from.after() },
-            detailsNode,
-          );
+        handler: ({ range, chain }) => {
+          chain().deleteRange(range).setDetails().run();
         },
       }),
     ];
