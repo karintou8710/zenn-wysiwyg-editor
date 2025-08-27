@@ -40,10 +40,16 @@ export const Link = TiptapLink.extend({
       a.setAttribute("rel", mark.attrs.rel);
 
       let component: ReactRenderer | null = null;
+      let hoverTimeout: NodeJS.Timeout | null = null;
+
       const destroyComponent = () => {
         if (component) {
           component.destroy();
           component = null;
+        }
+        if (hoverTimeout) {
+          clearTimeout(hoverTimeout);
+          hoverTimeout = null;
         }
       };
       const currentLinkRange = () => {
@@ -70,43 +76,52 @@ export const Link = TiptapLink.extend({
         destroyComponent();
       };
 
+      // 0.5秒間ホバーし続けたらリンク編集UIを表示する
       a.addEventListener("mouseenter", (e) => {
-        component = new ReactRenderer(LinkEdit, {
-          props: {
-            href: mark.attrs.href,
-            handleMouseLeave: (e: MouseEvent) => {
-              e.stopPropagation();
-              destroyComponent();
+        hoverTimeout = setTimeout(() => {
+          component = new ReactRenderer(LinkEdit, {
+            props: {
+              href: mark.attrs.href,
+              handleMouseLeave: (e: MouseEvent) => {
+                e.stopPropagation();
+                destroyComponent();
+              },
+              handleSave: (href: string) => {
+                if (!href) {
+                  handleDelete();
+                  return;
+                }
+
+                this.editor
+                  .chain()
+                  .setTextSelection(currentLinkRange()?.from || 0)
+                  .focus()
+                  .run();
+
+                // 属性を更新すると、リンクが再描画されて a要素が置き換わる。
+                // なのでcurrentLinkRangeはupdateAttributesの前に呼び出す
+                updateAttributes({ href: href });
+                destroyComponent();
+              },
+              handleDelete: handleDelete,
             },
-            handleSave: (href: string) => {
-              if (!href) {
-                handleDelete();
-                return;
-              }
+            editor: this.editor,
+          });
 
-              this.editor
-                .chain()
-                .setTextSelection(currentLinkRange()?.from || 0)
-                .focus()
-                .run();
-
-              // 属性を更新すると、リンクが再描画されて a要素が置き換わる。
-              // なのでcurrentLinkRangeはupdateAttributesの前に呼び出す
-              updateAttributes({ href: href });
-              destroyComponent();
-            },
-            handleDelete: handleDelete,
-          },
-          editor: this.editor,
-        });
-
-        const element = component.element as HTMLElement;
-        element.style.position = "absolute";
-        document.body.appendChild(element);
-        updatePosition(e.target as HTMLElement, element);
+          const element = component.element as HTMLElement;
+          element.style.position = "absolute";
+          document.body.appendChild(element);
+          updatePosition(e.target as HTMLElement, element);
+        }, 500); // 0.5秒後に表示
       });
 
       a.addEventListener("mouseleave", (e) => {
+        // タイムアウトをクリアして、リンク編集UIの表示をキャンセル
+        if (hoverTimeout) {
+          clearTimeout(hoverTimeout);
+          hoverTimeout = null;
+        }
+
         if (
           e.relatedTarget &&
           e.relatedTarget instanceof Node &&

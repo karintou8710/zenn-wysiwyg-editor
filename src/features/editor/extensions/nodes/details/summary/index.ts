@@ -1,4 +1,6 @@
-import { Node } from "@tiptap/react";
+import { Selection } from "@tiptap/pm/state";
+import { defaultBlockAt, Node } from "@tiptap/react";
+import { isNodeVisible } from "@/features/editor/lib/node";
 
 export const DetailsSummary = Node.create({
   name: "detailsSummary",
@@ -76,11 +78,49 @@ export const DetailsSummary = Node.create({
           return false;
         }
 
-        // 親のdetailsを削除
-        editor.commands.deleteRange({
-          from: $from.before(-1),
-          to: $from.after(-1),
-        });
+        return editor.commands.unsetDetails();
+      },
+
+      // 閉じていたら次のブロックに移動、開いていたらコンテンツに移動
+      Enter: ({ editor }) => {
+        const { state, view } = editor;
+        const { selection } = state;
+        const { $head } = selection;
+
+        if ($head.parent.type !== this.type) {
+          return false;
+        }
+
+        const isVisible = isNodeVisible($head.after() + 1, editor);
+        const above = isVisible
+          ? state.doc.nodeAt($head.after())
+          : $head.node(-2);
+
+        if (!above) {
+          return false;
+        }
+
+        const after = isVisible ? 0 : $head.indexAfter(-1);
+        const type = defaultBlockAt(above.contentMatchAt(after));
+
+        if (!type || !above.canReplaceWith(after, after, type)) {
+          return false;
+        }
+
+        const node = type.createAndFill();
+
+        if (!node) {
+          return false;
+        }
+
+        const pos = isVisible ? $head.after() + 1 : $head.after(-1);
+        const tr = state.tr.replaceWith(pos, pos, node);
+        const $pos = tr.doc.resolve(pos);
+        const newSelection = Selection.near($pos, 1);
+
+        tr.setSelection(newSelection);
+        tr.scrollIntoView();
+        view.dispatch(tr);
 
         return true;
       },

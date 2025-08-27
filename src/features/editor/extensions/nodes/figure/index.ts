@@ -47,7 +47,22 @@ export const Figure = Node.create({
     return {
       setFigure:
         (options) =>
-        ({ commands }) => {
+        ({ commands, state }) => {
+          const { selection } = state;
+          const range = selection.$from.blockRange(selection.$to);
+
+          if (!range) {
+            return false;
+          }
+
+          const isParentMatch = range.parent.type.contentMatch.matchType(
+            this.type,
+          );
+
+          if (!isParentMatch) {
+            return false;
+          }
+
           return commands.insertContent({
             type: this.name,
             content: [
@@ -89,8 +104,12 @@ export const Figure = Node.create({
     return [
       new InputRule({
         find: inputRegex,
-        handler: ({ match, chain, range }) => {
+        handler: ({ match, chain, range, can }) => {
           const [, , alt, src] = match;
+
+          if (!can().setFigure({ src, alt })) {
+            return;
+          }
 
           chain().deleteRange(range).setFigure({ src, alt }).run();
         },
@@ -127,6 +146,10 @@ export const Figure = Node.create({
             }
 
             if (!url) return false;
+
+            if (!this.editor.can().setFigure({ src: url, alt })) {
+              return false;
+            }
 
             this.editor
               .chain()

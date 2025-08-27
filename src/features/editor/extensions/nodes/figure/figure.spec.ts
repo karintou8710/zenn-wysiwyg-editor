@@ -188,7 +188,6 @@ describe("マークダウン", () => {
     const markdown = `![支笏湖](${LakeImage})`;
 
     const html = fromMarkdown(markdown);
-    console.log(html);
     const editor = new Editor({
       extensions: [Document, Paragraph, Text, Figure, Image, Caption],
       content: html,
