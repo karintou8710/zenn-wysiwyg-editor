@@ -15,7 +15,9 @@ describe("InputRule", () => {
       extensions: [Document, Paragraph, Text, Message, MessageContent],
     });
 
-    editor.chain().focus().setTextSelection(1).run();
+    await waitSelectionChange(() => {
+      editor.chain().focus().run();
+    });
     await userEvent.type(editor.view.dom, ":::message ");
 
     const docString = editor.state.doc.toString();
@@ -29,7 +31,9 @@ describe("InputRule", () => {
       extensions: [Document, Paragraph, Text, Message, MessageContent],
     });
 
-    editor.chain().focus().setTextSelection(1).run();
+    await waitSelectionChange(() => {
+      editor.chain().focus().run();
+    });
     await userEvent.type(editor.view.dom, ":::alert ");
 
     const docString = editor.state.doc.toString();
@@ -44,7 +48,9 @@ describe("InputRule", () => {
       extensions: [Document, Paragraph, Text, Message, MessageContent],
     });
 
-    editor.chain().focus().setTextSelection(2).run();
+    await waitSelectionChange(() => {
+      editor.chain().focus().setTextSelection(2).run();
+    });
     await userEvent.type(editor.view.dom, ":::alert ");
 
     const docString = editor.state.doc.toString();
@@ -60,7 +66,9 @@ describe("キー入力", () => {
       extensions: [Document, Paragraph, Text, Message, MessageContent],
     });
 
-    editor.chain().focus().setTextSelection(3).run();
+    await waitSelectionChange(() => {
+      editor.chain().focus().setTextSelection(3).run();
+    });
     await userEvent.type(editor.view.dom, "{Backspace}");
 
     const docString = editor.state.doc.toString();
@@ -75,7 +83,9 @@ describe("キー入力", () => {
       extensions: [Document, Paragraph, Text, Message, MessageContent],
     });
 
-    editor.chain().focus().setTextSelection(4).run();
+    await waitSelectionChange(() => {
+      editor.chain().focus().setTextSelection(4).run();
+    });
     await userEvent.type(editor.view.dom, "{Enter}");
 
     const docString = editor.state.doc.toString();

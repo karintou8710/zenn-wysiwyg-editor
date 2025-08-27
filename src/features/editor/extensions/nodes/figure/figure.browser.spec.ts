@@ -1,12 +1,11 @@
 import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
-import { page, userEvent } from "@vitest/browser/context";
+import { userEvent } from "@vitest/browser/context";
 import { describe, expect, it } from "vitest";
 import LakeImage from "@/assets/sikotuko.jpeg";
-import { setSelection, waitSelectionChange } from "@/tests/dom";
+import { waitSelectionChange } from "@/tests/dom";
 import { renderTiptapEditor } from "@/tests/editor";
-import { wait } from "@/tests/utils";
 import { Figure } from ".";
 import { Caption } from "./caption";
 import { Image } from "./image";
@@ -18,7 +17,9 @@ describe("InputRule", () => {
       extensions: [Document, Paragraph, Text, Figure, Caption, Image],
     });
 
-    editor.chain().focus().setTextSelection(1).run();
+    await waitSelectionChange(() => {
+      editor.chain().focus().run();
+    });
     await userEvent.type(editor.view.dom, `!{\\[}支笏湖{\\]}(${LakeImage}) `);
 
     const docString = editor.state.doc.toString();
@@ -37,7 +38,9 @@ describe("InputRule", () => {
       extensions: [Document, Paragraph, Text, Figure, Caption, Image],
     });
 
-    editor.chain().focus().setTextSelection(2).run();
+    await waitSelectionChange(() => {
+      editor.chain().focus().setTextSelection(2).run();
+    });
     await userEvent.type(editor.view.dom, `!{\\[}支笏湖{\\]}(${LakeImage}) `);
 
     const docString = editor.state.doc.toString();
@@ -52,7 +55,9 @@ describe("キー入力", () => {
       extensions: [Document, Paragraph, Text, Image, Caption, Figure],
     });
 
-    editor.chain().focus().setTextSelection(3).run();
+    await waitSelectionChange(() => {
+      editor.chain().focus().setTextSelection(3).run();
+    });
     await userEvent.type(editor.view.dom, "{Backspace}");
 
     const docString = editor.state.doc.toString();
@@ -66,7 +71,9 @@ describe("キー入力", () => {
       extensions: [Document, Paragraph, Text, Image, Caption, Figure],
     });
 
-    editor.chain().focus().setTextSelection(4).run();
+    await waitSelectionChange(() => {
+      editor.chain().focus().setTextSelection(4).run();
+    });
     await userEvent.type(editor.view.dom, "{Enter}");
 
     const docString = editor.state.doc.toString();
