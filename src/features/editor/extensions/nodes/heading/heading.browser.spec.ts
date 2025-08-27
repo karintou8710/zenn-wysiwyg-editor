@@ -33,9 +33,7 @@ describe("キー入力", () => {
     await waitSelectionChange(() => {
       editor.chain().focus().setTextSelection(1).run();
     });
-    await waitSelectionChange(async () => {
-      await userEvent.keyboard("{Backspace}");
-    });
+    await userEvent.keyboard("{Backspace}");
 
     const doc = editor.state.doc.toString();
     expect(doc).toBe('doc(paragraph("見出し"))');
