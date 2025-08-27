@@ -13,8 +13,8 @@
     "check": "run-s check:*",
     "fix": "biome check --write ./src",
     "preview": "vite preview",
-    "test:browser:watch": "vitest --config=vitest.browser.config.ts --browser.ui=true --browser.headless=false",
     "test:browser": "vitest run --config=vitest.browser.config.ts",
+    "test:browser:watch": "vitest --config=vitest.browser.config.ts --browser.ui=true --browser.headless=false",
     "test:node": "vitest run --config=vitest.config.ts",
     "test:all": "pnpm test:node && pnpm test:browser"
   },
