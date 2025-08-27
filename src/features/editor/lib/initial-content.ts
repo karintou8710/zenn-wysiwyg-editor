@@ -52,7 +52,7 @@ export const INITIAL_CONTENT = `
 url(貼り付け)</code>
 </pre>
 </div>
-<p data-figure>
+<p>
 <img src="${location.origin + LakeImage}" alt="支笏湖">
 <em>支笏湖</em>
 </p>
