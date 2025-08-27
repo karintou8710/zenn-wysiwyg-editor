@@ -127,6 +127,7 @@ describe("ペースト", () => {
       editor.chain().focus().setTextSelection(1).run();
     });
 
+    expect(window.getSelection()?.anchorNode).toBe(editor.view.dom.firstChild);
     await userEvent.paste();
     await expect.element(page.getByRole("img")).toBeVisible();
 
@@ -159,6 +160,7 @@ describe("ペースト", () => {
     await waitSelectionChange(() => {
       editor.chain().focus().setTextSelection(1).run();
     });
+    expect(window.getSelection()?.anchorNode).toBe(editor.view.dom.firstChild);
 
     await userEvent.paste();
 
