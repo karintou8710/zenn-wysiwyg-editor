@@ -177,7 +177,7 @@ describe("マークダウン", () => {
 
     const markdown = markdownSerializer.serialize(editor.state.doc);
 
-    expect(markdown).toBe(":::details summary\nテキスト\n\n:::");
+    expect(markdown).toBe(":::details summary\nテキスト\n:::");
   });
 
   it("アコーディオンのネストをマークダウン記法に出力できる", () => {
@@ -202,7 +202,7 @@ describe("マークダウン", () => {
     const markdown = markdownSerializer.serialize(editor.state.doc);
 
     expect(markdown).toBe(
-      "::::details summary\nテキスト\n\n:::details nest summary\nネスト\n\n:::\n\n::::",
+      "::::details summary\nテキスト\n\n:::details nest summary\nネスト\n:::\n::::",
     );
   });
 
