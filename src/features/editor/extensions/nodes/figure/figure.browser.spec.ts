@@ -124,7 +124,7 @@ describe("ペースト", () => {
 
     await userEvent.copy();
     await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(1).run();
+      editor.chain().focus().run();
     });
 
     expect(window.getSelection()?.anchorNode).toBe(editor.view.dom.firstChild);
@@ -181,5 +181,32 @@ describe("ペースト", () => {
     });
 
     p.remove(); // クリーンアップ
+  });
+
+  it("webkit copy test", async () => {
+    const input = document.createElement("input");
+    input.placeholder = "source";
+    document.body.appendChild(input);
+
+    const target = document.createElement("input");
+    target.placeholder = "target";
+    document.body.appendChild(target);
+
+    // write to 'source'
+    await userEvent.click(page.getByPlaceholder("source"));
+    await userEvent.keyboard("hello");
+
+    // select and copy 'source'
+    await userEvent.dblClick(page.getByPlaceholder("source"));
+    await userEvent.copy();
+
+    // paste to 'target'
+    await userEvent.click(page.getByPlaceholder("target"));
+    await userEvent.paste();
+
+    await expect.element(page.getByPlaceholder("source")).toHaveValue("hello");
+    await expect.element(page.getByPlaceholder("target")).toHaveValue("hello");
+
+    input.remove(); // クリーンアップ
   });
 });
