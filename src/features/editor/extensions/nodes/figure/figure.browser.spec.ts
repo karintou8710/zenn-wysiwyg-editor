@@ -4,6 +4,7 @@ import Text from "@tiptap/extension-text";
 import { userEvent } from "@vitest/browser/context";
 import { describe, expect, it } from "vitest";
 import LakeImage from "@/assets/sikotuko.jpeg";
+import { setSelection } from "@/tests/dom";
 import { renderTiptapEditor } from "@/tests/editor";
 import { wait } from "@/tests/utils";
 import { Figure } from ".";
@@ -105,5 +106,72 @@ describe("キー入力", () => {
     await wait(50); // カーソルの同期を待つ
 
     expect(editor.state.selection.from).toBe(9); // "After" の最初
+  });
+});
+
+describe("ペースト", () => {
+  it("![alt](src) をペーストすると Figure ノードが作成される", async () => {
+    const editor = renderTiptapEditor({
+      content: "",
+      extensions: [Document, Paragraph, Text, Figure, Caption, Image],
+    });
+
+    const p = document.createElement("p");
+    p.textContent = `![支笏湖](${LakeImage})`;
+    document.body.appendChild(p);
+
+    setSelection(p);
+
+    await userEvent.copy();
+
+    editor.chain().focus().setTextSelection(1).run();
+
+    await wait(50); // カーソルの同期を待つ
+
+    await userEvent.paste();
+
+    await wait(50); // ペーストの同期を待つ
+
+    const docString = editor.state.doc.toString();
+    expect(docString).toBe("doc(figure(image, caption))");
+    expect(editor.state.selection.from).toBe(3);
+    expect(editor.state.doc.firstChild?.firstChild?.attrs).toEqual({
+      src: LakeImage,
+      alt: "支笏湖",
+      width: null,
+    });
+  });
+
+  it("拡張子がjpegの画像URLをペーストするとFigureノードが作成される", async () => {
+    const editor = renderTiptapEditor({
+      content: "",
+      extensions: [Document, Paragraph, Text, Figure, Caption, Image],
+    });
+    const url = `${location.origin}${LakeImage}`;
+
+    const p = document.createElement("p");
+    p.textContent = url;
+    document.body.appendChild(p);
+
+    setSelection(p);
+
+    await userEvent.copy();
+
+    editor.chain().focus().setTextSelection(1).run();
+
+    await wait(50); // カーソルの同期を待つ
+
+    await userEvent.paste();
+
+    await wait(50); // ペーストの同期を待つ
+
+    const docString = editor.state.doc.toString();
+    expect(docString).toBe("doc(figure(image, caption))");
+    expect(editor.state.selection.from).toBe(3);
+    expect(editor.state.doc.firstChild?.firstChild?.attrs).toEqual({
+      src: url,
+      alt: "",
+      width: null,
+    });
   });
 });
