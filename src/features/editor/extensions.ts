@@ -17,7 +17,6 @@ import Text from "@tiptap/extension-text";
 import { Dropcursor, TrailingNode, UndoRedo } from "@tiptap/extensions";
 import { type Extensions, findParentNode } from "@tiptap/react";
 import { FileHandler } from "./extensions/functionality/file-handler";
-import { NodeSelectionRect } from "./extensions/functionality/node-selection-rect";
 import { Placeholder } from "./extensions/functionality/placeholder";
 import { Link } from "./extensions/marks/link";
 import { CodeBlockContainer } from "./extensions/nodes/code-block-container";
@@ -119,5 +118,4 @@ export const extensions: Extensions = [
   Dropcursor,
   FileHandler,
   ListKeymap,
-  NodeSelectionRect,
 ];
