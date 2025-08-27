@@ -196,7 +196,6 @@ export const Details = Node.create({
             (transaction) => transaction.selectionSet,
           );
 
-          console.log(newState.selection.from, oldState.selection.from);
           if (
             !selectionSet ||
             !oldState.selection.empty ||
@@ -206,7 +205,6 @@ export const Details = Node.create({
           }
 
           const detailsIsActive = isActive(newState, type.name);
-          console.log(detailsIsActive);
 
           if (!detailsIsActive) {
             return;
