@@ -68,7 +68,7 @@ export const Message = Node.create({
       setMessage:
         ({ type }) =>
         ({ chain, state }) => {
-          const { selection } = state;
+          const { schema, selection } = state;
           const { $from, $to } = selection;
           const range = $from.blockRange($to);
 
@@ -77,6 +77,23 @@ export const Message = Node.create({
           }
 
           const slice = state.doc.slice(range.start, range.end);
+          const contentMatch =
+            schema.nodes.messageContent.contentMatch.matchFragment(
+              slice.content,
+            );
+
+          if (!contentMatch) {
+            return false;
+          }
+
+          const isParentMatch = range.parent.type.contentMatch.matchType(
+            this.type,
+          );
+
+          if (!isParentMatch) {
+            return false;
+          }
+
           const content = slice.toJSON()?.content || [];
 
           return chain()
@@ -135,8 +152,12 @@ export const Message = Node.create({
     return [
       new InputRule({
         find: /^:::(message|alert)\s$/,
-        handler: ({ chain, range, match }) => {
+        handler: ({ can, chain, range, match }) => {
           const type = match[1] as MessageType;
+
+          if (!can().setMessage({ type })) {
+            return;
+          }
 
           chain().deleteRange(range).setMessage({ type }).run();
         },
