@@ -1,6 +1,6 @@
 ---
-name: バグレポート
-about: バグや不具合を報告する際にお使いください
+name: 不具合報告
+about: 不具合を報告する際にお使いください
 title: "[BUG] "
 labels: "bug"
 assignees: ""

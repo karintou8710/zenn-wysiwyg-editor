@@ -1,6 +1,6 @@
 ---
-name: Basic Template
-about: Template for creating a new issue
+name: テンプレート
+about: 新規イシュー作成の際にお使いください
 title: ""
 labels: ""
 assignees: ""
