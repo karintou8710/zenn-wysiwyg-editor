@@ -137,19 +137,18 @@
 
 /* Selection */
 .tiptap {
-  &::selection {
-    background-color: rgba(35, 131, 226, 0.3);
-  }
 
   .ProseMirror-selectednode {
     position: relative;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
 
+    /* Chrome は子要素に適用するために & あり */
     &::selection {
-      background: transparent !important;
+      background-color: transparent !important;
+    }
+
+    /* Firefox Safariは子要素に適用するために & なし */
+    ::selection {
+      background-color: transparent !important;
     }
 
     &::after {

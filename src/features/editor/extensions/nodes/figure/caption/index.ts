@@ -1,21 +1,11 @@
-import { mergeAttributes, Node } from "@tiptap/react";
+import { Node } from "@tiptap/react";
 
-export interface CaptionOptions {
-  HTMLAttributes: Record<string, any>;
-}
-
-export const Caption = Node.create<CaptionOptions>({
+export const Caption = Node.create({
   name: "caption",
   group: "block",
   content: "text*",
   defining: true,
   marks: "",
-
-  addOptions() {
-    return {
-      HTMLAttributes: {},
-    };
-  },
 
   parseHTML() {
     return [
@@ -32,11 +22,7 @@ export const Caption = Node.create<CaptionOptions>({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return [
-      "em",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
-      0,
-    ];
+    return ["em", HTMLAttributes, 0];
   },
 
   addKeyboardShortcuts() {
@@ -45,22 +31,13 @@ export const Caption = Node.create<CaptionOptions>({
         const { selection } = editor.state;
         const { $from } = selection;
 
-        if (
-          !selection.empty ||
-          $from.node().type.name !== this.name ||
-          $from.start() !== $from.pos
-        ) {
-          return false;
-        }
+        if ($from.node().type.name !== this.name) return false;
+        if (!selection.empty) return false;
+        if ($from.start() !== $from.pos) return false;
 
-        // 親のfigureを削除
-        editor.commands.deleteRange({
-          from: $from.before(-1),
-          to: $from.after(-1),
-        });
-
-        return true;
+        return editor.commands.clearFigure();
       },
+      // 下に段落を生成して移動
       Enter: ({ editor }) => {
         const { $from } = editor.state.selection;
 
