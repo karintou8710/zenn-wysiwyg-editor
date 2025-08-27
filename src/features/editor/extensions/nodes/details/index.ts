@@ -1,10 +1,16 @@
+import { Plugin, PluginKey, TextSelection } from "@tiptap/pm/state";
 import {
   findChildren,
   findParentNode,
   InputRule,
+  isActive,
   mergeAttributes,
   Node,
 } from "@tiptap/react";
+import {
+  findClosestVisibleNode,
+  isNodeVisible,
+} from "@/features/editor/lib/node";
 
 declare module "@tiptap/react" {
   interface Commands<ReturnType> {
@@ -134,7 +140,6 @@ export const Details = Node.create({
           const content = (detailsContent.node.content.toJSON() as []) || [];
           const defaultTypeForSummary =
             $from.parent.type.contentMatch.defaultType;
-          console.log(defaultTypeForSummary);
 
           const summaryContent = defaultTypeForSummary
             ?.create(null, detailsSummary.node.content)
@@ -171,6 +176,78 @@ export const Details = Node.create({
         find: /^:::details\s$/,
         handler: ({ range, chain }) => {
           chain().deleteRange(range).setDetails().run();
+        },
+      }),
+    ];
+  },
+
+  addProseMirrorPlugins() {
+    return [
+      // 閉じたコンテンツ内にカーソルを移動することを防ぐ
+      new Plugin({
+        key: new PluginKey("detailsSelection"),
+        appendTransaction: (transactions, oldState, newState) => {
+          const { editor, type } = this;
+          const selectionSet = transactions.some(
+            (transaction) => transaction.selectionSet,
+          );
+
+          if (
+            !selectionSet ||
+            !oldState.selection.empty ||
+            !newState.selection.empty
+          ) {
+            return;
+          }
+
+          const detailsIsActive = isActive(newState, type.name);
+
+          if (!detailsIsActive) {
+            return;
+          }
+
+          const { $from } = newState.selection;
+          const isVisible = isNodeVisible($from.pos, editor);
+
+          if (isVisible) {
+            return;
+          }
+
+          const details = findClosestVisibleNode(
+            $from,
+            (node) => node.type === type,
+            editor,
+          );
+
+          if (!details) {
+            return;
+          }
+
+          const detailsSummaries = findChildren(
+            details.node,
+            (node) => node.type === newState.schema.nodes.detailsSummary,
+          );
+
+          if (!detailsSummaries.length) {
+            return;
+          }
+
+          const detailsSummary = detailsSummaries[0];
+          const selectionDirection =
+            oldState.selection.from < newState.selection.from
+              ? "forward"
+              : "backward";
+          const correctedPosition =
+            selectionDirection === "forward"
+              ? details.start + detailsSummary.pos
+              : details.pos + detailsSummary.pos + detailsSummary.node.nodeSize;
+          const selection = TextSelection.create(
+            newState.doc,
+            correctedPosition,
+          );
+          const transaction = newState.tr.setSelection(selection);
+
+          return transaction;
         },
       }),
     ];
