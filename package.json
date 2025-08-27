@@ -13,6 +13,7 @@
     "check": "run-s check:*",
     "fix": "biome check --write ./src",
     "preview": "vite preview",
+    "test:browser:watch": "vitest --config=vitest.browser.config.ts --browser.ui=true --browser.headless=false",
     "test:browser": "vitest run --config=vitest.browser.config.ts",
     "test:node": "vitest run --config=vitest.config.ts",
     "test:all": "pnpm test:node && pnpm test:browser"
@@ -67,6 +68,7 @@
     "@types/react-dom": "^19.1.7",
     "@vitejs/plugin-react": "^5.0.0",
     "@vitest/browser": "^3.2.4",
+    "@vitest/ui": "^3.2.4",
     "babel-plugin-prismjs": "^2.1.0",
     "globals": "^16.3.0",
     "happy-dom": "^18.0.1",

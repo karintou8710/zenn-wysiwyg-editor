@@ -174,7 +174,11 @@ export const Details = Node.create({
     return [
       new InputRule({
         find: /^:::details\s$/,
-        handler: ({ range, chain }) => {
+        handler: ({ range, chain, can }) => {
+          if (!can().setDetails()) {
+            return;
+          }
+
           chain().deleteRange(range).setDetails().run();
         },
       }),
