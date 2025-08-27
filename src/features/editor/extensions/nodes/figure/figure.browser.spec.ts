@@ -5,7 +5,10 @@ import { userEvent } from "@vitest/browser/context";
 import { describe, expect, it } from "vitest";
 import LakeImage from "@/assets/sikotuko.jpeg";
 import { waitSelectionChange } from "@/tests/dom";
-import { renderTiptapEditor } from "@/tests/editor";
+import { copyText, renderTiptapEditor } from "@/tests/editor";
+import { Details } from "../details";
+import { DetailsContent } from "../details/content";
+import { DetailsSummary } from "../details/summary";
 import { Figure } from ".";
 import { Caption } from "./caption";
 import { Image } from "./image";
@@ -45,6 +48,34 @@ describe("InputRule", () => {
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe(`doc(paragraph("T![支笏湖](${LakeImage}) ext"))`);
+  });
+
+  it("アコーディオンのタイトルでは InputRule が発動しない", async () => {
+    const editor = renderTiptapEditor({
+      content:
+        '<details><summary></summary><div class="details-content"><p>Text</p></div></details>',
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Figure,
+        Caption,
+        Image,
+        Details,
+        DetailsContent,
+        DetailsSummary,
+      ],
+    });
+
+    await waitSelectionChange(() => {
+      editor.chain().focus().setTextSelection(2).run();
+    });
+    await userEvent.type(editor.view.dom, `!{\\[}支笏湖{\\]}(${LakeImage}) `);
+
+    const docString = editor.state.doc.toString();
+    expect(docString).toBe(
+      `doc(details(detailsSummary("![支笏湖](${LakeImage}) "), detailsContent(paragraph("Text"))))`,
+    );
   });
 });
 
@@ -155,12 +186,7 @@ describe("ペースト", () => {
     });
     const url = `${location.origin}${LakeImage}`;
 
-    const input = document.createElement("input");
-    input.value = url;
-    document.body.appendChild(input);
-
-    await userEvent.tripleClick(input);
-    await userEvent.copy();
+    await copyText(url);
     await waitSelectionChange(() => {
       editor.chain().focus().setTextSelection(1).run();
     });
@@ -174,7 +200,34 @@ describe("ペースト", () => {
       alt: "",
       width: null,
     });
+  });
 
-    input.remove(); // クリーンアップ
+  it("アコーディオンのタイトルでペーストしても、Figureノードが生成されない", async () => {
+    const editor = renderTiptapEditor({
+      content:
+        '<details><summary></summary><div class="details-content"><p>Text</p></div></details>',
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Figure,
+        Caption,
+        Image,
+        Details,
+        DetailsContent,
+        DetailsSummary,
+      ],
+    });
+
+    await copyText(`![支笏湖](${LakeImage})`);
+    await waitSelectionChange(() => {
+      editor.chain().focus().setTextSelection(2).run();
+    });
+    await userEvent.paste();
+
+    const docString = editor.state.doc.toString();
+    expect(docString).toBe(
+      `doc(details(detailsSummary("![支笏湖](${LakeImage})"), detailsContent(paragraph("Text"))))`,
+    );
   });
 });

@@ -1,4 +1,5 @@
 import { Editor, type Extension, type Mark, type Node } from "@tiptap/react";
+import { userEvent } from "@vitest/browser/context";
 import { afterEach, beforeEach } from "vitest";
 
 // テスト毎に描画するDOMをリセットする
@@ -32,4 +33,15 @@ export function renderTiptapEditor({
   });
 
   return editor;
+}
+
+export async function copyText(text: string) {
+  const input = document.createElement("input");
+  input.value = text;
+  document.body.appendChild(input);
+
+  await userEvent.tripleClick(input);
+  await userEvent.copy();
+
+  input.remove(); // クリーンアップ
 }
