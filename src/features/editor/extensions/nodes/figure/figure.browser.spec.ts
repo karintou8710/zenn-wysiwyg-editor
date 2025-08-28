@@ -9,6 +9,8 @@ import { copyText, renderTiptapEditor } from "@/tests/editor";
 import { Details } from "../details";
 import { DetailsContent } from "../details/content";
 import { DetailsSummary } from "../details/summary";
+import { Embed } from "../embed";
+import { EmbedPasteHandler } from "../embed/embed-paste-handler";
 import { Figure } from ".";
 import { Caption } from "./caption";
 import { Image } from "./image";
@@ -23,7 +25,7 @@ describe("InputRule", () => {
     await waitSelectionChange(() => {
       editor.chain().focus().run();
     });
-    await userEvent.type(editor.view.dom, `!{\\[}支笏湖{\\]}(${LakeImage}) `);
+    await userEvent.keyboard(`!{\\[}支笏湖{\\]}(${LakeImage}) `);
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe("doc(figure(image, caption))");
@@ -44,7 +46,7 @@ describe("InputRule", () => {
     await waitSelectionChange(() => {
       editor.chain().focus().setTextSelection(2).run();
     });
-    await userEvent.type(editor.view.dom, `!{\\[}支笏湖{\\]}(${LakeImage}) `);
+    await userEvent.keyboard(`!{\\[}支笏湖{\\]}(${LakeImage}) `);
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe(`doc(paragraph("T![支笏湖](${LakeImage}) ext"))`);
@@ -70,7 +72,7 @@ describe("InputRule", () => {
     await waitSelectionChange(() => {
       editor.chain().focus().setTextSelection(2).run();
     });
-    await userEvent.type(editor.view.dom, `!{\\[}支笏湖{\\]}(${LakeImage}) `);
+    await userEvent.keyboard(`!{\\[}支笏湖{\\]}(${LakeImage}) `);
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe(
@@ -89,7 +91,7 @@ describe("キー入力", () => {
     await waitSelectionChange(() => {
       editor.chain().focus().setTextSelection(3).run();
     });
-    await userEvent.type(editor.view.dom, "{Backspace}");
+    await userEvent.keyboard("{Backspace}");
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe("doc(paragraph)");
@@ -105,7 +107,7 @@ describe("キー入力", () => {
     await waitSelectionChange(() => {
       editor.chain().focus().setTextSelection(4).run();
     });
-    await userEvent.type(editor.view.dom, "{Enter}");
+    await userEvent.keyboard("{Enter}");
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe(`doc(figure(image, caption("支笏湖")), paragraph)`);
@@ -122,9 +124,7 @@ describe("キー入力", () => {
       editor.chain().focus().setTextSelection(11).run();
     });
 
-    await waitSelectionChange(async () => {
-      await userEvent.type(editor.view.dom, "{ArrowLeft}");
-    });
+    await userEvent.keyboard("{ArrowLeft}");
 
     expect(editor.state.selection.from).toBe(7); // "Before" の最後
   });
@@ -139,9 +139,7 @@ describe("キー入力", () => {
       editor.chain().focus().setTextSelection(6).run();
     });
 
-    await waitSelectionChange(async () => {
-      await userEvent.type(editor.view.dom, "{ArrowRight}");
-    });
+    await userEvent.keyboard("{ArrowRight}");
 
     expect(editor.state.selection.from).toBe(9); // "After" の最初
   });
@@ -179,10 +177,19 @@ describe("ペースト", () => {
     input.remove(); // クリーンアップ
   });
 
-  it("拡張子がjpegの画像URLをペーストするとFigureノードが作成される", async () => {
+  it("拡張子がjpegの画像URLをペーストするとFigureノードが作成される(埋め込みより優先)", async () => {
     const editor = renderTiptapEditor({
       content: "",
-      extensions: [Document, Paragraph, Text, Figure, Caption, Image],
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Figure,
+        Caption,
+        Image,
+        Embed,
+        EmbedPasteHandler,
+      ],
     });
     const url = `${location.origin}${LakeImage}`;
 

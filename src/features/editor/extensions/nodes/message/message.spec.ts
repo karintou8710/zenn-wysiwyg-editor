@@ -146,7 +146,7 @@ describe("マークダウン", () => {
 
     const markdown = markdownSerializer.serialize(editor.state.doc);
 
-    expect(markdown).toBe(":::message\nメッセージ\n\n:::");
+    expect(markdown).toBe(":::message\nメッセージ\n:::");
   });
 
   it("メッセージアラートのノードをマークダウンに変換できる", () => {
@@ -157,7 +157,7 @@ describe("マークダウン", () => {
     });
 
     const markdown = markdownSerializer.serialize(editor.state.doc);
-    expect(markdown).toBe(":::message alert\nメッセージ\n\n:::");
+    expect(markdown).toBe(":::message alert\nメッセージ\n:::");
   });
 
   it("メッセージノードのネストをマークダウンに変換できる", () => {
@@ -174,7 +174,7 @@ describe("マークダウン", () => {
     const markdown = markdownSerializer.serialize(editor.state.doc);
 
     expect(markdown).toBe(
-      "::::message\nメッセージ\n\n:::message alert\nネスト\n\n:::\n\n::::",
+      "::::message\nメッセージ\n\n:::message alert\nネスト\n:::\n::::",
     );
   });
 

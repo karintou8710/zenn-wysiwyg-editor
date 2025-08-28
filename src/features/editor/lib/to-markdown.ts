@@ -10,6 +10,7 @@ declare module "prosemirror-markdown" {
     inAutolink?: boolean;
     footnoteItem?: number;
     tableRowIsFirst?: boolean;
+    closed: Node | null; // 直前に閉じたノード
   }
 }
 
@@ -51,7 +52,12 @@ const markdownSerializer = new MarkdownSerializer(
         `${":".repeat(nestDepth + 2)}message${type ? ` ${type}` : ""}\n`,
       );
       state.renderContent(node);
-      state.write(`${":".repeat(nestDepth + 2)}`);
+
+      // HACK: 内部的に使われているclosedをnullにすることで、ブロックの改行をさせない
+      state.closed = null;
+      state.write("\n");
+      state.write(":".repeat(nestDepth + 2));
+
       state.closeBlock(node);
     },
     messageContent(state, node) {
@@ -133,7 +139,12 @@ const markdownSerializer = new MarkdownSerializer(
 
       state.write(`${":".repeat(nestDepth + 2)}details ${title}\n`);
       state.renderContent(content);
+
+      // HACK: 内部的に使われているclosedをnullにすることで、ブロックの改行をさせない
+      state.closed = null;
+      state.write("\n");
       state.write(":".repeat(nestDepth + 2));
+
       state.closeBlock(node);
     },
     detailsContent(state, node) {

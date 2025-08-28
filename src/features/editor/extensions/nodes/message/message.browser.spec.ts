@@ -21,7 +21,7 @@ describe("InputRule", () => {
     await waitSelectionChange(() => {
       editor.chain().focus().run();
     });
-    await userEvent.type(editor.view.dom, ":::message ");
+    await userEvent.keyboard(":::message ");
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe('doc(message(messageContent(paragraph("Text"))))');
@@ -37,7 +37,7 @@ describe("InputRule", () => {
     await waitSelectionChange(() => {
       editor.chain().focus().run();
     });
-    await userEvent.type(editor.view.dom, ":::alert ");
+    await userEvent.keyboard(":::alert ");
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe('doc(message(messageContent(paragraph("Text"))))');
@@ -54,7 +54,7 @@ describe("InputRule", () => {
     await waitSelectionChange(() => {
       editor.chain().focus().setTextSelection(2).run();
     });
-    await userEvent.type(editor.view.dom, ":::alert ");
+    await userEvent.keyboard(":::alert ");
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe('doc(paragraph("T:::alert ext"))');
@@ -79,7 +79,7 @@ describe("InputRule", () => {
     await waitSelectionChange(() => {
       editor.chain().focus().setTextSelection(2).run();
     });
-    await userEvent.type(editor.view.dom, ":::alert ");
+    await userEvent.keyboard(":::alert ");
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe(
@@ -99,7 +99,7 @@ describe("キー入力", () => {
     await waitSelectionChange(() => {
       editor.chain().focus().setTextSelection(3).run();
     });
-    await userEvent.type(editor.view.dom, "{Backspace}");
+    await userEvent.keyboard("{Backspace}");
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe('doc(paragraph("Text"))');
@@ -116,7 +116,7 @@ describe("キー入力", () => {
     await waitSelectionChange(() => {
       editor.chain().focus().setTextSelection(4).run();
     });
-    await userEvent.type(editor.view.dom, "{Enter}");
+    await userEvent.keyboard("{Enter}");
 
     const docString = editor.state.doc.toString();
     expect(docString).toBe(
@@ -135,10 +135,7 @@ describe("キー入力", () => {
     await waitSelectionChange(() => {
       editor.chain().focus().setTextSelection(11).run();
     });
-
-    await waitSelectionChange(async () => {
-      await userEvent.type(editor.view.dom, "{ArrowLeft}");
-    });
+    await userEvent.keyboard("{ArrowLeft}");
 
     expect(editor.state.selection.from).toBe(7); // "Before" の最後
   });
@@ -154,9 +151,7 @@ describe("キー入力", () => {
       editor.chain().focus().setTextSelection(7).run();
     });
 
-    await waitSelectionChange(async () => {
-      await userEvent.type(editor.view.dom, "{ArrowRight}");
-    });
+    await userEvent.keyboard("{ArrowRight}");
 
     expect(editor.state.selection.from).toBe(11); // "After" の最初
   });
