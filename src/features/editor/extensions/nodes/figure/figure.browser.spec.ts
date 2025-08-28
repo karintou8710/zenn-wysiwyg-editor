@@ -9,6 +9,8 @@ import { copyText, renderTiptapEditor } from "@/tests/editor";
 import { Details } from "../details";
 import { DetailsContent } from "../details/content";
 import { DetailsSummary } from "../details/summary";
+import { Embed } from "../embed";
+import { EmbedPasteHandler } from "../embed/embed-paste-handler";
 import { Figure } from ".";
 import { Caption } from "./caption";
 import { Image } from "./image";
@@ -175,10 +177,19 @@ describe("ペースト", () => {
     input.remove(); // クリーンアップ
   });
 
-  it("拡張子がjpegの画像URLをペーストするとFigureノードが作成される", async () => {
+  it("拡張子がjpegの画像URLをペーストするとFigureノードが作成される(埋め込みより優先)", async () => {
     const editor = renderTiptapEditor({
       content: "",
-      extensions: [Document, Paragraph, Text, Figure, Caption, Image],
+      extensions: [
+        Document,
+        Paragraph,
+        Text,
+        Figure,
+        Caption,
+        Image,
+        Embed,
+        EmbedPasteHandler,
+      ],
     });
     const url = `${location.origin}${LakeImage}`;
 
