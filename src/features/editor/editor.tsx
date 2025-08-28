@@ -3,7 +3,7 @@ import "zenn-content-css";
 import "./editor.css";
 
 import { EditorContent, useEditor } from "@tiptap/react";
-import { CONTENT_KEY, useLocalStorage } from "@/hooks/useLocalStorage";
+import { CONTENT_KEY, useLocalStorage } from "@/hooks/use-local-storage";
 import BubbleMenu from "./components/bubble-menu";
 import FixedMenu from "./components/fixed-menu";
 import ImageBubbleMenu from "./components/image-bubble-menu";

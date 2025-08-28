@@ -2,8 +2,11 @@ import { AlertCircleIcon } from "lucide-react";
 import { Toaster } from "sonner";
 import { Alert, AlertDescription } from "./components/ui/alert";
 import Editor from "./features/editor/editor";
+import usePageTracking from "./hooks/use-page-tracking";
 
 function App() {
+  usePageTracking();
+
   return (
     <div className="mt-10 max-w-[800px] mx-auto">
       <div className="mb-6">
