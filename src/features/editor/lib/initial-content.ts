@@ -5,11 +5,6 @@ export const INITIAL_CONTENT = `
     Zennの記事を<b>WYSIWYGエディタ</b>で執筆することができます。<br/>
     ショートカット記法を使うことで、Markdownのように簡単に記事を編集可能です。
 </p>
-<aside class="msg alert">
-    <div class="msg-content">
-        <p>現在は開発途中であり、<b>アップデートにより文書構造が変更される可能性がある</b>ため、大事な文書は書き終えた後にコピーを取ることをお勧めします。</p>
-    </div>
-</aside>
 
 <h2>段落</h2>
 <p><code>Enter</code>で新たな段落を生成します。</p>
