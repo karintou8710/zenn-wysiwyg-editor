@@ -7,12 +7,19 @@ function App() {
   return (
     <div className="mt-10 max-w-[800px] mx-auto">
       <div className="mb-6">
-        <Alert variant="destructive">
+        <Alert variant="default">
           <AlertCircleIcon />
           <AlertDescription>
-            現在は開発途中なため、アップデートにより内部構造が崩れてしまう可能性があります。
+            情報共有コミュニティ Zenn の WYSIWYG エディターです。
             <br />
-            大事な文書は書き終えた後にコピーを取ることをお勧めします。
+            <a
+              href="https://zenn.dev/karintou/articles/eabe0354fcc947"
+              className="underline text-blue-500"
+              target="_blank"
+              rel="noreferrer"
+            >
+              使い方はこちら
+            </a>
           </AlertDescription>
         </Alert>
       </div>
