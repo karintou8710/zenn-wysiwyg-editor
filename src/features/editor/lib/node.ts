@@ -51,7 +51,10 @@ export const findClosestVisibleNode = (
 
 export function replaceNewlines(node: ProseMirrorNode) {
   let result: ProseMirrorNode = node;
-  const lineBreakNode = node.type.schema.linebreakReplacement!.create();
+  if (!node.type.schema.linebreakReplacement) {
+    throw new Error("linebreakReplacement is not defined in the schema");
+  }
+  const lineBreakNode = node.type.schema.linebreakReplacement.create();
   const lineBreakSlice = new Slice(Fragment.from(lineBreakNode), 0, 0);
 
   node.forEach((child, offset) => {

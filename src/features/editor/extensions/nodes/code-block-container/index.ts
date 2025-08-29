@@ -98,12 +98,11 @@ export const CodeBlockContainer = Node.create({
             return false;
           }
 
-          const canReqpce = range.parent.canReplaceWith(
-            range.startIndex,
-            range.endIndex,
+          const isParentMatch = range.parent.type.contentMatch.matchType(
             this.type,
           );
-          if (!canReqpce) {
+
+          if (!isParentMatch) {
             return false;
           }
 
