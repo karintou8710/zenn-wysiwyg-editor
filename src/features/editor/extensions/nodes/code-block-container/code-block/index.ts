@@ -107,23 +107,9 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
         const { $from } = selection;
 
         if ($from.node().type.name !== this.name) return false;
-        if (!selection.empty || $from.start() !== $from.pos) return false;
+        if (!selection.empty || $from.parentOffset > 0) return false;
 
-        // codeBlock全体を削除する
-        this.editor
-          .chain()
-          .command(({ tr }) => {
-            tr.replaceRangeWith(
-              $from.before(-1),
-              $from.after(-1),
-              this.editor.state.schema.nodes.paragraph.create(),
-            );
-
-            return true;
-          })
-          .setTextSelection($from.before(-1) + 1)
-          .run();
-        return true;
+        return this.editor.commands.unsetCodeBlockContainer();
       },
 
       // exit node on triple enter

@@ -3,13 +3,16 @@ import {
   type CanCommands,
   type ChainedCommands,
   type ExtendedRegExpMatchArray,
+  findChildren,
   findParentNode,
+  getText,
   getTextBetween,
   getTextSerializersFromSchema,
   InputRule,
   Node,
   type Range,
 } from "@tiptap/react";
+import { replaceNewlines } from "@/features/editor/lib/node";
 
 type SetCodeBlockContainerOptions = {
   language?: string;
@@ -24,6 +27,7 @@ declare module "@tiptap/react" {
       setCodeBlockContainer: (
         attrs: SetCodeBlockContainerOptions,
       ) => ReturnType;
+      unsetCodeBlockContainer: () => ReturnType;
     };
   }
 }
@@ -176,6 +180,53 @@ export const CodeBlockContainer = Node.create({
           }
 
           return false;
+        },
+      unsetCodeBlockContainer:
+        () =>
+        ({ chain, state }) => {
+          const { selection, schema } = state;
+          const codeBlockContainer = findParentNode(
+            (node) => node.type === this.type,
+          )(selection);
+
+          if (!codeBlockContainer) {
+            return false;
+          }
+
+          const codeBlocks = findChildren(
+            codeBlockContainer.node,
+            (node) => node.type === schema.nodes.codeBlock,
+          );
+          const diffCodeBlocks = findChildren(
+            codeBlockContainer.node,
+            (node) => node.type === schema.nodes.diffCodeBlock,
+          );
+
+          if (!codeBlocks.length && !diffCodeBlocks.length) return false;
+
+          const codeBlockNode = codeBlocks[0] || diffCodeBlocks[0];
+
+          const from = codeBlockContainer.pos;
+          const $from = state.doc.resolve(from);
+          const to = from + codeBlockContainer.node.nodeSize;
+          const range = { from, to };
+          const code = getText(codeBlockNode.node, {
+            blockSeparator: "\n",
+            textSerializers: getTextSerializersFromSchema(schema),
+          });
+          const defaultType = $from.parent.type.contentMatch.defaultType;
+          if (!defaultType) return false;
+
+          const contentNode = defaultType?.create(
+            null,
+            code ? schema.text(code) : null,
+          );
+          const contentNodeWithNewLine = replaceNewlines(contentNode);
+
+          return chain()
+            .insertContentAt(range, contentNodeWithNewLine)
+            .setTextSelection(from + 1)
+            .run();
         },
     };
   },

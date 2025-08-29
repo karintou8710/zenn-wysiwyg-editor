@@ -9,7 +9,6 @@ export const CodeBlockFileName = Node.create({
     return [
       {
         tag: "div.code-block-filename-container",
-        priority: 100,
       },
     ];
   },
@@ -33,6 +32,7 @@ export const CodeBlockFileName = Node.create({
 
         if (!selection.empty || $from.start() !== $from.pos) return false;
 
+        // Backspaceを処理を中断する
         return true;
       },
     };
