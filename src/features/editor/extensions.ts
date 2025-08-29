@@ -1,9 +1,5 @@
 import Blockquote from "@tiptap/extension-blockquote";
-import Bold from "@tiptap/extension-bold";
-import Code from "@tiptap/extension-code";
 import HardBreak from "@tiptap/extension-hard-break";
-import HorizentalRule from "@tiptap/extension-horizontal-rule";
-import Italic from "@tiptap/extension-italic";
 import {
   BulletList,
   ListItem,
@@ -11,14 +7,17 @@ import {
   OrderedList,
 } from "@tiptap/extension-list";
 import Paragraph from "@tiptap/extension-paragraph";
-import Strike from "@tiptap/extension-strike";
 import { TableRow } from "@tiptap/extension-table";
 import Text from "@tiptap/extension-text";
 import { Dropcursor, TrailingNode, UndoRedo } from "@tiptap/extensions";
 import { type Extensions, findParentNode } from "@tiptap/react";
 import { FileHandler } from "./extensions/functionality/file-handler";
 import { Placeholder } from "./extensions/functionality/placeholder";
+import { Bold } from "./extensions/marks/bold";
+import { Code } from "./extensions/marks/code";
+import { Italic } from "./extensions/marks/italic";
 import { Link } from "./extensions/marks/link";
+import { Strike } from "./extensions/marks/strike";
 import { CodeBlockContainer } from "./extensions/nodes/code-block-container";
 import { CodeBlock } from "./extensions/nodes/code-block-container/code-block";
 import { CodeBlockFileName } from "./extensions/nodes/code-block-container/code-block-file-name";
@@ -39,6 +38,7 @@ import FootnoteReference from "./extensions/nodes/footnotes/footnote-reference";
 import Footnotes from "./extensions/nodes/footnotes/footnotes";
 import { FootnotesList } from "./extensions/nodes/footnotes/footnotes-list";
 import Heading from "./extensions/nodes/heading";
+import { HorizontalRule } from "./extensions/nodes/horizontal-rule";
 import { Message } from "./extensions/nodes/message/message";
 import { MessageContent } from "./extensions/nodes/message/message-content";
 import { TableCell } from "./extensions/nodes/tables/cell";
@@ -59,7 +59,7 @@ export const extensions: Extensions = [
   OrderedList,
   ListItem,
   Blockquote,
-  HorizentalRule,
+  HorizontalRule,
   HardBreak,
   Message,
   MessageContent,
