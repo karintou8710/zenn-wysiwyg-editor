@@ -21,7 +21,6 @@ export const DiffCodeBlock = Node.create<CodeBlockOptions>({
 
   content: "diffCodeLine+",
   marks: "",
-  code: true,
   defining: true,
 
   addAttributes() {
