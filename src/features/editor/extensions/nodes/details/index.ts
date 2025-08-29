@@ -74,6 +74,11 @@ export const Details = Node.create({
             return false;
           }
 
+          console.log(
+            range.start,
+            range.end,
+            state.doc.slice(range.start, range.end).toJSON(),
+          );
           const slice = state.doc.slice(range.start, range.end);
           const match = schema.nodes.detailsContent.contentMatch.matchFragment(
             slice.content,

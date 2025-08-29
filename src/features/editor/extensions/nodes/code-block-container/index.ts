@@ -1,59 +1,66 @@
 import type { EditorState } from "@tiptap/pm/state";
 import {
+  type CanCommands,
   type ChainedCommands,
   type ExtendedRegExpMatchArray,
+  findParentNode,
+  getTextBetween,
+  getTextSerializersFromSchema,
   InputRule,
   Node,
   type Range,
 } from "@tiptap/react";
 
+type SetCodeBlockContainerOptions = {
+  language?: string;
+  filename?: string | null;
+  isDiff?: boolean;
+};
+
+declare module "@tiptap/react" {
+  interface Commands<ReturnType> {
+    codeBlockContainer: {
+      setAllSelectionInCodeBlock: () => ReturnType;
+      setCodeBlockContainer: (
+        attrs: SetCodeBlockContainerOptions,
+      ) => ReturnType;
+    };
+  }
+}
+
 export const backtickInputRegex = /^```([a-z-]+(?::[a-zA-Z0-9._-]+)?)?[\s\n]$/;
 export const tildeInputRegex = /^~~~([a-z-]+(?::[a-zA-Z0-9._-]+)?)?[\s\n]$/;
 
 const inputHandler = ({
-  state,
   range,
   match,
+  can,
   chain,
 }: {
   state: EditorState;
   range: Range;
   match: ExtendedRegExpMatchArray;
+  can: () => CanCommands;
   chain: () => ChainedCommands;
 }) => {
   let language: string, filename: string | null;
 
-  // match[1]が存在し、コロンを含む場合
   if (match[1]?.includes(":")) {
     [language, filename] = match[1].split(":");
   } else {
-    // match[1]が言語のみ、または存在しない場合
     language = match[1] || "plaintext";
     filename = null;
   }
 
   const isDiff = language.startsWith("diff-");
-  const codeFileName = state.schema.nodes.codeBlockFileName.create(
-    null,
-    filename ? [state.schema.text(filename)] : [],
-  );
-  const codeContent = isDiff
-    ? state.schema.nodes.diffCodeBlock.create({ language }, [
-        state.schema.nodes.diffCodeLine.create(null, []),
-      ])
-    : state.schema.nodes.codeBlock.create({ language });
-  const codeBlock = state.schema.nodes.codeBlockContainer.create(null, [
-    codeFileName,
-    codeContent,
-  ]);
+
+  if (!can().setCodeBlockContainer({ language, filename, isDiff })) {
+    return;
+  }
 
   chain()
-    .command(({ tr }) => {
-      tr.replaceRangeWith(range.from - 1, range.to + 1, codeBlock);
-
-      return true;
-    })
-    .setTextSelection(range.from + codeFileName.nodeSize + (isDiff ? 2 : 1)) //コンテンツの開始位置にカーソルを移動
+    .deleteRange({ from: range.from, to: range.to })
+    .setCodeBlockContainer({ language, filename, isDiff })
     .run();
 };
 
@@ -66,7 +73,6 @@ export const CodeBlockContainer = Node.create({
     return [
       {
         tag: "div.code-block-container",
-        priority: 100,
       },
     ];
   },
@@ -75,41 +81,109 @@ export const CodeBlockContainer = Node.create({
     return ["div", { class: "code-block-container" }, 0];
   },
 
+  addCommands() {
+    return {
+      setCodeBlockContainer:
+        ({ filename, language, isDiff }) =>
+        ({ chain, state }) => {
+          const { schema, selection } = state;
+          const { $from, $to } = selection;
+          const range = $from.blockRange($to);
+
+          if (!range) {
+            return false;
+          }
+
+          const canReqpce = range.parent.canReplaceWith(
+            range.startIndex,
+            range.endIndex,
+            this.type,
+          );
+          if (!canReqpce) {
+            return false;
+          }
+
+          const text = getTextBetween(
+            range.parent,
+            { from: range.start, to: range.end },
+            {
+              textSerializers: getTextSerializersFromSchema(schema),
+            },
+          );
+
+          const codeFileNameNodeSize = (filename?.length ?? 0) + 2;
+
+          return chain()
+            .insertContentAt(
+              {
+                from: range.start,
+                to: range.end,
+              },
+              {
+                type: "codeBlockContainer",
+                content: [
+                  {
+                    type: "codeBlockFileName",
+                    content: filename ? [{ type: "text", text: filename }] : [],
+                  },
+                  isDiff
+                    ? {
+                        type: "diffCodeBlock",
+                        attrs: { language },
+                        content: text.split("\n").map((line) => ({
+                          type: "diffCodeLine",
+                          content: line ? [{ type: "text", text: line }] : [],
+                        })),
+                      }
+                    : {
+                        type: "codeBlock",
+                        attrs: { language },
+                        content: text ? [{ type: "text", text }] : [],
+                      },
+                ],
+              },
+            )
+            .setTextSelection(
+              range.start + codeFileNameNodeSize + (isDiff ? 2 : 1),
+            ) //コンテンツの開始位置にカーソルを移動
+            .run();
+        },
+      setAllSelectionInCodeBlock:
+        () =>
+        ({ state, commands }) => {
+          const { selection } = state;
+
+          const codeBlock = findParentNode(
+            (node) => node.type === state.schema.nodes.codeBlock,
+          )(selection);
+
+          const codeBlockDiff = findParentNode(
+            (node) => node.type === state.schema.nodes.diffCodeBlock,
+          )(selection);
+
+          if (codeBlock) {
+            return commands.setTextSelection({
+              from: codeBlock.start,
+              to: codeBlock.pos + codeBlock.node.nodeSize - 1,
+            });
+          }
+
+          if (codeBlockDiff) {
+            return commands.setTextSelection({
+              from: codeBlockDiff.start + 1,
+              to: codeBlockDiff.pos + codeBlockDiff.node.nodeSize - 2,
+            });
+          }
+
+          return false;
+        },
+    };
+  },
+
   addKeyboardShortcuts() {
     return {
       "Mod-a": () => {
-        const { state, commands } = this.editor;
-        const { selection } = state;
-        const { $from } = selection;
-
-        // カーソルがコードブロック内にあるかチェック
-        let codeBlockNode = null;
-        let codeBlockPos: { from: number; to: number } | null = null;
-
-        // 親ノードを遡ってコードブロックを探す
-        for (let depth = $from.depth; depth >= 0; depth--) {
-          const node = $from.node(depth);
-          if (node.type === state.schema.nodes.codeBlock) {
-            codeBlockNode = node;
-            codeBlockPos = {
-              from: $from.start(depth),
-              to: $from.end(depth),
-            };
-            break;
-          } else if (node.type === state.schema.nodes.diffCodeBlock) {
-            codeBlockNode = node;
-            codeBlockPos = {
-              from: $from.start(depth) + 1,
-              to: $from.end(depth) - 1,
-            };
-            break;
-          }
-        }
-
-        if (!codeBlockNode || !codeBlockPos) return false;
-
-        commands.setTextSelection(codeBlockPos);
-        return true;
+        return this.editor.commands.setAllSelectionInCodeBlock();
       },
     };
   },

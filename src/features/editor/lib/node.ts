@@ -3,7 +3,12 @@ import type {
   ResolvedPos,
   Slice,
 } from "@tiptap/pm/model";
-import type { Editor, Predicate } from "@tiptap/react";
+import {
+  type Editor,
+  getText,
+  getTextSerializersFromSchema,
+  type Predicate,
+} from "@tiptap/react";
 
 export function getSliceText(slice: Slice): string {
   let textContent = "";
