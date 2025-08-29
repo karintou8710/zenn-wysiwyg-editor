@@ -9,21 +9,6 @@ import {
   parseNodes,
 } from "../utils";
 
-/*
-  diff-highlightは出力されるHTMLが構造化の観点で微妙なので、挙動をまとめる
-
-  基本的な挙動は以下のように行単位でブロックのspanが生成される
-  <span class="line"><span class="token">1</span></span>
-  <span class="line"><span class="token"2</span></span>
-
-  - 差分でない行はトップレベルのtextNodeとして扱われる
-  - 繋がったtextNode, insert, deleteの行は1つのspanとして出力される
-  - 改行コードが各々のトップレベルノードの末尾に含まれている。繋がったノードは途中に改行コードが含まれる。
-    - この末尾の改行コードは基本的に意味ない
-    - 次の行が最終行かつ空行の時のみ、意味を持つ（）
-    - coordの場合は改行コードが含まれず、次の行にTextNode「\n」が続く
-*/
-
 function createDiffDecorations(
   lineNodes: HTMLElement[],
   preStart: number,

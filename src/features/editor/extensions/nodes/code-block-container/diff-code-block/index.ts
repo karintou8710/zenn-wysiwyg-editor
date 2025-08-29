@@ -52,7 +52,7 @@ export const DiffCodeBlock = Node.create<CodeBlockOptions>({
       {
         tag: "pre:has(code.diff-highlight)",
         preserveWhitespace: "full",
-        priority: 100, // Codeよりも先に読み込む
+        priority: 1000, // Codeよりも先に読み込む
       },
     ];
   },

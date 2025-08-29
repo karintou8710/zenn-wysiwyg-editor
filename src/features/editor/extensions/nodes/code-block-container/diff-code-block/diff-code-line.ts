@@ -33,21 +33,7 @@ export const DiffCodeLine = Node.create({
         if (!($from.index(-1) === 0 && $from.start() === $from.pos))
           return false;
 
-        // codeBlock全体を削除する
-        this.editor
-          .chain()
-          .command(({ tr }) => {
-            tr.replaceRangeWith(
-              $from.before(-2),
-              $from.after(-2),
-              this.editor.state.schema.nodes.paragraph.create(),
-            );
-
-            return true;
-          })
-          .setTextSelection($from.before(-2) + 1)
-          .run();
-        return true;
+        return this.editor.commands.unsetCodeBlockContainer();
       },
 
       // exit node on triple enter
