@@ -2,8 +2,8 @@ import Document from "@tiptap/extension-document";
 import HardBreak from "@tiptap/extension-hard-break";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
-import { Editor } from "@tiptap/react";
 import { describe, expect, it } from "vitest";
+import { createEditorInstance } from "@/tests/editor-instance";
 import { Details } from "../../../details";
 import { DetailsContent } from "../../../details/content";
 import { DetailsSummary } from "../../../details/summary";
@@ -15,7 +15,7 @@ import { CodeBlock } from "../index";
 
 describe("コマンド", () => {
   it("setAllSelectionInCodeBlockコマンドでコードブロック全体を選択できる", () => {
-    const editor = new Editor({
+    const editor = createEditorInstance({
       extensions: [
         Document,
         Paragraph,
@@ -43,7 +43,7 @@ describe("コマンド", () => {
     expect(to).toBe(25);
   });
   it("setCodeBlockContainerコマンドで段落をコードブロックに変換できる", () => {
-    const editor = new Editor({
+    const editor = createEditorInstance({
       extensions: [
         Document,
         Paragraph,
@@ -71,7 +71,7 @@ describe("コマンド", () => {
   });
 
   it("setCodeBlockContainerコマンドで改行ありの段落を保持したまま呼び出せる", () => {
-    const editor = new Editor({
+    const editor = createEditorInstance({
       extensions: [
         Document,
         Paragraph,
@@ -99,7 +99,7 @@ describe("コマンド", () => {
   });
 
   it("setCodeBlockContainerコマンドをアコーディオンのサマリー部分で実行できない", () => {
-    const editor = new Editor({
+    const editor = createEditorInstance({
       extensions: [
         Document,
         Paragraph,
@@ -127,7 +127,7 @@ describe("コマンド", () => {
   });
 
   it("unsetCodeBlockContainerコマンドでコードブロックを段落に戻せる", () => {
-    const editor = new Editor({
+    const editor = createEditorInstance({
       extensions: [
         Document,
         Paragraph,

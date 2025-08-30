@@ -2,8 +2,8 @@ import Document from "@tiptap/extension-document";
 import HardBreak from "@tiptap/extension-hard-break";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
-import { Editor } from "@tiptap/react";
 import { describe, expect, it } from "vitest";
+import { createEditorInstance } from "@/tests/editor-instance";
 import { CodeBlockContainer } from "../..";
 import { CodeBlockFileName } from "../../code-block-file-name";
 import { DiffCodeBlock } from "../../diff-code-block";
@@ -25,7 +25,7 @@ describe("PrismPlugin", () => {
   };
 
   it("typescriptでconsole.logをコードブロックで入力するとハイライトがされる", () => {
-    const editor = new Editor({
+    const editor = createEditorInstance({
       extensions: [
         Document,
         Paragraph,
@@ -61,7 +61,7 @@ describe("PrismPlugin", () => {
   });
 
   it("空行と改行があってもハイライトが認識される", () => {
-    const editor = new Editor({
+    const editor = createEditorInstance({
       extensions: [
         Document,
         Paragraph,
@@ -99,7 +99,7 @@ describe("PrismPlugin", () => {
   });
 
   it("コードを更新されてもハイライトされる", () => {
-    const editor = new Editor({
+    const editor = createEditorInstance({
       extensions: [
         Document,
         Paragraph,
@@ -138,7 +138,7 @@ describe("PrismPlugin", () => {
   });
 
   it("コード全体を更新されてもハイライトされる", () => {
-    const editor = new Editor({
+    const editor = createEditorInstance({
       extensions: [
         Document,
         Paragraph,

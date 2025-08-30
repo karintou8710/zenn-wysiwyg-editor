@@ -2,8 +2,8 @@ import Document from "@tiptap/extension-document";
 import HardBreak from "@tiptap/extension-hard-break";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
-import { Editor } from "@tiptap/react";
 import { describe, expect, it } from "vitest";
+import { createEditorInstance } from "@/tests/editor-instance";
 import { CodeBlockFileName } from "../../code-block-file-name";
 import { DiffCodeBlock } from "../../diff-code-block";
 import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
@@ -12,7 +12,7 @@ import { CodeBlock } from "../index";
 
 describe("HTMLのパース", () => {
   it("preタグをコードブロックノードとしてパースできる", () => {
-    const editor = new Editor({
+    const editor = createEditorInstance({
       extensions: [
         Document,
         Paragraph,
@@ -36,7 +36,7 @@ describe("HTMLのパース", () => {
   });
 
   it("言語名なしのpreタグをパースできる", () => {
-    const editor = new Editor({
+    const editor = createEditorInstance({
       extensions: [
         Document,
         Paragraph,
@@ -59,7 +59,7 @@ describe("HTMLのパース", () => {
   });
 
   it("言語とファイル名ありのpreタグをパースできる", () => {
-    const editor = new Editor({
+    const editor = createEditorInstance({
       extensions: [
         Document,
         Paragraph,
