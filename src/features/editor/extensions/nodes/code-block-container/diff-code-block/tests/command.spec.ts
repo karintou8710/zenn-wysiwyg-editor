@@ -27,6 +27,7 @@ const baseExtensions = [
   HardBreak,
 ];
 
+// 親要素におけるかのテストはcode-blockで対応する
 describe("コマンド", () => {
   describe("setAllSelectionInCodeBlock", () => {
     it("1行の差分コードブロック全体を選択できる", () => {
@@ -121,68 +122,6 @@ describe("コマンド", () => {
       expect(docString).toBe(
         'doc(codeBlockContainer(codeBlockFileName, diffCodeBlock(diffCodeLine("const a = 1;"), diffCodeLine("const a = 2;"))))',
       );
-    });
-
-    it("見出しの中で呼び出せる", () => {
-      const editor = createEditorInstance({
-        extensions: [...baseExtensions, Heading],
-        content: "<h1>Title</h1><p>Text</p>",
-      });
-
-      editor.commands.setTextSelection(6);
-
-      const result = editor.commands.setCodeBlockContainer({
-        language: "diff-javascript",
-      });
-      expect(result).toBe(true);
-    });
-
-    it("引用の中で呼び出せる", () => {
-      const editor = createEditorInstance({
-        extensions: [...baseExtensions, Blockquote],
-        content: "<blockquote><p>Text</p></blockquote>",
-      });
-
-      editor.commands.setTextSelection(3);
-
-      const result = editor.commands.setCodeBlockContainer({
-        language: "diff-javascript",
-      });
-      expect(result).toBe(true);
-    });
-
-    it("複数ブロックがある引用の中で呼び出せる", () => {
-      const editor = createEditorInstance({
-        extensions: [...baseExtensions, Blockquote],
-        content: "<blockquote><p>Text</p><p>Text</p></blockquote>",
-      });
-
-      editor.commands.setTextSelection(3);
-
-      const result = editor.commands.setCodeBlockContainer({
-        language: "diff-javascript",
-      });
-      expect(result).toBe(true);
-    });
-
-    it("アコーディオンのサマリー部分で呼び出せない", () => {
-      const editor = createEditorInstance({
-        extensions: [
-          ...baseExtensions,
-          DetailsSummary,
-          Details,
-          DetailsContent,
-        ],
-        content:
-          '<details><summary>Accordion summary</summary><div class="details-content">アコーディオンの内容</div></details>',
-      });
-
-      editor.commands.setTextSelection(2);
-
-      const result = editor.commands.setCodeBlockContainer({
-        language: "diff-javascript",
-      });
-      expect(result).toBe(false);
     });
   });
 
