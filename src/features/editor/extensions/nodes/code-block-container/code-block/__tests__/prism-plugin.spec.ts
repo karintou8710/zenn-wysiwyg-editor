@@ -46,7 +46,9 @@ describe("PrismPlugin", () => {
     // codeBlockノードのDOMを取得
     const view = editor.view;
     const codeBlockDom = view.dom.querySelector("pre code.language-typescript");
-    expect(codeBlockDom).not.toBeNull();
+    if (!codeBlockDom) {
+      throw new Error("codeBlockDom is null");
+    }
 
     const expected = [
       { class: "token builtin", text: "console" },
@@ -57,7 +59,7 @@ describe("PrismPlugin", () => {
       { class: "token punctuation", text: ")" },
     ];
 
-    const actual = extractHighlightedToken(codeBlockDom!);
+    const actual = extractHighlightedToken(codeBlockDom);
 
     expect(actual).toEqual(expected);
   });
@@ -72,7 +74,9 @@ describe("PrismPlugin", () => {
     // codeBlockノードのDOMを取得
     const view = editor.view;
     const codeBlockDom = view.dom.querySelector("pre code.language-typescript");
-    expect(codeBlockDom).not.toBeNull();
+    if (!codeBlockDom) {
+      throw new Error("codeBlockDom is null");
+    }
 
     const expected = [
       { class: "token comment", text: "// コメント" },
@@ -85,7 +89,7 @@ describe("PrismPlugin", () => {
       { class: "token punctuation", text: ";" },
     ];
 
-    const actual = extractHighlightedToken(codeBlockDom!);
+    const actual = extractHighlightedToken(codeBlockDom);
 
     expect(actual).toEqual(expected);
   });
@@ -100,12 +104,13 @@ describe("PrismPlugin", () => {
     // codeBlockノードのDOMを取得
     const view = editor.view;
     const codeBlockDom = view.dom.querySelector("pre code.language-typescript");
-    expect(codeBlockDom).not.toBeNull();
+    if (!codeBlockDom) {
+      throw new Error("codeBlockDom is null");
+    }
 
     // コードを更新
     editor.commands.insertContentAt(24, ";"); // console.log("hello") の後ろに ; を追加
 
-    expect(codeBlockDom).not.toBeNull();
     const expected = [
       { class: "token builtin", text: "console" },
       { class: "token punctuation", text: "." },
@@ -115,7 +120,7 @@ describe("PrismPlugin", () => {
       { class: "token punctuation", text: ")" },
       { class: "token punctuation", text: ";" },
     ];
-    const actual = extractHighlightedToken(codeBlockDom!);
+    const actual = extractHighlightedToken(codeBlockDom);
     expect(actual).toEqual(expected);
   });
 
@@ -129,18 +134,17 @@ describe("PrismPlugin", () => {
     // codeBlockノードのDOMを取得
     const view = editor.view;
     const codeBlockDom = view.dom.querySelector("pre code.language-typescript");
-    expect(codeBlockDom).not.toBeNull();
+    if (!codeBlockDom) {
+      throw new Error("codeBlockDom is null");
+    }
 
     // コードを更新
     editor.commands.setContent(
       '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-typescript">// コメント</code></pre></div>',
     );
-    const updatedCodeBlockDom = view.dom.querySelector(
-      "pre code.language-typescript",
-    );
-    expect(updatedCodeBlockDom).not.toBeNull();
+
     const expected = [{ class: "token comment", text: "// コメント" }];
-    const actual = extractHighlightedToken(updatedCodeBlockDom!);
+    const actual = extractHighlightedToken(codeBlockDom);
     expect(actual).toEqual(expected);
   });
 });

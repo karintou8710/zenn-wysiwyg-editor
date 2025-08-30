@@ -19,8 +19,12 @@ export default function ImageBubbleMenu({ editor }: Props) {
         selection instanceof NodeSelection &&
         selection.node.type === editor.schema.nodes.figure
       ) {
+        if (!selection.node.firstChild) {
+          throw new Error("figureノードの中にimageノードが存在しません");
+        }
+
         imagePos = selection.from + 1; // 選択は親のfigureノードなので、子のimageノードは+1
-        alt = selection.node.firstChild!.attrs.alt;
+        alt = selection.node.firstChild.attrs.alt;
       }
 
       return { imagePos, alt };

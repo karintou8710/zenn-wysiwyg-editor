@@ -48,7 +48,7 @@ describe("DiffPrismPlugin", () => {
     const codeBlockDom = view.dom.querySelector(
       "pre code.language-diff-typescript",
     );
-    expect(codeBlockDom).not.toBeNull();
+    if (codeBlockDom == null) throw new Error("codeBlockDom is null");
 
     const expectedLines = [
       { class: "token inserted-sign inserted language-typescript" },
@@ -72,7 +72,7 @@ describe("DiffPrismPlugin", () => {
     expect(codeBlockDom?.childNodes.length).toBe(lineCount);
 
     for (let i = 0; i < lineCount; i++) {
-      const lineNode = codeBlockDom?.children[i]!;
+      const lineNode = codeBlockDom.children[i];
       expect(lineNode.className).toBe(expectedLines[i].class);
       const actual = extractHighlightedToken(lineNode);
       expect(actual).toEqual(expectedTokens[i]);
@@ -129,10 +129,12 @@ describe("DiffPrismPlugin", () => {
 
     const lineCount = 3;
 
-    expect(codeBlockDom?.childNodes.length).toBe(lineCount);
+    if (codeBlockDom == null) throw new Error("codeBlockDom is null");
+
+    expect(codeBlockDom.childNodes.length).toBe(lineCount);
 
     for (let i = 0; i < lineCount; i++) {
-      const lineNode = codeBlockDom?.children[i]!;
+      const lineNode = codeBlockDom.children[i];
       expect(lineNode.className).toBe(expectedLines[i].class);
       const actual = extractHighlightedToken(lineNode);
       expect(actual).toEqual(expectedTokens[i]);

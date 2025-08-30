@@ -1,4 +1,4 @@
-// from from https://github.com/ueberdosis/tiptap/blob/develop/packages/core/src/inputRules/markInputRule.ts
+// biome-ignore-all lint: fork from https://github.com/ueberdosis/tiptap/blob/develop/packages/core/src/inputRules/markInputRule.ts
 // マーク不可な親要素の場合は発火しないようにする
 
 import type { MarkType } from "@tiptap/pm/model";

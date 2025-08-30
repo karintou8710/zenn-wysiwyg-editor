@@ -1,4 +1,4 @@
-import { mergeAttributes, Node } from "@tiptap/react";
+import { Node } from "@tiptap/react";
 import { PrismPlugin } from "./prism-plugin";
 
 // カスタマイズのため、TiptapのBlockquoteを直接編集する
@@ -7,7 +7,6 @@ import { PrismPlugin } from "./prism-plugin";
 export interface CodeBlockOptions {
   languageClassPrefix: string;
   defaultLanguage: string;
-  HTMLAttributes: Record<string, any>;
 }
 
 export const CodeBlock = Node.create<CodeBlockOptions>({
@@ -17,7 +16,6 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
     return {
       languageClassPrefix: "language-",
       defaultLanguage: "plaintext",
-      HTMLAttributes: {},
     };
   },
 
@@ -61,7 +59,7 @@ export const CodeBlock = Node.create<CodeBlockOptions>({
   renderHTML({ node, HTMLAttributes }) {
     return [
       "pre",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+      HTMLAttributes,
       [
         "code",
         {

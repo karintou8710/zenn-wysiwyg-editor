@@ -1,11 +1,10 @@
-import { mergeAttributes, Node } from "@tiptap/react";
+import { Node } from "@tiptap/react";
 import { cn } from "@/lib/utils";
 import { DiffPrismPlugin } from "./diff-prism-plugin";
 
 export interface CodeBlockOptions {
   languageClassPrefix: string;
   defaultLanguage: string;
-  HTMLAttributes: Record<string, any>;
 }
 
 export const DiffCodeBlock = Node.create<CodeBlockOptions>({
@@ -15,7 +14,6 @@ export const DiffCodeBlock = Node.create<CodeBlockOptions>({
     return {
       languageClassPrefix: "language-",
       defaultLanguage: "plaintext",
-      HTMLAttributes: {},
     };
   },
 
@@ -59,7 +57,7 @@ export const DiffCodeBlock = Node.create<CodeBlockOptions>({
   renderHTML({ node, HTMLAttributes }) {
     return [
       "pre",
-      mergeAttributes(this.options.HTMLAttributes, HTMLAttributes),
+      HTMLAttributes,
       [
         "code",
         {

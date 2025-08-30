@@ -124,7 +124,7 @@ function getDiffHighlightLineNodesByCoord(coordEl: HTMLElement) {
     }
 
     // coordの次のノードは改行TextNodeなので、先頭の改行を削除
-    nextNode.textContent = nextNode.textContent!.slice(1);
+    nextNode.textContent = (nextNode.textContent || "").slice(1);
     if (nextNode.textContent === "") {
       nextNode.remove(); // 改行のみのテキストノードであれば削除
     }
@@ -172,7 +172,7 @@ export function highlightCode(code: string, language: string): string {
     const targetLanguage = isDiff ? "diff" : language;
 
     return Prism.highlight(code, Prism.languages[targetLanguage], language);
-  } catch (err: any) {
+  } catch {
     console.warn(
       `Language "${language}" not supported, falling back to plaintext`,
     );

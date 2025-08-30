@@ -31,7 +31,7 @@ export const Link = TiptapLink.extend({
       view,
     }: {
       mark: Mark;
-      updateAttributes: (attrs: Record<string, any>) => void;
+      updateAttributes: (attrs: Record<string, string>) => void;
       view: EditorView;
     }) => {
       const a = document.createElement("a");

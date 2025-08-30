@@ -76,7 +76,7 @@ export function DiffPrismPlugin({
   name: string;
   defaultLanguage: string;
 }) {
-  const prismjsPlugin: Plugin<any> = new Plugin({
+  const prismjsPlugin: Plugin = new Plugin({
     key: new PluginKey("diff-prism"),
 
     state: {
