@@ -5,7 +5,7 @@ import Text from "@tiptap/extension-text";
 import { describe, expect, it } from "vitest";
 import { fromMarkdown } from "@/features/editor/lib/from-markdown";
 import { markdownSerializer } from "@/features/editor/lib/to-markdown";
-import { createEditorInstance } from "@/tests/editor-instance";
+import { renderTiptapEditor } from "@/tests/editor";
 import { CodeBlock } from "../../code-block";
 import { CodeBlockFileName } from "../../code-block-file-name";
 import { CodeBlockContainer } from "../../index";
@@ -26,7 +26,7 @@ const baseExtensions = [
 
 describe("マークダウン", () => {
   it("diff-javascriptコードブロックをマークダウンに変換できる", () => {
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: baseExtensions,
       content: `<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div>
         <pre><code class="language-diff-javascript diff-highlight"><span>console.log("hello");</span></code></pre></div>`,
@@ -37,7 +37,7 @@ describe("マークダウン", () => {
   });
 
   it("diffコードブロックをマークダウンに変換できる", () => {
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: baseExtensions,
       content: `<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div>
         <pre><code class="language-diff diff-highlight"><span>plaintext code</span></code></pre></div>`,
@@ -48,7 +48,7 @@ describe("マークダウン", () => {
   });
 
   it("複数行のコードブロックをマークダウンに変換できる", () => {
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: baseExtensions,
       content: `<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div>
         <pre><code class="language-diff diff-highlight"><span>plaintext code</span><span></span><span>plaintext code</span></code></pre></div>`,
@@ -64,7 +64,7 @@ describe("マークダウン", () => {
     const markdown = '```diff javascript\nconsole.log("hello");\n```';
 
     const html = fromMarkdown(markdown);
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: baseExtensions,
       content: html,
     });
@@ -79,7 +79,7 @@ describe("マークダウン", () => {
     const markdown = '```diff javascript:hello.js\nconsole.log("hello");\n```';
 
     const html = fromMarkdown(markdown);
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: baseExtensions,
       content: html,
     });

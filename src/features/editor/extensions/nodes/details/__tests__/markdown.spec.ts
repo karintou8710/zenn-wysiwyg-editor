@@ -4,7 +4,7 @@ import Text from "@tiptap/extension-text";
 import { describe, expect, it } from "vitest";
 import { fromMarkdown } from "@/features/editor/lib/from-markdown";
 import { markdownSerializer } from "@/features/editor/lib/to-markdown";
-import { createEditorInstance } from "@/tests/editor-instance";
+import { renderTiptapEditor } from "@/tests/editor";
 import { Details } from "..";
 import { DetailsContent } from "../content";
 import { DetailsSummary } from "../summary";
@@ -20,7 +20,7 @@ const basicExtension = [
 
 describe("マークダウン", () => {
   it("アコーディオンのマークダウン記法で出力できる", () => {
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: basicExtension,
       content:
         '<details><summary>summary</summary><div class="details-content"><p>テキスト</p></div></details>',
@@ -32,7 +32,7 @@ describe("マークダウン", () => {
   });
 
   it("アコーディオンのネストをマークダウン記法に出力できる", () => {
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: basicExtension,
       content: `<details><summary>summary</summary><div class="details-content">
         <p>テキスト</p>
@@ -54,7 +54,7 @@ describe("マークダウン", () => {
     const markdown = ":::details summary\nテキスト\n\n:::";
     const html = fromMarkdown(markdown);
 
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: basicExtension,
       content: html,
     });

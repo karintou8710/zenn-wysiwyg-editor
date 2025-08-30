@@ -1,17 +1,19 @@
 import { Editor, type Extension, type Mark, type Node } from "@tiptap/react";
-import { userEvent } from "@vitest/browser/context";
 import { afterEach, beforeEach } from "vitest";
 
 // テスト毎に描画するDOMをリセットする
 let ___global_container: HTMLElement | null = null;
+let ___global_rendered_editor: Editor | null = null;
 
 beforeEach(() => {
   ___global_container = document.createElement("div");
   ___global_container.setAttribute("class", "znc");
   document.body.appendChild(___global_container);
+  ___global_rendered_editor?.destroy();
 });
 
 afterEach(async () => {
+  ___global_rendered_editor?.destroy();
   if (___global_container) {
     document.body.removeChild(___global_container);
   }
@@ -26,22 +28,11 @@ export function renderTiptapEditor({
   content,
   extensions,
 }: RenderTiptapEditor) {
-  const editor = new Editor({
+  ___global_rendered_editor = new Editor({
     element: ___global_container,
     extensions,
     content,
   });
 
-  return editor;
-}
-
-export async function copyText(text: string) {
-  const input = document.createElement("input");
-  input.value = text;
-  document.body.appendChild(input);
-
-  await userEvent.tripleClick(input);
-  await userEvent.copy();
-
-  input.remove(); // クリーンアップ
+  return ___global_rendered_editor;
 }

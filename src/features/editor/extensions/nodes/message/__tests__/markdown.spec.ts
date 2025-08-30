@@ -2,7 +2,7 @@ import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import { describe, expect, it } from "vitest";
-import { createEditorInstance } from "@/tests/editor-instance";
+import { renderTiptapEditor } from "@/tests/editor";
 import { fromMarkdown } from "../../../../lib/from-markdown";
 import { markdownSerializer } from "../../../../lib/to-markdown";
 import { Message } from "../message";
@@ -12,7 +12,7 @@ const basicExtension = [Document, Paragraph, Text, Message, MessageContent];
 
 describe("マークダウン", () => {
   it("メッセージノードをマークダウンに変換できる", () => {
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: basicExtension,
       content:
         '<aside class="msg"><div class="msg-content"><p>メッセージ</p></div></aside>',
@@ -24,7 +24,7 @@ describe("マークダウン", () => {
   });
 
   it("メッセージアラートのノードをマークダウンに変換できる", () => {
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: basicExtension,
       content:
         '<aside class="msg alert"><div class="msg-content"><p>メッセージ</p></div></aside>',
@@ -35,7 +35,7 @@ describe("マークダウン", () => {
   });
 
   it("メッセージノードのネストをマークダウンに変換できる", () => {
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: basicExtension,
       content: `
         <aside class="msg"><div class="msg-content">
@@ -56,7 +56,7 @@ describe("マークダウン", () => {
     const markdown = `:::message\nメッセージ\n:::`;
 
     const html = fromMarkdown(markdown);
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: basicExtension,
       content: html,
     });

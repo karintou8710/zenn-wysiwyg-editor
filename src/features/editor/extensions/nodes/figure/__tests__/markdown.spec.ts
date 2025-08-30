@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import LakeImage from "@/assets/sikotuko.jpeg";
 import { fromMarkdown } from "@/features/editor/lib/from-markdown";
 import { markdownSerializer } from "@/features/editor/lib/to-markdown";
-import { createEditorInstance } from "@/tests/editor-instance";
+import { renderTiptapEditor } from "@/tests/editor";
 import { Caption } from "../caption";
 import { Image } from "../image";
 import Figure from "../index";
@@ -14,7 +14,7 @@ const basicExtension = [Document, Paragraph, Text, Figure, Image, Caption];
 
 describe("マークダウン", () => {
   it("Figureノードをマークダウンに変換できる", () => {
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: basicExtension,
       content: `<p><img src="${LakeImage}" alt="支笏湖"><em>支笏湖</em></p>`,
     });
@@ -25,7 +25,7 @@ describe("マークダウン", () => {
   });
 
   it("キャプションなしのFigureノードをマークダウンに変換できる", () => {
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: basicExtension,
       content: `<p><img src="${LakeImage}" alt="支笏湖"></p>`,
     });
@@ -39,7 +39,7 @@ describe("マークダウン", () => {
     const markdown = `![支笏湖](${LakeImage})\n*支笏湖*`;
 
     const html = fromMarkdown(markdown);
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: basicExtension,
       content: html,
     });
@@ -52,7 +52,7 @@ describe("マークダウン", () => {
     const markdown = `![支笏湖](${LakeImage})`;
 
     const html = fromMarkdown(markdown);
-    const editor = createEditorInstance({
+    const editor = renderTiptapEditor({
       extensions: basicExtension,
       content: html,
     });
