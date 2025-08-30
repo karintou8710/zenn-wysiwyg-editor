@@ -5,7 +5,7 @@ import { userEvent } from "@vitest/browser/context";
 import { describe, expect, it } from "vitest";
 import { waitSelectionChange } from "@/tests/dom";
 import { renderTiptapEditor } from "@/tests/editor";
-import Heading from ".";
+import Heading from "..";
 
 describe("キー入力", () => {
   it("Enterで見出しが分割される", async () => {
