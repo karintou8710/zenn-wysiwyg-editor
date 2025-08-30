@@ -9,20 +9,22 @@ import { Details } from "..";
 import { DetailsContent } from "../content";
 import { DetailsSummary } from "../summary";
 
+const basicExtension = [
+  Document,
+  Paragraph,
+  Text,
+  Details,
+  DetailsContent,
+  DetailsSummary,
+];
+
 describe("キー入力", () => {
   describe("Backspace", () => {
     it("サマリーの先頭で Backspace を押すとアコーディオンブロックが解除される", async () => {
       const editor = renderTiptapEditor({
         content:
           '<details><summary>Title</summary><div class="details-content"><p>Text</p></div></details>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          Details,
-          DetailsContent,
-          DetailsSummary,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -41,14 +43,7 @@ describe("キー入力", () => {
       const editor = renderTiptapEditor({
         content:
           '<details><summary>Title</summary><div class="details-content"><p>Text</p></div></details>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          Details,
-          DetailsContent,
-          DetailsSummary,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -67,14 +62,7 @@ describe("キー入力", () => {
       const editor = renderTiptapEditor({
         content:
           '<details open="true"><summary>Title</summary><div class="details-content"><p>Text</p></div></details>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          Details,
-          DetailsContent,
-          DetailsSummary,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -95,14 +83,7 @@ describe("キー入力", () => {
       const editor = renderTiptapEditor({
         content:
           '<p>Before</p><details><summary>Title</summary><div class="details-content"><p>Text</p></div></details>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          Details,
-          DetailsContent,
-          DetailsSummary,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -118,14 +99,7 @@ describe("キー入力", () => {
       const editor = renderTiptapEditor({
         content:
           '<details open="true"><summary>Title</summary><div class="details-content"><p>Text</p></div></details>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          Details,
-          DetailsContent,
-          DetailsSummary,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -141,14 +115,7 @@ describe("キー入力", () => {
       const editor = renderTiptapEditor({
         content:
           '<details open="true"><summary></summary><div class="details-content"><p>Text</p></div></details><p>After</p>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          Details,
-          DetailsContent,
-          DetailsSummary,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -168,14 +135,7 @@ describe("キー入力", () => {
       const editor = renderTiptapEditor({
         content:
           '<details open><summary></summary><div class="details-content"><p>Text</p></div></details>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          Details,
-          DetailsContent,
-          DetailsSummary,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -191,14 +151,7 @@ describe("キー入力", () => {
       const editor = renderTiptapEditor({
         content:
           '<details><summary></summary><div class="details-content"><p>Text</p></div></details><p></p>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          Details,
-          DetailsContent,
-          DetailsSummary,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -214,14 +167,7 @@ describe("キー入力", () => {
       const editor = renderTiptapEditor({
         content:
           '<details open><summary></summary><div class="details-content"><p>Text</p></div></details><p>After</p>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          Details,
-          DetailsContent,
-          DetailsSummary,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {

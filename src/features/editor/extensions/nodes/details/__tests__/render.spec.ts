@@ -7,17 +7,19 @@ import { Details } from "..";
 import { DetailsContent } from "../content";
 import { DetailsSummary } from "../summary";
 
+const basicExtension = [
+  Document,
+  Paragraph,
+  Text,
+  Details,
+  DetailsContent,
+  DetailsSummary,
+];
+
 describe("HTMLのパース・レンダリング", () => {
   it("アコーディオンが正しいHTMLでレンダリングされる", () => {
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Details,
-        DetailsContent,
-        DetailsSummary,
-      ],
+      extensions: basicExtension,
       content:
         '<details><summary></summary><div class="details-content"><p>テキスト</p></div></details>',
     });

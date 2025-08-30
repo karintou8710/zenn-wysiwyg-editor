@@ -13,11 +13,13 @@ import { Caption } from "../caption";
 import { Image } from "../image";
 import { Figure } from "../index";
 
+const basicExtension = [Document, Paragraph, Text, Figure, Caption, Image];
+
 describe("InputRule", () => {
   it("![alt](src) で Figure ノードが作成される", async () => {
     const editor = renderTiptapEditor({
       content: "<p></p>",
-      extensions: [Document, Paragraph, Text, Figure, Caption, Image],
+      extensions: basicExtension,
     });
 
     await waitSelectionChange(() => {
@@ -38,7 +40,7 @@ describe("InputRule", () => {
   it("行の途中では InputRule が発動しない", async () => {
     const editor = renderTiptapEditor({
       content: "<p>Text</p>",
-      extensions: [Document, Paragraph, Text, Figure, Caption, Image],
+      extensions: basicExtension,
     });
 
     await waitSelectionChange(() => {
@@ -54,17 +56,7 @@ describe("InputRule", () => {
     const editor = renderTiptapEditor({
       content:
         '<details><summary></summary><div class="details-content"><p>Text</p></div></details>',
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Figure,
-        Caption,
-        Image,
-        Details,
-        DetailsContent,
-        DetailsSummary,
-      ],
+      extensions: [...basicExtension, Details, DetailsContent, DetailsSummary],
     });
 
     await waitSelectionChange(() => {

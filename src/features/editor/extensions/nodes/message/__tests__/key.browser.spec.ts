@@ -8,13 +8,15 @@ import { renderTiptapEditor } from "@/tests/editor";
 import { Message } from "../message";
 import { MessageContent } from "../message-content";
 
+const basicExtension = [Document, Paragraph, Text, Message, MessageContent];
+
 describe("キー入力", () => {
   describe("Backspace", () => {
     it("メッセージコンテンツの先頭で押すとメッセージブロックが解除される", async () => {
       const editor = renderTiptapEditor({
         content:
           '<aside class="msg"><div class="msg-content"><p>Text</p></div></aside>',
-        extensions: [Document, Paragraph, Text, Message, MessageContent],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -33,7 +35,7 @@ describe("キー入力", () => {
       const editor = renderTiptapEditor({
         content:
           '<aside class="msg"><div class="msg-content"><p>Text</p></div></aside>',
-        extensions: [Document, Paragraph, Text, Message, MessageContent],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -54,7 +56,7 @@ describe("キー入力", () => {
       const editor = renderTiptapEditor({
         content:
           '<p>Before</p><aside class="msg"><div class="msg-content"><p>Text</p></div></aside>',
-        extensions: [Document, Paragraph, Text, Message, MessageContent],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -74,7 +76,7 @@ describe("キー入力", () => {
       const editor = renderTiptapEditor({
         content:
           '<aside class="msg"><div class="msg-content"><p>Text</p></div></aside><p>After</p>',
-        extensions: [Document, Paragraph, Text, Message, MessageContent],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {

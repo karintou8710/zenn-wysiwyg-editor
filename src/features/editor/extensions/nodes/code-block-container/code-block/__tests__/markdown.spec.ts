@@ -2,7 +2,6 @@ import Document from "@tiptap/extension-document";
 import HardBreak from "@tiptap/extension-hard-break";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
-import { Editor } from "@tiptap/react";
 import { describe, expect, it } from "vitest";
 import { fromMarkdown } from "@/features/editor/lib/from-markdown";
 import { markdownSerializer } from "@/features/editor/lib/to-markdown";
@@ -13,20 +12,22 @@ import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
 import { CodeBlockContainer } from "../../index";
 import { CodeBlock } from "../index";
 
+const basicExtension = [
+  Document,
+  Paragraph,
+  Text,
+  CodeBlockContainer,
+  CodeBlock,
+  CodeBlockFileName,
+  DiffCodeBlock,
+  DiffCodeLine,
+  HardBreak,
+];
+
 describe("マークダウン", () => {
   it("JavaScriptコードブロックをマークダウンに変換できる", () => {
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>',
     });
@@ -37,17 +38,7 @@ describe("マークダウン", () => {
 
   it("言語名なしのコードブロックをマークダウンに変換できる", () => {
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-plaintext">plaintext code</code></pre></div>',
     });
@@ -58,17 +49,7 @@ describe("マークダウン", () => {
 
   it("複数行のコードブロックをマークダウンに変換できる", () => {
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-python">def hello():\n    print("Hello, World!")\n    return True</code></pre></div>',
     });
@@ -84,17 +65,7 @@ describe("マークダウン", () => {
 
     const html = fromMarkdown(markdown);
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
       content: html,
     });
     const docString = editor.state.doc.toString();
@@ -109,17 +80,7 @@ describe("マークダウン", () => {
 
     const html = fromMarkdown(markdown);
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
       content: html,
     });
     const docString = editor.state.doc.toString();

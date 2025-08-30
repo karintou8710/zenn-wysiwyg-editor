@@ -9,17 +9,19 @@ import { Details } from "..";
 import { DetailsContent } from "../content";
 import { DetailsSummary } from "../summary";
 
+const basicExtension = [
+  Document,
+  Paragraph,
+  Text,
+  Details,
+  DetailsContent,
+  DetailsSummary,
+];
+
 describe("マークダウン", () => {
   it("アコーディオンのマークダウン記法で出力できる", () => {
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Details,
-        DetailsContent,
-        DetailsSummary,
-      ],
+      extensions: basicExtension,
       content:
         '<details><summary>summary</summary><div class="details-content"><p>テキスト</p></div></details>',
     });
@@ -31,14 +33,7 @@ describe("マークダウン", () => {
 
   it("アコーディオンのネストをマークダウン記法に出力できる", () => {
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Details,
-        DetailsContent,
-        DetailsSummary,
-      ],
+      extensions: basicExtension,
       content: `<details><summary>summary</summary><div class="details-content">
         <p>テキスト</p>
             <details><summary>nest summary</summary><div class="details-content">
@@ -60,14 +55,7 @@ describe("マークダウン", () => {
     const html = fromMarkdown(markdown);
 
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Details,
-        DetailsContent,
-        DetailsSummary,
-      ],
+      extensions: basicExtension,
       content: html,
     });
 

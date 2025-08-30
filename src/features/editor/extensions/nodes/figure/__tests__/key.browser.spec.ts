@@ -10,13 +10,13 @@ import { Caption } from "../caption";
 import { Image } from "../image";
 import { Figure } from "../index";
 
-const baseExtensions = [Document, Paragraph, Text, Figure, Caption, Image];
+const basicExtension = [Document, Paragraph, Text, Figure, Caption, Image];
 
 describe("キー入力", () => {
   it("キャプションの先頭で Backspace を押すとFigureが削除される", async () => {
     const editor = renderTiptapEditor({
       content: `<p><img src='${LakeImage}' alt='支笏湖'><em>支笏湖</em></p>`,
-      extensions: baseExtensions,
+      extensions: basicExtension,
     });
 
     await waitSelectionChange(() => {
@@ -32,7 +32,7 @@ describe("キー入力", () => {
   it("キャプション内で Enter を押すと、段落を挿入して移動する", async () => {
     const editor = renderTiptapEditor({
       content: `<p><img src='${LakeImage}' alt='支笏湖'><em>支笏湖</em></p>`,
-      extensions: baseExtensions,
+      extensions: basicExtension,
     });
 
     await waitSelectionChange(() => {
@@ -48,7 +48,7 @@ describe("キー入力", () => {
   it("キャプションの先頭で左矢印キーを押すと前のノードに移動する", async () => {
     const editor = renderTiptapEditor({
       content: `<p>Before</p><p><img src='${LakeImage}' alt='支笏湖'><em>支笏湖</em></p>`,
-      extensions: baseExtensions,
+      extensions: basicExtension,
     });
 
     await waitSelectionChange(() => {
@@ -63,7 +63,7 @@ describe("キー入力", () => {
   it("キャプションの末尾で右矢印キーを押すと次のノードに移動する", async () => {
     const editor = renderTiptapEditor({
       content: `<p><img src='${LakeImage}' alt='支笏湖'><em>支笏湖</em></p><p>After</p>`,
-      extensions: baseExtensions,
+      extensions: basicExtension,
     });
 
     await waitSelectionChange(() => {

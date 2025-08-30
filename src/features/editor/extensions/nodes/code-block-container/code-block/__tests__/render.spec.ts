@@ -11,22 +11,24 @@ import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
 import { CodeBlockContainer } from "../../index";
 import { CodeBlock } from "../index";
 
+const basicExtension = [
+  Document,
+  Paragraph,
+  Text,
+  CodeBlockContainer,
+  CodeBlock,
+  CodeBlockFileName,
+  DiffCodeBlock,
+  DiffCodeLine,
+  HardBreak,
+];
+
 describe("HTMLのレンダリング", () => {
   it("JavaScriptコードブロックが正しいHTMLでレンダリングされる", () => {
     const content =
       '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>';
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
       content,
     });
 
@@ -38,17 +40,7 @@ describe("HTMLのレンダリング", () => {
     const content =
       '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-plaintext">plaintext code</code></pre></div>';
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
       content,
     });
 

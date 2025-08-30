@@ -8,12 +8,12 @@ import Figure from "..";
 import { Caption } from "../caption";
 import { Image } from "../image";
 
-const baseExtensions = [Document, Paragraph, Text, Figure, Image, Caption];
+const basicExtension = [Document, Paragraph, Text, Figure, Image, Caption];
 
 describe("HTMLのパース・レンダリング", () => {
   it("Figureノードが正しいHTMLでレンダリングされる", () => {
     const editor = createEditorInstance({
-      extensions: baseExtensions,
+      extensions: basicExtension,
       content: `<p><img src="${LakeImage}" alt="支笏湖"><em>支笏湖</em></p>`,
     });
 

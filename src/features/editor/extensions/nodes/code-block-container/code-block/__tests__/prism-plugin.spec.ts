@@ -10,6 +10,18 @@ import { DiffCodeBlock } from "../../diff-code-block";
 import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
 import { CodeBlock } from "../index";
 
+const basicExtension = [
+  Document,
+  Paragraph,
+  Text,
+  CodeBlockContainer,
+  CodeBlock,
+  CodeBlockFileName,
+  DiffCodeBlock,
+  DiffCodeLine,
+  HardBreak,
+];
+
 describe("PrismPlugin", () => {
   const extractHighlightedToken = (codeBlockDom: Element) => {
     const tokens = Array.from(codeBlockDom?.childNodes ?? []).map((node) => {
@@ -26,17 +38,7 @@ describe("PrismPlugin", () => {
 
   it("typescriptでconsole.logをコードブロックで入力するとハイライトがされる", () => {
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-typescript">console.log("hello")</code></pre></div>',
     });
@@ -62,17 +64,7 @@ describe("PrismPlugin", () => {
 
   it("空行と改行があってもハイライトが認識される", () => {
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-typescript">// コメント\n\nconst a = 1;</code></pre></div>',
     });
@@ -100,17 +92,7 @@ describe("PrismPlugin", () => {
 
   it("コードを更新されてもハイライトされる", () => {
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-typescript">console.log("hello")</code></pre></div>',
     });
@@ -139,17 +121,7 @@ describe("PrismPlugin", () => {
 
   it("コード全体を更新されてもハイライトされる", () => {
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-typescript">console.log("hello")</code></pre></div>',
     });

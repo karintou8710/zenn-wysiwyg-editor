@@ -10,10 +10,12 @@ import { Caption } from "../caption";
 import { Image } from "../image";
 import Figure from "../index";
 
+const basicExtension = [Document, Paragraph, Text, Figure, Image, Caption];
+
 describe("マークダウン", () => {
   it("Figureノードをマークダウンに変換できる", () => {
     const editor = createEditorInstance({
-      extensions: [Document, Paragraph, Text, Figure, Image, Caption],
+      extensions: basicExtension,
       content: `<p><img src="${LakeImage}" alt="支笏湖"><em>支笏湖</em></p>`,
     });
 
@@ -24,7 +26,7 @@ describe("マークダウン", () => {
 
   it("キャプションなしのFigureノードをマークダウンに変換できる", () => {
     const editor = createEditorInstance({
-      extensions: [Document, Paragraph, Text, Figure, Image, Caption],
+      extensions: basicExtension,
       content: `<p><img src="${LakeImage}" alt="支笏湖"></p>`,
     });
 
@@ -38,7 +40,7 @@ describe("マークダウン", () => {
 
     const html = fromMarkdown(markdown);
     const editor = createEditorInstance({
-      extensions: [Document, Paragraph, Text, Figure, Image, Caption],
+      extensions: basicExtension,
       content: html,
     });
     const docString = editor.state.doc.toString();
@@ -51,7 +53,7 @@ describe("マークダウン", () => {
 
     const html = fromMarkdown(markdown);
     const editor = createEditorInstance({
-      extensions: [Document, Paragraph, Text, Figure, Image, Caption],
+      extensions: basicExtension,
       content: html,
     });
     const docString = editor.state.doc.toString();

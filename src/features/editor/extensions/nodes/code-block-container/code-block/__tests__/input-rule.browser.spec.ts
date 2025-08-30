@@ -15,21 +15,23 @@ import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
 import { CodeBlockContainer } from "../../index";
 import { CodeBlock } from "../index";
 
+const basicExtension = [
+  Document,
+  Paragraph,
+  Text,
+  CodeBlockContainer,
+  CodeBlock,
+  CodeBlockFileName,
+  DiffCodeBlock,
+  DiffCodeLine,
+  HardBreak,
+];
+
 describe("InputRule", () => {
   it("``` でコードブロックが作成される", async () => {
     const editor = renderTiptapEditor({
       content: "<p>Text</p>",
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
     });
 
     await waitSelectionChange(() => {
@@ -51,17 +53,7 @@ describe("InputRule", () => {
   it("```typescript で言語指定コードブロックが作成される", async () => {
     const editor = renderTiptapEditor({
       content: "<p>Text</p>",
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
     });
 
     await waitSelectionChange(() => {
@@ -84,17 +76,7 @@ describe("InputRule", () => {
   it("```typescript:main.ts でファイル名付きコードブロックが作成される", async () => {
     const editor = renderTiptapEditor({
       content: "<p>Text</p>",
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
     });
 
     await waitSelectionChange(() => {
@@ -117,17 +99,7 @@ describe("InputRule", () => {
   it("行の途中では InputRule が発動しない", async () => {
     const editor = renderTiptapEditor({
       content: "<p>Text</p>",
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
     });
 
     await waitSelectionChange(() => {
@@ -143,14 +115,7 @@ describe("InputRule", () => {
     const editor = renderTiptapEditor({
       content:
         '<details><summary></summary><div class="details-content"><p>Text</p></div></details>',
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Details,
-        DetailsContent,
-        DetailsSummary,
-      ],
+      extensions: [...basicExtension, Details, DetailsContent, DetailsSummary],
     });
 
     await waitSelectionChange(() => {

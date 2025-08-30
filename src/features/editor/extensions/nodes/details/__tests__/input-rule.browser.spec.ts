@@ -9,18 +9,20 @@ import { Details } from "..";
 import { DetailsContent } from "../content";
 import { DetailsSummary } from "../summary";
 
+const basicExtension = [
+  Document,
+  Paragraph,
+  Text,
+  Details,
+  DetailsContent,
+  DetailsSummary,
+];
+
 describe("InputRule", () => {
   it(":::details で アコーディオンブロックが作成される", async () => {
     const editor = renderTiptapEditor({
       content: "<p>Text</p>",
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Details,
-        DetailsContent,
-        DetailsSummary,
-      ],
+      extensions: basicExtension,
     });
 
     await waitSelectionChange(() => {
@@ -38,14 +40,7 @@ describe("InputRule", () => {
   it("行の途中では InputRule が発動しない", async () => {
     const editor = renderTiptapEditor({
       content: "<p>Text</p>",
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Details,
-        DetailsContent,
-        DetailsSummary,
-      ],
+      extensions: basicExtension,
     });
 
     await waitSelectionChange(() => {
@@ -61,14 +56,7 @@ describe("InputRule", () => {
     const editor = renderTiptapEditor({
       content:
         '<details><summary>Title</summary><div class="details-content"><p>Text</p></div></details>',
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Details,
-        DetailsContent,
-        DetailsSummary,
-      ],
+      extensions: basicExtension,
     });
 
     await waitSelectionChange(() => {

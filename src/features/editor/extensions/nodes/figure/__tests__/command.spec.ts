@@ -19,13 +19,15 @@ import Figure from "..";
 import { Caption } from "../caption";
 import { Image } from "../image";
 
+const basicExtension = [Document, Paragraph, Text, Figure, Image, Caption];
+
 const baseExtensions = [Document, Paragraph, Text, Figure, Image, Caption];
 
 describe("コマンド", () => {
   describe("setFigure", () => {
     it("setFigureコマンドで画像とキャプション付きのFigureノードを挿入できる", () => {
       const editor = createEditorInstance({
-        extensions: baseExtensions,
+        extensions: basicExtension,
         content: "<p></p>",
       });
 

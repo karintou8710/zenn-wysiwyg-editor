@@ -11,11 +11,13 @@ import { DetailsSummary } from "../../details/summary";
 import { Message } from "../message";
 import { MessageContent } from "../message-content";
 
+const baseExtensions = [Document, Paragraph, Text, Message, MessageContent];
+
 describe("InputRule", () => {
   it(":::message で メッセージブロックが作成される", async () => {
     const editor = renderTiptapEditor({
       content: "<p>Text</p>",
-      extensions: [Document, Paragraph, Text, Message, MessageContent],
+      extensions: baseExtensions,
     });
 
     await waitSelectionChange(() => {
@@ -31,7 +33,7 @@ describe("InputRule", () => {
   it(":::alert で アラートブロックが作成される", async () => {
     const editor = renderTiptapEditor({
       content: "<p>Text</p>",
-      extensions: [Document, Paragraph, Text, Message, MessageContent],
+      extensions: baseExtensions,
     });
 
     await waitSelectionChange(() => {
@@ -48,7 +50,7 @@ describe("InputRule", () => {
   it("行の途中では InputRule が発動しない", async () => {
     const editor = renderTiptapEditor({
       content: "<p>Text</p>",
-      extensions: [Document, Paragraph, Text, Message, MessageContent],
+      extensions: baseExtensions,
     });
 
     await waitSelectionChange(() => {
@@ -64,16 +66,7 @@ describe("InputRule", () => {
     const editor = renderTiptapEditor({
       content:
         '<details><summary></summary><div class="details-content"><p>Text</p></div></details>',
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Message,
-        MessageContent,
-        Details,
-        DetailsContent,
-        DetailsSummary,
-      ],
+      extensions: [...baseExtensions, Details, DetailsContent, DetailsSummary],
     });
 
     await waitSelectionChange(() => {

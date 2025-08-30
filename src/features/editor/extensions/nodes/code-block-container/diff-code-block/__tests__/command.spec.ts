@@ -1,14 +1,10 @@
-import Blockquote from "@tiptap/extension-blockquote";
 import Document from "@tiptap/extension-document";
 import HardBreak from "@tiptap/extension-hard-break";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import { describe, expect, it } from "vitest";
 import { createEditorInstance } from "@/tests/editor-instance";
-import { Details } from "../../../details";
-import { DetailsContent } from "../../../details/content";
-import { DetailsSummary } from "../../../details/summary";
-import Heading from "../../../heading";
+
 import { CodeBlock } from "../../code-block";
 import { CodeBlockFileName } from "../../code-block-file-name";
 import { CodeBlockContainer } from "../../index";

@@ -15,11 +15,13 @@ import { Caption } from "../caption";
 import { Image } from "../image";
 import { Figure } from "../index";
 
+const basicExtension = [Document, Paragraph, Text, Figure, Caption, Image];
+
 describe("ペースト", () => {
   it("![alt](src) をペーストすると Figure ノードが作成される", async () => {
     const editor = renderTiptapEditor({
       content: "",
-      extensions: [Document, Paragraph, Text, Figure, Caption, Image],
+      extensions: basicExtension,
     });
 
     const input = document.createElement("input");
@@ -50,16 +52,7 @@ describe("ペースト", () => {
   it("拡張子がjpegの画像URLをペーストするとFigureノードが作成される(埋め込みより優先)", async () => {
     const editor = renderTiptapEditor({
       content: "",
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Figure,
-        Caption,
-        Image,
-        Embed,
-        EmbedPasteHandler,
-      ],
+      extensions: [...basicExtension, Embed, EmbedPasteHandler],
     });
     const url = `${location.origin}${LakeImage}`;
 
@@ -83,17 +76,7 @@ describe("ペースト", () => {
     const editor = renderTiptapEditor({
       content:
         '<details><summary></summary><div class="details-content"><p>Text</p></div></details>',
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Figure,
-        Caption,
-        Image,
-        Details,
-        DetailsContent,
-        DetailsSummary,
-      ],
+      extensions: [...basicExtension, Details, DetailsContent, DetailsSummary],
     });
 
     await copyText(`![支笏湖](${LakeImage})`);

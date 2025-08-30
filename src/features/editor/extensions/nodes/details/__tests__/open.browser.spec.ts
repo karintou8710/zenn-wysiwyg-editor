@@ -8,19 +8,21 @@ import { Details } from "..";
 import { DetailsContent } from "../content";
 import { DetailsSummary } from "../summary";
 
+const basicExtension = [
+  Document,
+  Paragraph,
+  Text,
+  Details,
+  DetailsContent,
+  DetailsSummary,
+];
+
 describe("アコーディオンの開閉", () => {
   it("ボタンを押して閉じる", async () => {
     const editor = renderTiptapEditor({
       content:
         '<details open><summary>Title</summary><div class="details-content"><p>Text</p></div></details>',
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Details,
-        DetailsContent,
-        DetailsSummary,
-      ],
+      extensions: basicExtension,
     });
 
     const button = page.getByRole("button");
@@ -34,14 +36,7 @@ describe("アコーディオンの開閉", () => {
     const editor = renderTiptapEditor({
       content:
         '<details><summary>Title</summary><div class="details-content"><p>Text</p></div></details>',
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        Details,
-        DetailsContent,
-        DetailsSummary,
-      ],
+      extensions: basicExtension,
     });
 
     const button = page.getByRole("button");

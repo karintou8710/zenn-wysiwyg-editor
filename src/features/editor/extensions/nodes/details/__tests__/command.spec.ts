@@ -15,7 +15,7 @@ import { Details } from "..";
 import { DetailsContent } from "../content";
 import { DetailsSummary } from "../summary";
 
-const baseExtensions = [
+const basicExtension = [
   Document,
   Paragraph,
   Text,
@@ -28,7 +28,7 @@ describe("コマンド", () => {
   describe("setDetails", () => {
     it("setDetailsコマンドでアコーディオンを挿入できる", () => {
       const editor = createEditorInstance({
-        extensions: baseExtensions,
+        extensions: basicExtension,
         content: "<p>テキスト</p>",
       });
 
@@ -42,7 +42,7 @@ describe("コマンド", () => {
 
     it("setDetailsコマンドはアコーディオンタイトル内で実行できない", () => {
       const editor = createEditorInstance({
-        extensions: baseExtensions,
+        extensions: basicExtension,
         content:
           '<details><summary></summary><div class="details-content"><p>テキスト</p></div></details>',
       });
@@ -54,7 +54,7 @@ describe("コマンド", () => {
 
     it("見出しの中で呼び出せる", () => {
       const editor = createEditorInstance({
-        extensions: [...baseExtensions, Heading],
+        extensions: [...basicExtension, Heading],
         content: "<h1>見出しの中</h1>",
       });
 
@@ -66,7 +66,7 @@ describe("コマンド", () => {
 
     it("引用の中で呼び出せる", () => {
       const editor = createEditorInstance({
-        extensions: [...baseExtensions, Blockquote],
+        extensions: [...basicExtension, Blockquote],
         content: "<blockquote>引用の中</blockquote>",
       });
 
@@ -78,7 +78,7 @@ describe("コマンド", () => {
 
     it("リストで呼び出せない", () => {
       const editor = createEditorInstance({
-        extensions: [...baseExtensions, ListKit],
+        extensions: [...basicExtension, ListKit],
         content: "<ul><li><p>リストの中</p></li></ul>",
       });
 
@@ -90,7 +90,7 @@ describe("コマンド", () => {
 
     it("メッセージの中で呼び出せる", () => {
       const editor = createEditorInstance({
-        extensions: baseExtensions,
+        extensions: basicExtension,
         content:
           '<aside class="msg"><div class="msg-content"><p>メッセージ</p></div></aside>',
       });
@@ -104,7 +104,7 @@ describe("コマンド", () => {
     it("コードブロックのファイル名とコンテンツの中で呼び出せない", () => {
       const editor = createEditorInstance({
         extensions: [
-          ...baseExtensions,
+          ...basicExtension,
           CodeBlock,
           CodeBlockContainer,
           CodeBlockFileName,
@@ -128,7 +128,7 @@ describe("コマンド", () => {
     it("差分コードブロックのファイル名とコンテンツの中で呼び出せない", () => {
       const editor = createEditorInstance({
         extensions: [
-          ...baseExtensions,
+          ...basicExtension,
           CodeBlock,
           CodeBlockContainer,
           CodeBlockFileName,
@@ -152,7 +152,7 @@ describe("コマンド", () => {
     it("アコーディオンのサマリーで呼べない。コンテンツで呼べる", () => {
       const editor = createEditorInstance({
         extensions: [
-          ...baseExtensions,
+          ...basicExtension,
           Details,
           DetailsSummary,
           DetailsContent,
@@ -175,14 +175,7 @@ describe("コマンド", () => {
   describe("unsetDetails", () => {
     it("unsetDetailsコマンドでアコーディオンを削除できる", () => {
       const editor = createEditorInstance({
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          Details,
-          DetailsContent,
-          DetailsSummary,
-        ],
+        extensions: basicExtension,
         content:
           '<details><summary></summary><div class="details-content"><p>テキスト</p></div></details>',
       });
@@ -195,14 +188,7 @@ describe("コマンド", () => {
 
     it("unsetDetailsコマンドはアコーディオン内にカーソルがある場合にのみ有効", () => {
       const editor = createEditorInstance({
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          Details,
-          DetailsContent,
-          DetailsSummary,
-        ],
+        extensions: basicExtension,
         content:
           '<details><summary></summary><div class="details-content"><p>テキスト</p></div></details><p>テキスト2</p>',
       });

@@ -12,6 +12,18 @@ import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
 import { CodeBlockContainer } from "../../index";
 import { CodeBlock } from "../index";
 
+const basicExtension = [
+  Document,
+  Paragraph,
+  Text,
+  CodeBlockContainer,
+  CodeBlock,
+  CodeBlockFileName,
+  DiffCodeBlock,
+  DiffCodeLine,
+  HardBreak,
+];
+
 describe("キーボードショートカット", () => {
   describe("Backspace", () => {
     it("コードブロックの先頭で Backspace を押すと解除", async () => {
@@ -45,17 +57,7 @@ describe("キーボードショートカット", () => {
       const editor = renderTiptapEditor({
         content:
           '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">Text</code></pre></div>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -76,17 +78,7 @@ describe("キーボードショートカット", () => {
       const editor = renderTiptapEditor({
         content:
           '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">Text</code></pre></div>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -105,17 +97,7 @@ describe("キーボードショートカット", () => {
       const editor = renderTiptapEditor({
         content:
           '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">Text</code></pre></div>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -136,17 +118,7 @@ describe("キーボードショートカット", () => {
       const editor = renderTiptapEditor({
         content:
           '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">Text</code></pre></div>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -164,17 +136,7 @@ describe("キーボードショートカット", () => {
       const editor = renderTiptapEditor({
         content:
           '<p>Before</p><div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">Text</code></pre></div>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -190,17 +152,7 @@ describe("キーボードショートカット", () => {
       const editor = renderTiptapEditor({
         content:
           '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">Text</code></pre></div><p>After</p>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -244,17 +196,7 @@ describe("キーボードショートカット", () => {
       const editor = renderTiptapEditor({
         content:
           '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">Text</code></pre></div>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {
@@ -269,17 +211,7 @@ describe("キーボードショートカット", () => {
       const editor = renderTiptapEditor({
         content:
           '<p>Before</p><div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">Text</code></pre></div>',
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: basicExtension,
       });
 
       await waitSelectionChange(() => {

@@ -6,10 +6,12 @@ import { createEditorInstance } from "@/tests/editor-instance";
 import { Message } from "../message";
 import { MessageContent } from "../message-content";
 
+const basicExtension = [Document, Paragraph, Text, Message, MessageContent];
+
 describe("HTMLのレンダリング", () => {
   it("メッセージタイプが正しいHTMLでレンダリングされる", () => {
     const editor = createEditorInstance({
-      extensions: [Document, Paragraph, Text, Message, MessageContent],
+      extensions: basicExtension,
       content:
         '<aside class="msg"><div class="msg-content"><p>メッセージ</p></div></aside>',
     });
@@ -21,7 +23,7 @@ describe("HTMLのレンダリング", () => {
 
   it("アラートタイプが正しいHTMLでレンダリングされる", () => {
     const editor = createEditorInstance({
-      extensions: [Document, Paragraph, Text, Message, MessageContent],
+      extensions: basicExtension,
       content:
         '<aside class="msg alert"><div class="msg-content"><p>メッセージ</p></div></aside>',
     });
@@ -32,7 +34,7 @@ describe("HTMLのレンダリング", () => {
 
   it("HTMLにレンダリング後にパースできる", () => {
     const editor = createEditorInstance({
-      extensions: [Document, Paragraph, Text, Message, MessageContent],
+      extensions: basicExtension,
       content:
         '<aside class="msg alert"><div class="msg-content"><p>メッセージ</p></div></aside>',
     });

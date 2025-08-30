@@ -8,10 +8,12 @@ import { markdownSerializer } from "../../../../lib/to-markdown";
 import { Message } from "../message";
 import { MessageContent } from "../message-content";
 
+const basicExtension = [Document, Paragraph, Text, Message, MessageContent];
+
 describe("マークダウン", () => {
   it("メッセージノードをマークダウンに変換できる", () => {
     const editor = createEditorInstance({
-      extensions: [Document, Paragraph, Text, Message, MessageContent],
+      extensions: basicExtension,
       content:
         '<aside class="msg"><div class="msg-content"><p>メッセージ</p></div></aside>',
     });
@@ -23,7 +25,7 @@ describe("マークダウン", () => {
 
   it("メッセージアラートのノードをマークダウンに変換できる", () => {
     const editor = createEditorInstance({
-      extensions: [Document, Paragraph, Text, Message, MessageContent],
+      extensions: basicExtension,
       content:
         '<aside class="msg alert"><div class="msg-content"><p>メッセージ</p></div></aside>',
     });
@@ -34,7 +36,7 @@ describe("マークダウン", () => {
 
   it("メッセージノードのネストをマークダウンに変換できる", () => {
     const editor = createEditorInstance({
-      extensions: [Document, Paragraph, Text, Message, MessageContent],
+      extensions: basicExtension,
       content: `
         <aside class="msg"><div class="msg-content">
         <p>メッセージ</p>
@@ -55,7 +57,7 @@ describe("マークダウン", () => {
 
     const html = fromMarkdown(markdown);
     const editor = createEditorInstance({
-      extensions: [Document, Paragraph, Text, Message, MessageContent],
+      extensions: basicExtension,
       content: html,
     });
     const docString = editor.state.doc.toString();

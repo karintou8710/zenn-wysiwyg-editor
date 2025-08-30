@@ -10,20 +10,22 @@ import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
 import { CodeBlockContainer } from "../../index";
 import { CodeBlock } from "../index";
 
+const basicExtension = [
+  Document,
+  Paragraph,
+  Text,
+  CodeBlockContainer,
+  CodeBlock,
+  CodeBlockFileName,
+  DiffCodeBlock,
+  DiffCodeLine,
+  HardBreak,
+];
+
 describe("HTMLのパース", () => {
   it("preタグをコードブロックノードとしてパースできる", () => {
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>',
     });
@@ -37,17 +39,7 @@ describe("HTMLのパース", () => {
 
   it("言語名なしのpreタグをパースできる", () => {
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code>plaintext code</code></pre></div>',
     });
@@ -60,17 +52,7 @@ describe("HTMLのパース", () => {
 
   it("言語とファイル名ありのpreタグをパースできる", () => {
     const editor = createEditorInstance({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: basicExtension,
       content:
         '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename">example.ts</span></div><pre><code class="language-typescript">const a = 1;</code></pre></div>',
     });
