@@ -21,6 +21,7 @@ declare module "@tiptap/react" {
 // ![image](src)
 export const inputRegex = /(?:^|\s)(!\[(.+|:?)]\((\S+)\))\s$/;
 
+// 埋め込みよりも優先度を高くする
 export const Figure = Node.create({
   name: "figure",
 
@@ -34,7 +35,7 @@ export const Figure = Node.create({
     return [
       {
         tag: "p:has(img)", // Zennのレンダリングでは、キャプションなしがemを含まない
-        priority: 100, // 段落よりも優先度を高くする
+        priority: 200, // 段落よりも優先度を高くする
       },
     ];
   },
