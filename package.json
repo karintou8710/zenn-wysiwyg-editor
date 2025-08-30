@@ -15,7 +15,7 @@
     "preview": "vite preview",
     "test:browser": "vitest run --config=vitest.browser.config.ts",
     "test:browser:watch": "vitest --config=vitest.browser.config.ts --browser.ui=true --browser.headless=false",
-    "test:node": "vitest run --config=vitest.config.ts",
+    "test:node": "vitest run",
     "test:all": "pnpm test:node && pnpm test:browser"
   },
   "dependencies": {

@@ -1,8 +1,24 @@
+import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import { defineConfig } from "vitest/config";
 
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react({
+      babel: {
+        plugins: [
+          [
+            "prismjs",
+            {
+              languages: "all",
+              plugins: ["diff-highlight"],
+            },
+          ],
+        ],
+      },
+    }),
+    tailwindcss(),
+  ],
   test: {
     setupFiles: ["./setup-browser-test.ts"],
     browser: {

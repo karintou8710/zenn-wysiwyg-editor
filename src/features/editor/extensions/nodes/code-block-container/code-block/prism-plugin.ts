@@ -63,7 +63,7 @@ export function PrismPlugin({
   name: string;
   defaultLanguage: string;
 }) {
-  const prismjsPlugin: Plugin<any> = new Plugin({
+  const prismjsPlugin: Plugin = new Plugin({
     key: new PluginKey("prism"),
 
     state: {

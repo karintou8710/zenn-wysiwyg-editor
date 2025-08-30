@@ -5,12 +5,14 @@ import { userEvent } from "@vitest/browser/context";
 import { describe, expect, it } from "vitest";
 import { waitSelectionChange } from "@/tests/dom";
 import { renderTiptapEditor } from "@/tests/editor";
-import Heading from ".";
+import Heading from "..";
+
+const basicExtension = [Document, Paragraph, Text, Heading];
 
 describe("キー入力", () => {
   it("Enterで見出しが分割される", async () => {
     const editor = renderTiptapEditor({
-      extensions: [Document, Paragraph, Text, Heading],
+      extensions: basicExtension,
       content: "<h1>見出し</h1>",
     });
 
@@ -26,7 +28,7 @@ describe("キー入力", () => {
 
   it("先頭でBackspaceを押す", async () => {
     const editor = renderTiptapEditor({
-      extensions: [Document, Paragraph, Text, Heading],
+      extensions: basicExtension,
       content: "<h1>見出し</h1>",
     });
 

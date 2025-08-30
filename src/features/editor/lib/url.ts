@@ -14,7 +14,7 @@ export function getUrlPath(url: string): string {
   try {
     const parsedUrl = new URL(url);
     return parsedUrl.pathname;
-  } catch (e) {
+  } catch {
     return "";
   }
 }

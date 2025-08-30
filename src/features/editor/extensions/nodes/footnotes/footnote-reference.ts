@@ -6,7 +6,7 @@ import { getRandomString } from "@/lib/utils";
 declare module "@tiptap/react" {
   interface Commands<ReturnType> {
     footnoteReference: {
-      addFootnote: () => ReturnType;
+      setFootnote: () => ReturnType;
     };
   }
 }
@@ -99,15 +99,33 @@ const FootnoteReference = Node.create({
 
   addCommands() {
     return {
-      addFootnote:
+      setFootnote:
         () =>
-        ({ state, tr }) => {
-          const node = this.type.create({
-            id: getRandomString(),
-            footnoteId: getRandomString(),
-          });
-          tr.insert(state.selection.from, node);
-          return true;
+        ({ state, chain }) => {
+          const { selection } = state;
+          const { $from } = selection;
+
+          const isReplaceable = $from.parent.canReplaceWith(
+            $from.index(),
+            $from.index(),
+            this.type,
+          );
+
+          if (!isReplaceable) {
+            return false;
+          }
+
+          return chain()
+            .insertContent([
+              {
+                type: this.name,
+                attrs: {
+                  id: getRandomString(),
+                  footnoteId: getRandomString(),
+                },
+              },
+            ])
+            .run();
         },
     };
   },
@@ -118,8 +136,12 @@ const FootnoteReference = Node.create({
       {
         find: /\[\^(.*?)\]\s$/,
         type: this.type,
-        handler({ range, chain }) {
-          chain().deleteRange(range).addFootnote().run();
+        handler({ range, chain, can }) {
+          if (!can().setFootnote()) {
+            return null;
+          }
+
+          chain().deleteRange(range).setFootnote().run();
         },
       },
     ];

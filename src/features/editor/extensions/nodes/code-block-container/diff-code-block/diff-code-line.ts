@@ -1,18 +1,17 @@
 import { Fragment, Slice } from "@tiptap/pm/model";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Node } from "@tiptap/react";
+import { isProseMirrorPaste } from "@/features/editor/lib/clipboard";
 
 export const DiffCodeLine = Node.create({
   name: "diffCodeLine",
   content: "text*",
   marks: "",
-  code: true,
 
   parseHTML() {
     return [
       {
         tag: ".diff-highlight > span",
-        priority: 100,
       },
     ];
   },
@@ -33,21 +32,7 @@ export const DiffCodeLine = Node.create({
         if (!($from.index(-1) === 0 && $from.start() === $from.pos))
           return false;
 
-        // codeBlock全体を削除する
-        this.editor
-          .chain()
-          .command(({ tr }) => {
-            tr.replaceRangeWith(
-              $from.before(-2),
-              $from.after(-2),
-              this.editor.state.schema.nodes.paragraph.create(),
-            );
-
-            return true;
-          })
-          .setTextSelection($from.before(-2) + 1)
-          .run();
-        return true;
+        return this.editor.commands.unsetCodeBlockContainer();
       },
 
       // exit node on triple enter
@@ -112,8 +97,19 @@ export const DiffCodeLine = Node.create({
           handlePaste: (view, event) => {
             const { $from, $to } = view.state.selection;
 
-            if ($from.node().type.name !== this.name) return false;
+            // ProseMirrorのペーストはビルトインの処理に流す
+            if (isProseMirrorPaste(event)) {
+              return false;
+            }
 
+            if (
+              $from.node().type.name !== this.name &&
+              $to.node().type.name !== this.name
+            ) {
+              return false;
+            }
+
+            // それ以外はテキストとして扱う
             const text = event.clipboardData?.getData("text/plain");
             if (!text) return false;
 
@@ -121,12 +117,11 @@ export const DiffCodeLine = Node.create({
             const nodes = text
               .split("\n")
               .map((line) =>
-                this.type.createAndFill(
+                this.type.create(
                   null,
                   line ? [view.state.schema.text(line)] : [],
                 ),
-              )
-              .filter((node) => node !== null);
+              );
 
             const fragment = Fragment.fromArray(nodes);
             const slice = new Slice(fragment, 1, 1);
@@ -135,21 +130,6 @@ export const DiffCodeLine = Node.create({
             view.dispatch(tr);
 
             return true;
-          },
-          // @ts-expect-error: undefinedを返すことを許容, 別のプラグインに処理を移す
-          clipboardTextSerializer: (slice, view) => {
-            const { state } = view;
-            const { $from, $to } = state.selection;
-
-            if (
-              $from.node().type.name !== this.name ||
-              $to.node().type.name !== this.name
-            )
-              return;
-
-            const text = slice.content.textBetween(0, slice.content.size, "\n");
-
-            return text;
           },
         },
       }),

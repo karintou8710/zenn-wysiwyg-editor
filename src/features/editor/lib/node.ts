@@ -1,6 +1,7 @@
-import type {
-  Node as ProseMirrorNode,
-  ResolvedPos,
+import {
+  Fragment,
+  type Node as ProseMirrorNode,
+  type ResolvedPos,
   Slice,
 } from "@tiptap/pm/model";
 import type { Editor, Predicate } from "@tiptap/react";
@@ -47,3 +48,27 @@ export const findClosestVisibleNode = (
     }
   }
 };
+
+export function replaceNewlines(node: ProseMirrorNode) {
+  let result: ProseMirrorNode = node;
+  if (!node.type.schema.linebreakReplacement) {
+    throw new Error("linebreakReplacement is not defined in the schema");
+  }
+  const lineBreakNode = node.type.schema.linebreakReplacement.create();
+  const lineBreakSlice = new Slice(Fragment.from(lineBreakNode), 0, 0);
+
+  node.forEach((child, offset) => {
+    if (child.isText && child.text) {
+      const newline = /\r?\n|\r/g;
+      let m = newline.exec(child.text);
+
+      while (m) {
+        const start = offset + m.index;
+        result = result.replace(start, start + 1, lineBreakSlice);
+        m = newline.exec(child.text);
+      }
+    }
+  });
+
+  return result;
+}
