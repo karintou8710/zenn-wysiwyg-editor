@@ -21,7 +21,7 @@ const markdownSerializer = new MarkdownSerializer(
       state.closeBlock(node);
     },
     heading(state, node) {
-      state.write(state.repeat("#", node.attrs.level) + " ");
+      state.write(`${state.repeat("#", node.attrs.level)} `);
       state.renderInline(node, false);
       state.closeBlock(node);
     },
@@ -35,7 +35,7 @@ const markdownSerializer = new MarkdownSerializer(
       state.renderContent(node);
     },
     text(state, node) {
-      state.text(node.text!);
+      state.text(node.text ?? "");
     },
     blockquote(state, node) {
       state.wrapBlock("> ", null, node, () => state.renderContent(node));
@@ -67,14 +67,18 @@ const markdownSerializer = new MarkdownSerializer(
       state.write("\n");
     },
     codeBlockContainer(state, node) {
-      const fileName = node.firstChild!.textContent;
-      const preContentNode = node.lastChild!; // 通常 or 差分ブロック
+      if (!node.firstChild || !node.lastChild) {
+        throw new Error("Invalid code block container");
+      }
+
+      const fileName = node.firstChild.textContent;
+      const preContentNode = node.lastChild; // 通常 or 差分ブロック
 
       const backticks = preContentNode.textContent.match(/`{3,}/gm);
-      const fence = backticks ? backticks.sort().slice(-1)[0] + "`" : "```";
-      const isDiff = preContentNode.attrs.language?.startsWith("diff-");
+      const fence = backticks ? `${backticks.sort().slice(-1)[0]}\`` : "```";
+      const isDiff = preContentNode.attrs.language?.startsWith("diff");
       const language =
-        preContentNode.attrs.language?.replace("diff-", "") || "plaintext";
+        preContentNode.attrs.language?.replace(/diff-?/, "") || "plaintext";
 
       state.write(
         fence +
@@ -132,8 +136,12 @@ const markdownSerializer = new MarkdownSerializer(
       state.closeBlock(node);
     },
     details(state, node) {
-      const summary = node.firstChild!;
-      const content = node.lastChild!;
+      if (!node.firstChild || !node.lastChild) {
+        throw new Error("Invalid details");
+      }
+
+      const summary = node.firstChild;
+      const content = node.lastChild;
       const title = summary.textContent || "emptyTitle"; // detailsはタイトルが必須
       const nestDepth = getZennNotationNestDepth(node);
 
