@@ -10,22 +10,24 @@ import { CodeBlockFileName } from "../../code-block-file-name";
 import { DiffCodeBlock } from "../../diff-code-block";
 import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
 
+const baseExtensions = [
+  Document,
+  Paragraph,
+  Text,
+  CodeBlockContainer,
+  CodeBlock,
+  CodeBlockFileName,
+  DiffCodeBlock,
+  DiffCodeLine,
+  HardBreak,
+];
+
 describe("HTMLのレンダリング", () => {
   it("JavaScript差分コードブロックが正しいHTMLでレンダリングされる", () => {
     const content =
       '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="diff-highlight language-diff-javascript"><span>console.log("hello");</span></code></pre></div>';
     const editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: baseExtensions,
       content,
     });
 
@@ -37,17 +39,7 @@ describe("HTMLのレンダリング", () => {
     const content =
       '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="diff-highlight language-diff"><span>plaintext code</span></code></pre></div>';
     const editor = new Editor({
-      extensions: [
-        Document,
-        Paragraph,
-        Text,
-        CodeBlockContainer,
-        CodeBlock,
-        CodeBlockFileName,
-        DiffCodeBlock,
-        DiffCodeLine,
-        HardBreak,
-      ],
+      extensions: baseExtensions,
       content,
     });
 

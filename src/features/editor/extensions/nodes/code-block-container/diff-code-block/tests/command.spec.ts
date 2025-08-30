@@ -15,21 +15,23 @@ import { DiffCodeBlock } from "../../diff-code-block";
 import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
 import { CodeBlockContainer } from "../../index";
 
+const baseExtensions = [
+  Document,
+  Paragraph,
+  Text,
+  CodeBlockContainer,
+  CodeBlock,
+  CodeBlockFileName,
+  DiffCodeBlock,
+  DiffCodeLine,
+  HardBreak,
+];
+
 describe("コマンド", () => {
   describe("setAllSelectionInCodeBlock", () => {
     it("1行の差分コードブロック全体を選択できる", () => {
       const editor = new Editor({
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: baseExtensions,
         content:
           '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-diff-javascript diff-highlight"><span>console.log("hello");</span></code></pre></div>',
       });
@@ -48,17 +50,7 @@ describe("コマンド", () => {
 
     it("複数行の差分コードブロック全体を選択できる", () => {
       const editor = new Editor({
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: baseExtensions,
         content: `<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div>
         <pre><code class="language-diff diff-highlight"><span>1</span><span>2</span><span>3</span></code></pre></div>`,
       });
@@ -79,17 +71,7 @@ describe("コマンド", () => {
   describe("setCodeBlockContainer", () => {
     it("段落を差分コードブロックに変換できる", () => {
       const editor = new Editor({
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: baseExtensions,
         content: '<p>console.log("hello");</p>',
       });
 
@@ -107,17 +89,7 @@ describe("コマンド", () => {
 
     it("改行ありの段落を保持したまま変換できる", () => {
       const editor = new Editor({
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: baseExtensions,
         content: "<p>const a = 1;<br><br>const a = 2;</p>",
       });
 
@@ -135,17 +107,7 @@ describe("コマンド", () => {
 
     it("段落を跨ぐ範囲選択時に変換できる", () => {
       const editor = new Editor({
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: baseExtensions,
         content: "<p>const a = 1;</p><p>const a = 2;</p>",
       });
 
@@ -163,18 +125,7 @@ describe("コマンド", () => {
 
     it("見出しの中で呼び出せる", () => {
       const editor = new Editor({
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-          Heading,
-        ],
+        extensions: [...baseExtensions, Heading],
         content: "<h1>Title</h1><p>Text</p>",
       });
 
@@ -188,18 +139,7 @@ describe("コマンド", () => {
 
     it("引用の中で呼び出せる", () => {
       const editor = new Editor({
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-          Blockquote,
-        ],
+        extensions: [...baseExtensions, Blockquote],
         content: "<blockquote><p>Text</p></blockquote>",
       });
 
@@ -214,15 +154,7 @@ describe("コマンド", () => {
     it("アコーディオンのサマリー部分で呼び出せない", () => {
       const editor = new Editor({
         extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
+          ...baseExtensions,
           DetailsSummary,
           Details,
           DetailsContent,
@@ -243,17 +175,7 @@ describe("コマンド", () => {
   describe("unsetCodeBlockContainer", () => {
     it("差分コードブロックを段落に戻せる", () => {
       const editor = new Editor({
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: baseExtensions,
         content: `<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div>
         <pre><code class="language-diff-javascript diff-highlight"><span>const a= 1;</span></code></pre></div>`,
       });
@@ -270,17 +192,7 @@ describe("コマンド", () => {
 
     it("複数行持つ差分コードブロックを段落に戻せる", () => {
       const editor = new Editor({
-        extensions: [
-          Document,
-          Paragraph,
-          Text,
-          CodeBlockContainer,
-          CodeBlock,
-          CodeBlockFileName,
-          DiffCodeBlock,
-          DiffCodeLine,
-          HardBreak,
-        ],
+        extensions: baseExtensions,
         content: `<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div>
         <pre><code class="language-diff-javascript diff-highlight"><span>const a = 1;</span><span>const a = 2;</span></code></pre></div>`,
       });
