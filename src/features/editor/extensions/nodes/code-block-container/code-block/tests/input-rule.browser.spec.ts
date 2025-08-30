@@ -6,14 +6,14 @@ import { userEvent } from "@vitest/browser/context";
 import { describe, expect, it } from "vitest";
 import { waitSelectionChange } from "@/tests/dom";
 import { renderTiptapEditor } from "@/tests/editor";
-import { Details } from "../../details";
-import { DetailsContent } from "../../details/content";
-import { DetailsSummary } from "../../details/summary";
-import { CodeBlockFileName } from "../code-block-file-name";
-import { DiffCodeBlock } from "../diff-code-block";
-import { DiffCodeLine } from "../diff-code-block/diff-code-line";
-import { CodeBlockContainer } from "../index";
-import { CodeBlock } from "./index";
+import { Details } from "../../../details";
+import { DetailsContent } from "../../../details/content";
+import { DetailsSummary } from "../../../details/summary";
+import { CodeBlockFileName } from "../../code-block-file-name";
+import { DiffCodeBlock } from "../../diff-code-block";
+import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
+import { CodeBlockContainer } from "../../index";
+import { CodeBlock } from "../index";
 
 describe("InputRule", () => {
   it("``` でコードブロックが作成される", async () => {

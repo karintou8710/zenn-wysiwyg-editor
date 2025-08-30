@@ -6,11 +6,11 @@ import { Editor } from "@tiptap/react";
 import { describe, expect, it } from "vitest";
 import { fromMarkdown } from "@/features/editor/lib/from-markdown";
 import { markdownSerializer } from "@/features/editor/lib/to-markdown";
-import { CodeBlockFileName } from "../code-block-file-name";
-import { DiffCodeBlock } from "../diff-code-block";
-import { DiffCodeLine } from "../diff-code-block/diff-code-line";
-import { CodeBlockContainer } from "../index";
-import { CodeBlock } from "./index";
+import { CodeBlockFileName } from "../../code-block-file-name";
+import { DiffCodeBlock } from "../../diff-code-block";
+import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
+import { CodeBlockContainer } from "../../index";
+import { CodeBlock } from "../index";
 
 describe("マークダウン", () => {
   it("JavaScriptコードブロックをマークダウンに変換できる", () => {

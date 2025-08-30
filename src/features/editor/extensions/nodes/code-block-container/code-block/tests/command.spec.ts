@@ -4,14 +4,14 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import { Editor } from "@tiptap/react";
 import { describe, expect, it } from "vitest";
-import { Details } from "../../details";
-import { DetailsContent } from "../../details/content";
-import { DetailsSummary } from "../../details/summary";
-import { CodeBlockFileName } from "../code-block-file-name";
-import { DiffCodeBlock } from "../diff-code-block";
-import { DiffCodeLine } from "../diff-code-block/diff-code-line";
-import { CodeBlockContainer } from "../index";
-import { CodeBlock } from "./index";
+import { Details } from "../../../details";
+import { DetailsContent } from "../../../details/content";
+import { DetailsSummary } from "../../../details/summary";
+import { CodeBlockFileName } from "../../code-block-file-name";
+import { DiffCodeBlock } from "../../diff-code-block";
+import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
+import { CodeBlockContainer } from "../../index";
+import { CodeBlock } from "../index";
 
 describe("コマンド", () => {
   it("setAllSelectionInCodeBlockコマンドでコードブロック全体を選択できる", () => {

@@ -6,11 +6,11 @@ import { userEvent } from "@vitest/browser/context";
 import { describe, expect, it } from "vitest";
 import { waitSelectionChange } from "@/tests/dom";
 import { renderTiptapEditor } from "@/tests/editor";
-import { CodeBlockFileName } from "../code-block-file-name";
-import { DiffCodeBlock } from "../diff-code-block";
-import { DiffCodeLine } from "../diff-code-block/diff-code-line";
-import { CodeBlockContainer } from "../index";
-import { CodeBlock } from "./index";
+import { CodeBlockFileName } from "../../code-block-file-name";
+import { DiffCodeBlock } from "../../diff-code-block";
+import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
+import { CodeBlockContainer } from "../../index";
+import { CodeBlock } from "../index";
 
 describe("キーボードショートカット", () => {
   describe("Backspace", () => {

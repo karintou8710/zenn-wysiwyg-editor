@@ -4,11 +4,11 @@ import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import { Editor } from "@tiptap/react";
 import { describe, expect, it } from "vitest";
-import { CodeBlockContainer } from "..";
-import { CodeBlockFileName } from "../code-block-file-name";
-import { DiffCodeBlock } from "../diff-code-block";
-import { DiffCodeLine } from "../diff-code-block/diff-code-line";
-import { CodeBlock } from "./index";
+import { CodeBlockContainer } from "../..";
+import { CodeBlockFileName } from "../../code-block-file-name";
+import { DiffCodeBlock } from "../../diff-code-block";
+import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
+import { CodeBlock } from "../index";
 
 describe("PrismPlugin", () => {
   const extractHighlightedToken = (codeBlockDom: Element) => {
