@@ -83,6 +83,14 @@ export const Details = Node.create({
             return false;
           }
 
+          const isParentMatch = range.parent.type.contentMatch.matchType(
+            this.type,
+          );
+
+          if (!isParentMatch) {
+            return false;
+          }
+
           const content = slice.toJSON()?.content || [];
 
           return chain()
