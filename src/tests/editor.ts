@@ -13,7 +13,7 @@ beforeEach(() => {
 
 afterEach(async () => {
   if (___global_container) {
-    // document.body.removeChild(___global_container);
+    document.body.removeChild(___global_container);
   }
 });
 
