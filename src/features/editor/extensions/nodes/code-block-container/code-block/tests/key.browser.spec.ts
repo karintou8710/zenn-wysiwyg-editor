@@ -234,6 +234,7 @@ describe("キーボードショートカット", () => {
       await waitSelectionChange(() => {
         editor.chain().focus().setTextSelection(8).run();
       });
+
       await userEvent.keyboard("{ArrowRight}");
 
       expect(editor.state.selection.from).toBe(11);

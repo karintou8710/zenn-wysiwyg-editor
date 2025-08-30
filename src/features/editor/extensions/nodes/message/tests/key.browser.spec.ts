@@ -9,70 +9,83 @@ import { Message } from "../message";
 import { MessageContent } from "../message-content";
 
 describe("キー入力", () => {
-  it("メッセージコンテンツの先頭で Backspace を押すとメッセージブロックが解除される", async () => {
-    const editor = renderTiptapEditor({
-      content:
-        '<aside class="msg"><div class="msg-content"><p>Text</p></div></aside>',
-      extensions: [Document, Paragraph, Text, Message, MessageContent],
-    });
+  describe("Backspace", () => {
+    it("メッセージコンテンツの先頭で押すとメッセージブロックが解除される", async () => {
+      const editor = renderTiptapEditor({
+        content:
+          '<aside class="msg"><div class="msg-content"><p>Text</p></div></aside>',
+        extensions: [Document, Paragraph, Text, Message, MessageContent],
+      });
 
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(3).run();
-    });
-    await userEvent.keyboard("{Backspace}");
+      await waitSelectionChange(() => {
+        editor.chain().focus().setTextSelection(3).run();
+      });
+      await userEvent.keyboard("{Backspace}");
 
-    const docString = editor.state.doc.toString();
-    expect(docString).toBe('doc(paragraph("Text"))');
-    expect(editor.state.selection.from).toBe(1);
+      const docString = editor.state.doc.toString();
+      expect(docString).toBe('doc(paragraph("Text"))');
+      expect(editor.state.selection.from).toBe(1);
+    });
   });
 
-  it("Enter を押すとメッセージコンテンツ内で改行される", async () => {
-    const editor = renderTiptapEditor({
-      content:
-        '<aside class="msg"><div class="msg-content"><p>Text</p></div></aside>',
-      extensions: [Document, Paragraph, Text, Message, MessageContent],
-    });
+  describe("Enter", () => {
+    it("メッセージコンテンツ内で改行される", async () => {
+      const editor = renderTiptapEditor({
+        content:
+          '<aside class="msg"><div class="msg-content"><p>Text</p></div></aside>',
+        extensions: [Document, Paragraph, Text, Message, MessageContent],
+      });
 
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(4).run();
-    });
-    await userEvent.keyboard("{Enter}");
+      await waitSelectionChange(() => {
+        editor.chain().focus().setTextSelection(4).run();
+      });
+      await userEvent.keyboard("{Enter}");
 
-    const docString = editor.state.doc.toString();
-    expect(docString).toBe(
-      'doc(message(messageContent(paragraph("T"), paragraph("ext"))))',
-    );
-    expect(editor.state.selection.from).toBe(6);
+      const docString = editor.state.doc.toString();
+      expect(docString).toBe(
+        'doc(message(messageContent(paragraph("T"), paragraph("ext"))))',
+      );
+      expect(editor.state.selection.from).toBe(6);
+    });
   });
 
-  it("ミッセージの先頭で左矢印キーを押すと前のノードに移動する", async () => {
-    const editor = renderTiptapEditor({
-      content:
-        '<p>Before</p><aside class="msg"><div class="msg-content"><p>Text</p></div></aside>',
-      extensions: [Document, Paragraph, Text, Message, MessageContent],
-    });
+  describe("ArrowLeft", () => {
+    it("ミッセージの先頭で押すと前のノードに移動する", async () => {
+      const editor = renderTiptapEditor({
+        content:
+          '<p>Before</p><aside class="msg"><div class="msg-content"><p>Text</p></div></aside>',
+        extensions: [Document, Paragraph, Text, Message, MessageContent],
+      });
 
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(11).run();
-    });
-    await userEvent.keyboard("{ArrowLeft}");
+      await waitSelectionChange(() => {
+        editor.chain().focus().setTextSelection(11).run();
+      });
 
-    expect(editor.state.selection.from).toBe(7); // "Before" の最後
+      await waitSelectionChange(async () => {
+        await userEvent.keyboard("{ArrowLeft}");
+      });
+
+      expect(editor.state.selection.from).toBe(7); // "Before" の最後
+    });
   });
 
-  it("ミッセージの末尾で右矢印キーを押すと次のノードに移動する", async () => {
-    const editor = renderTiptapEditor({
-      content:
-        '<aside class="msg"><div class="msg-content"><p>Text</p></div></aside><p>After</p>',
-      extensions: [Document, Paragraph, Text, Message, MessageContent],
+  describe("ArrowRight", () => {
+    it("ミッセージの末尾で右矢印キーを押すと次のノードに移動する", async () => {
+      const editor = renderTiptapEditor({
+        content:
+          '<aside class="msg"><div class="msg-content"><p>Text</p></div></aside><p>After</p>',
+        extensions: [Document, Paragraph, Text, Message, MessageContent],
+      });
+
+      await waitSelectionChange(() => {
+        editor.chain().focus().setTextSelection(7).run();
+      });
+
+      await waitSelectionChange(async () => {
+        await userEvent.keyboard("{ArrowRight}");
+      });
+
+      expect(editor.state.selection.from).toBe(11); // "After" の最初
     });
-
-    await waitSelectionChange(() => {
-      editor.chain().focus().setTextSelection(7).run();
-    });
-
-    await userEvent.keyboard("{ArrowRight}");
-
-    expect(editor.state.selection.from).toBe(11); // "After" の最初
   });
 });
