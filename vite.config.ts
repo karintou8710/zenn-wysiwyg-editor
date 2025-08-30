@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import tailwindcss from "@tailwindcss/vite";
 import react from "@vitejs/plugin-react";
 import path from "path";
@@ -25,5 +26,10 @@ export default defineConfig({
     alias: {
       "@": path.resolve(__dirname, "./src"),
     },
+  },
+  test: {
+    include: ["src/**/*.spec.ts", "src/**/*.spec.tsx"],
+    exclude: ["src/**/*.browser.spec.ts", "src/**/*.browser.spec.tsx"], // browser用テストを除外
+    environment: "happy-dom",
   },
 });
