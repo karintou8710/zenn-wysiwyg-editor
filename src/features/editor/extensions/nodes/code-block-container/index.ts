@@ -17,7 +17,6 @@ import { replaceNewlines } from "@/features/editor/lib/node";
 type SetCodeBlockContainerOptions = {
   language?: string;
   filename?: string | null;
-  isDiff?: boolean;
 };
 
 declare module "@tiptap/react" {
@@ -56,15 +55,13 @@ const inputHandler = ({
     filename = null;
   }
 
-  const isDiff = language.startsWith("diff-");
-
-  if (!can().setCodeBlockContainer({ language, filename, isDiff })) {
+  if (!can().setCodeBlockContainer({ language, filename })) {
     return;
   }
 
   chain()
     .deleteRange({ from: range.from, to: range.to })
-    .setCodeBlockContainer({ language, filename, isDiff })
+    .setCodeBlockContainer({ language, filename })
     .run();
 };
 
@@ -88,7 +85,7 @@ export const CodeBlockContainer = Node.create({
   addCommands() {
     return {
       setCodeBlockContainer:
-        ({ filename, language, isDiff }) =>
+        ({ filename, language }) =>
         ({ chain, state }) => {
           const { schema, selection } = state;
           const { $from, $to } = selection;
@@ -106,10 +103,12 @@ export const CodeBlockContainer = Node.create({
             return false;
           }
 
+          const isDiff = language?.startsWith("diff");
           const text = getTextBetween(
             range.parent,
             { from: range.start, to: range.end },
             {
+              blockSeparator: "\n",
               textSerializers: getTextSerializersFromSchema(schema),
             },
           );

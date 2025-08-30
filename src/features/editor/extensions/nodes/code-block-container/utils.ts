@@ -168,7 +168,7 @@ export function getDiffHighlightLineNodes(html: string) {
 
 export function highlightCode(code: string, language: string): string {
   try {
-    const isDiff = language.startsWith("diff-");
+    const isDiff = language.startsWith("diff");
     const targetLanguage = isDiff ? "diff" : language;
 
     return Prism.highlight(code, Prism.languages[targetLanguage], language);

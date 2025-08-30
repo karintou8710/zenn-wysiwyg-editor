@@ -72,9 +72,9 @@ const markdownSerializer = new MarkdownSerializer(
 
       const backticks = preContentNode.textContent.match(/`{3,}/gm);
       const fence = backticks ? backticks.sort().slice(-1)[0] + "`" : "```";
-      const isDiff = preContentNode.attrs.language?.startsWith("diff-");
+      const isDiff = preContentNode.attrs.language?.startsWith("diff");
       const language =
-        preContentNode.attrs.language?.replace("diff-", "") || "plaintext";
+        preContentNode.attrs.language?.replace(/diff-?/, "") || "plaintext";
 
       state.write(
         fence +
