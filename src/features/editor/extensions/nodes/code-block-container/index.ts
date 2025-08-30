@@ -147,7 +147,7 @@ export const CodeBlockContainer = Node.create({
               },
             )
             .setTextSelection(
-              range.start + codeFileNameNodeSize + (isDiff ? 2 : 1),
+              range.start + 1 + codeFileNameNodeSize + (isDiff ? 2 : 1),
             ) //コンテンツの開始位置にカーソルを移動
             .run();
         },
