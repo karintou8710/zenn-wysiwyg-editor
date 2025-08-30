@@ -25,7 +25,7 @@ describe("HTMLのパース", () => {
         HardBreak,
       ],
       content:
-        '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>',
+        '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>',
     });
 
     const docString = editor.state.doc.toString();
@@ -49,7 +49,7 @@ describe("HTMLのパース", () => {
         HardBreak,
       ],
       content:
-        '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-plaintext">plaintext code</code></pre></div>',
+        '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code>plaintext code</code></pre></div>',
     });
 
     const docString = editor.state.doc.toString();
@@ -72,7 +72,7 @@ describe("HTMLのパース", () => {
         HardBreak,
       ],
       content:
-        '<div class="code-block-container"><div class="code-block-filename-container">example.ts</div><pre><code class="language-typescript">const a = 1;</code></pre></div>',
+        '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename">example.ts</span></div><pre><code class="language-typescript">const a = 1;</code></pre></div>',
     });
 
     const docString = editor.state.doc.toString();

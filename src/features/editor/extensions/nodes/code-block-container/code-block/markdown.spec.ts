@@ -27,7 +27,7 @@ describe("マークダウン", () => {
         HardBreak,
       ],
       content:
-        '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>',
+        '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>',
     });
 
     const markdown = markdownSerializer.serialize(editor.state.doc);
@@ -48,7 +48,7 @@ describe("マークダウン", () => {
         HardBreak,
       ],
       content:
-        '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-plaintext">plaintext code</code></pre></div>',
+        '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-plaintext">plaintext code</code></pre></div>',
     });
 
     const markdown = markdownSerializer.serialize(editor.state.doc);
@@ -69,7 +69,7 @@ describe("マークダウン", () => {
         HardBreak,
       ],
       content:
-        '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-python">def hello():\n    print("Hello, World!")\n    return True</code></pre></div>',
+        '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-python">def hello():\n    print("Hello, World!")\n    return True</code></pre></div>',
     });
 
     const markdown = markdownSerializer.serialize(editor.state.doc);

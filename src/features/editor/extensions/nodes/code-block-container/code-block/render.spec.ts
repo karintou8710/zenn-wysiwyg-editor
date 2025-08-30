@@ -13,7 +13,7 @@ import { CodeBlock } from "./index";
 describe("HTMLのレンダリング", () => {
   it("JavaScriptコードブロックが正しいHTMLでレンダリングされる", () => {
     const content =
-      '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>';
+      '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>';
     const editor = new Editor({
       extensions: [
         Document,
@@ -30,12 +30,12 @@ describe("HTMLのレンダリング", () => {
     });
 
     const html = editor.getHTML();
-    expect(html).toBe(html);
+    expect(content).toBe(html);
   });
 
   it("言語名なしのコードブロックが正しいHTMLでレンダリングされる", () => {
     const content =
-      '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-plaintext">plaintext code</code></pre></div>';
+      '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-plaintext">plaintext code</code></pre></div>';
     const editor = new Editor({
       extensions: [
         Document,
@@ -52,6 +52,6 @@ describe("HTMLのレンダリング", () => {
     });
 
     const html = editor.getHTML();
-    expect(html).toBe(html);
+    expect(html).toBe(content);
   });
 });

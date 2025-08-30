@@ -28,7 +28,7 @@ describe("コマンド", () => {
         HardBreak,
       ],
       content:
-        '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>',
+        '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>',
     });
 
     // コードブロック内にカーソルを配置
@@ -140,7 +140,7 @@ describe("コマンド", () => {
         HardBreak,
       ],
       content:
-        '<div class="code-block-container"><div class="code-block-filename-container"></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>',
+        '<div class="code-block-container"><div class="code-block-filename-container"><span class="code-block-filename"></span></div><pre><code class="language-javascript">console.log("hello");</code></pre></div>',
     });
 
     // コードブロック内にカーソルを配置
