@@ -105,7 +105,7 @@ export const CodeBlockContainer = Node.create({
 
           const isDiff = language?.startsWith("diff");
           const text = getTextBetween(
-            range.parent,
+            state.doc,
             { from: range.start, to: range.end },
             {
               blockSeparator: "\n",

@@ -151,6 +151,20 @@ describe("コマンド", () => {
       expect(result).toBe(true);
     });
 
+    it("複数ブロックがある引用の中で呼び出せる", () => {
+      const editor = new Editor({
+        extensions: [...baseExtensions, Blockquote],
+        content: "<blockquote><p>Text</p><p>Text</p></blockquote>",
+      });
+
+      editor.commands.setTextSelection(3);
+
+      const result = editor.commands.setCodeBlockContainer({
+        language: "diff-javascript",
+      });
+      expect(result).toBe(true);
+    });
+
     it("アコーディオンのサマリー部分で呼び出せない", () => {
       const editor = new Editor({
         extensions: [
