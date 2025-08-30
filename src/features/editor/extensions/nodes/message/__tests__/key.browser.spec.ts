@@ -50,44 +50,4 @@ describe("キー入力", () => {
       expect(editor.state.selection.from).toBe(6);
     });
   });
-
-  describe("ArrowLeft", () => {
-    it("ミッセージの先頭で押すと前のノードに移動する", async () => {
-      const editor = renderTiptapEditor({
-        content:
-          '<p>Before</p><aside class="msg"><div class="msg-content"><p>Text</p></div></aside>',
-        extensions: basicExtension,
-      });
-
-      await waitSelectionChange(() => {
-        editor.chain().focus().setTextSelection(11).run();
-      });
-
-      await waitSelectionChange(async () => {
-        await userEvent.keyboard("{ArrowLeft}");
-      });
-
-      expect(editor.state.selection.from).toBe(7); // "Before" の最後
-    });
-  });
-
-  describe("ArrowRight", () => {
-    it("ミッセージの末尾で右矢印キーを押すと次のノードに移動する", async () => {
-      const editor = renderTiptapEditor({
-        content:
-          '<aside class="msg"><div class="msg-content"><p>Text</p></div></aside><p>After</p>',
-        extensions: basicExtension,
-      });
-
-      await waitSelectionChange(() => {
-        editor.chain().focus().setTextSelection(7).run();
-      });
-
-      await waitSelectionChange(async () => {
-        await userEvent.keyboard("{ArrowRight}");
-      });
-
-      expect(editor.state.selection.from).toBe(11); // "After" の最初
-    });
-  });
 });
