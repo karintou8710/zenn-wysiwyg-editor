@@ -11,9 +11,9 @@ import { DetailsSummary } from "../../../details/summary";
 import Heading from "../../../heading";
 import { CodeBlock } from "../../code-block";
 import { CodeBlockFileName } from "../../code-block-file-name";
-import { DiffCodeBlock } from "../../diff-code-block";
-import { DiffCodeLine } from "../../diff-code-block/diff-code-line";
 import { CodeBlockContainer } from "../../index";
+import { DiffCodeBlock } from "..";
+import { DiffCodeLine } from "../diff-code-line";
 
 const baseExtensions = [
   Document,

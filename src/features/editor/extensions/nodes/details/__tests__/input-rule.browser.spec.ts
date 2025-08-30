@@ -5,7 +5,7 @@ import { userEvent } from "@vitest/browser/context";
 import { describe, expect, it } from "vitest";
 import { waitSelectionChange } from "@/tests/dom";
 import { renderTiptapEditor } from "@/tests/editor";
-import { Details } from "../";
+import { Details } from "..";
 import { DetailsContent } from "../content";
 import { DetailsSummary } from "../summary";
 
