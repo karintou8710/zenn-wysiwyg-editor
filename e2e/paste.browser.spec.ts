@@ -6,7 +6,7 @@ test.describe("マークダウンペースト", () => {
   test("「# Heading」をペーストすると、見出しノードが作成される", async ({
     page,
   }) => {
-    await page.goto("localhost:5173");
+    await page.goto("/");
     await clearCContent(page);
 
     await setClipboardContent(page, "# Heading");
@@ -24,7 +24,7 @@ test.describe("マークダウンペースト", () => {
   test("「![alt](src)」 をペーストすると Figure ノードが作成される", async ({
     page,
   }) => {
-    await page.goto("localhost:5173");
+    await page.goto("/");
     await clearCContent(page);
 
     const imageUrl = "/logo.svg";
@@ -40,7 +40,7 @@ test.describe("マークダウンペースト", () => {
   test("拡張子がpngの画像URLをペーストするとFigureノードが作成される(埋め込みより優先)", async ({
     page,
   }) => {
-    await page.goto("localhost:5173");
+    await page.goto("/");
     await clearCContent(page);
 
     const imageUrl = `http://localhost:5173/logo.png`;
