@@ -31,7 +31,6 @@ test.describe("マークダウンペースト", () => {
     await setClipboardContent(page, `![logo](${imageUrl})`);
 
     await page.getByRole("textbox").click();
-
     await paste(page);
 
     await expect(page.getByAltText("logo")).toHaveAttribute("src", imageUrl);
@@ -40,7 +39,7 @@ test.describe("マークダウンペースト", () => {
   test("拡張子がpngの画像URLをペーストするとFigureノードが作成される(埋め込みより優先)", async ({
     page,
   }) => {
-    await page.goto("/");
+    await page.goto("localhost:5173");
     await clearCContent(page);
 
     const imageUrl = `http://localhost:5173/logo.png`;
