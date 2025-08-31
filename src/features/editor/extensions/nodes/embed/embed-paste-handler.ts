@@ -10,7 +10,7 @@ import type { SpeakerDeckEmbedResponse } from "../../../types";
 
 export const EmbedPasteHandler = Extension.create({
   name: "embedPasteHandler",
-  priority: 1, // 最後に実行されるようにする
+  priority: 2, // マークダウンペーストより先に実行する
 
   addProseMirrorPlugins() {
     return [pasteHandlerPlugin()];

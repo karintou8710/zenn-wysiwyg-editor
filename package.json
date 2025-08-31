@@ -13,10 +13,10 @@
     "check": "run-s check:*",
     "fix": "biome check --write ./src",
     "preview": "vite preview",
-    "test:browser": "vitest run --config=vitest.browser.config.ts",
-    "test:browser:watch": "vitest --config=vitest.browser.config.ts --browser.ui=true --browser.headless=false",
+    "test:e2e": "playwright test",
+    "test:browser-mode": "vitest run --config=vitest.browser.config.ts",
     "test:node": "vitest run",
-    "test:all": "pnpm test:node && pnpm test:browser"
+    "test": "pnpm test:node && pnpm test:browser-mode && pnpm test:e2e"
   },
   "dependencies": {
     "@floating-ui/dom": "^1.7.4",
@@ -61,6 +61,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",
+    "@playwright/test": "^1.55.0",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^24.2.1",
