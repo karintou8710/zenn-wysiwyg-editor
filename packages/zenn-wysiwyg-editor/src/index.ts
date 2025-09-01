@@ -1,5 +1,5 @@
 import "zenn-content-css";
 import "./editor.css";
 
-export { EditorContent } from "@tiptap/react";
-export { useZennEditor } from "./useZennEditor";
+export {useZennEditor} from "./use-zenn-editor"
+export { default as EditorContent } from './components/editor-content'

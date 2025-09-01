@@ -8,8 +8,8 @@ type Props = {
 
 export function useZennEditor({ initialContent, onChange }: Props) {
   const editor = useEditor({
-    content: initialContent || "",
     extensions,
+    content: initialContent || "",
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());
     },
