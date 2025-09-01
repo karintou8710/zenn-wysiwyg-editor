@@ -28,5 +28,13 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src"]
+  "include": [
+    "src",
+    "packages/web/components",
+    "packages/web/hooks",
+    "packages/web/lib",
+    "packages/web/vite-env.d.ts",
+    "packages/web/main.tsx",
+    "packages/web/tests"
+  ]
 }

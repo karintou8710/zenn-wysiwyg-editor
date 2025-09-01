@@ -1,8 +1,8 @@
 import { AlertCircleIcon } from "lucide-react";
 import { Toaster } from "sonner";
-import { Alert, AlertDescription } from "./components/ui/alert";
+import { Alert, AlertDescription } from "../packages/web/components/ui/alert";
+import usePageTracking from "../packages/web/hooks/use-page-tracking";
 import Editor from "./features/editor/editor";
-import usePageTracking from "./hooks/use-page-tracking";
 
 function App() {
   usePageTracking();
