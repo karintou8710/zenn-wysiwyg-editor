@@ -1,6 +1,8 @@
 import { Trash2 } from "lucide-react";
 import type { MouseEvent } from "react";
 import { useId, useState } from "react";
+import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/ui/input";
 
 type Props = {
   href: string;
@@ -32,7 +34,7 @@ export default ({
         >
           リンク
         </label>
-        <input
+        <Input
           id={inputId}
           type="text"
           name="href"
@@ -43,13 +45,13 @@ export default ({
         />
       </div>
       <div className="flex justify-between mt-4">
-        <button type="button" onClick={() => handleDelete?.()}>
+        <Button variant="ghost" size="icon" onClick={() => handleDelete?.()}>
           <Trash2 className="text-red-500" />
-        </button>
+        </Button>
 
-        <button type="button" onClick={() => handleSave?.(link)}>
+        <Button size="sm" onClick={() => handleSave?.(link)}>
           保存
-        </button>
+        </Button>
       </div>
     </div>
   );

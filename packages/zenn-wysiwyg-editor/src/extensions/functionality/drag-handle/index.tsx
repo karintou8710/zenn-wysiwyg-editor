@@ -19,15 +19,11 @@ export default function DragHandle({ editor }: DragHandleProps) {
     <button
       type="button"
       draggable="true"
+      className="absolute size-6 cursor-grab text-gray-300"
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onClick={handleClick}
       style={{
-        position: "absolute",
-        width: "1.5rem",
-        height: "1.5rem",
-        cursor: "grab",
-        color: "#d1d5db",
         ...offsetStyles,
       }}
     >

@@ -1,7 +1,7 @@
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { AddMarkStep } from "@tiptap/pm/transform";
 import { Node } from "@tiptap/react";
-import { getRandomString } from "../../../lib/random";
+import { getRandomString } from "../../..//lib/random";
 
 declare module "@tiptap/react" {
   interface Commands<ReturnType> {

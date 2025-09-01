@@ -5,7 +5,7 @@ import {
   mergeAttributes,
   Node,
 } from "@tiptap/react";
-import clsx from "clsx";
+import { cn } from "../../../lib/utils";
 import { createMessageSymbolDecorationPlugin } from "./message-symbol-decoration-plugin";
 
 export type MessageType = "message" | "alert";
@@ -55,7 +55,7 @@ export const Message = Node.create({
     return [
       "aside",
       mergeAttributes(HTMLAttributes, {
-        class: clsx("msg", {
+        class: cn("msg", {
           alert: node.attrs.type === "alert",
         }),
       }),

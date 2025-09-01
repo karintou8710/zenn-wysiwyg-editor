@@ -1,11 +1,11 @@
 import { AlertCircleIcon } from "lucide-react";
 import { useState } from "react";
-import { EditorContent, Toaster, useZennEditor } from "zenn-wysiwyg-editor";
+import { EditorContent, useZennEditor } from "zenn-wysiwyg-editor";
 import { Alert, AlertDescription } from "./components/ui/alert";
 import usePageTracking from "./hooks/use-page-tracking";
 
-import "./editor.css";
-import "zenn-content-css";
+
+import "zenn-wysiwyg-editor/style.css";
 
 function App() {
   usePageTracking();
@@ -37,8 +37,7 @@ function App() {
           </AlertDescription>
         </Alert>
       </div>
-      <EditorContent editor={editor} className="znc" />
-      <Toaster />
+      <EditorContent editor={editor} />
     </div>
   );
 }
