@@ -2,10 +2,13 @@
   "name": "zenn-wysiwyg-editor",
   "version": "1.0.0",
   "description": "Zenn WYSIWYG Editor",
+  "type": "module",
+  "keywords": [],
+  "author": "karintou8710",
+  "license": "MIT",
   "scripts": {
     "build": "tsup"
   },
-  "type": "module",
   "exports": {
     ".": {
       "types": {
@@ -15,14 +18,10 @@
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
-    "./style.css": {
+    "./dist/style.css": {
       "default": "./dist/index.css"
     }
   },
-  "keywords": [],
-  "author": "karintou8710",
-  "license": "MIT",
-  "packageManager": "pnpm@10.15.0",
   "dependencies": {
     "@floating-ui/dom": "^1.7.4",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -73,5 +72,6 @@
     "@tiptap/react": "^3.0.0",
     "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
     "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
-  }
+  },
+  "packageManager": "pnpm@10.15.0"
 }

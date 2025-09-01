@@ -6,11 +6,12 @@ import usePageTracking from "./hooks/use-page-tracking";
 
 
 import "zenn-wysiwyg-editor/style.css";
+import { INITIAL_CONTENT } from "./lib/initial-content";
 
 function App() {
   usePageTracking();
 
-  const [content, setContent] = useState("<p>Hello, Zenn!</p>");
+  const [content, setContent] = useState(INITIAL_CONTENT);
   const editor = useZennEditor({
     initialContent: content,
     onChange: (content) => {
