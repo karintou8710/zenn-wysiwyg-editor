@@ -1,3 +1,8 @@
+@layer theme, base, components, utilities;
+
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
 .tiptap {
   margin: 5rem 0 10rem;
   padding: 40px 2rem;
@@ -137,7 +142,6 @@
 
 /* Selection */
 .tiptap {
-
   .ProseMirror-selectednode {
     position: relative;
 
