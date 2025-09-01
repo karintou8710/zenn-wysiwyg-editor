@@ -25,5 +25,5 @@
 
     "baseUrl": "."
   },
-  "include": ["src", "css.d.ts"]
+  "include": ["src"]
 }
