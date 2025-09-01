@@ -6,53 +6,7 @@ settings:
 
 importers:
 
-  .:
-    devDependencies:
-      '@biomejs/biome':
-        specifier: 2.2.0
-        version: 2.2.0
-      '@playwright/test':
-        specifier: ^1.55.0
-        version: 1.55.0
-      '@testing-library/dom':
-        specifier: ^10.4.1
-        version: 10.4.1
-      '@testing-library/react':
-        specifier: ^16.3.0
-        version: 16.3.0(@testing-library/dom@10.4.1)(@types/react-dom@19.1.7(@types/react@19.1.10))(@types/react@19.1.10)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
-      '@vitejs/plugin-react':
-        specifier: ^5.0.0
-        version: 5.0.0(vite@7.1.2(@types/node@24.2.1)(jiti@2.5.1)(lightningcss@1.30.1))
-      '@vitest/browser':
-        specifier: ^3.2.4
-        version: 3.2.4(playwright@1.55.0)(vite@7.1.2(@types/node@24.2.1)(jiti@2.5.1)(lightningcss@1.30.1))(vitest@3.2.4)
-      babel-plugin-prismjs:
-        specifier: ^2.1.0
-        version: 2.1.0(prismjs@1.30.0)
-      globals:
-        specifier: ^16.3.0
-        version: 16.3.0
-      happy-dom:
-        specifier: ^18.0.1
-        version: 18.0.1
-      npm-run-all:
-        specifier: ^4.1.5
-        version: 4.1.5
-      playwright:
-        specifier: ^1.55.0
-        version: 1.55.0
-      tw-animate-css:
-        specifier: ^1.3.6
-        version: 1.3.6
-      vite:
-        specifier: ^7.1.2
-        version: 7.1.2(@types/node@24.2.1)(jiti@2.5.1)(lightningcss@1.30.1)
-      vitest:
-        specifier: ^3.2.4
-        version: 3.2.4(@types/node@24.2.1)(@vitest/browser@3.2.4)(@vitest/ui@3.2.4)(happy-dom@18.0.1)(jiti@2.5.1)(lightningcss@1.30.1)
-      vitest-browser-react:
-        specifier: ^1.0.1
-        version: 1.0.1(@types/react-dom@19.1.7(@types/react@19.1.10))(@types/react@19.1.10)(@vitest/browser@3.2.4)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)(vitest@3.2.4)
+  .: {}
 
   packages/web:
     dependencies:
@@ -68,6 +22,12 @@ importers:
       '@tailwindcss/vite':
         specifier: ^4.1.11
         version: 4.1.11(vite@7.1.2(@types/node@24.2.1)(jiti@2.5.1)(lightningcss@1.30.1))
+      '@tiptap/pm':
+        specifier: ^3.1.0
+        version: 3.1.0
+      '@tiptap/react':
+        specifier: ^3.1.0
+        version: 3.1.0(@floating-ui/dom@1.7.4)(@tiptap/core@3.1.0(@tiptap/pm@3.1.0))(@tiptap/pm@3.1.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
@@ -328,12 +288,6 @@ importers:
       '@tiptap/extensions':
         specifier: ^3.1.0
         version: 3.1.0(@tiptap/core@3.1.0(@tiptap/pm@3.1.0))(@tiptap/pm@3.1.0)
-      '@tiptap/pm':
-        specifier: ^3.1.0
-        version: 3.1.0
-      '@tiptap/react':
-        specifier: ^3.1.0
-        version: 3.1.0(@floating-ui/dom@1.7.4)(@tiptap/core@3.1.0(@tiptap/pm@3.1.0))(@tiptap/pm@3.1.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -356,6 +310,12 @@ importers:
         specifier: workspace:zenn-markdown-html
         version: link:../zenn-markdown-html
     devDependencies:
+      '@tiptap/pm':
+        specifier: ^3.1.0
+        version: 3.1.0
+      '@tiptap/react':
+        specifier: ^3.1.0
+        version: 3.1.0(@floating-ui/dom@1.7.4)(@tiptap/core@3.1.0(@tiptap/pm@3.1.0))(@tiptap/pm@3.1.0)(react-dom@19.1.1(react@19.1.1))(react@19.1.1)
       '@types/node':
         specifier: ^24.2.1
         version: 24.2.1

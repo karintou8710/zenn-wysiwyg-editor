@@ -4,7 +4,6 @@ import type { EditorView } from "@tiptap/pm/view";
 import { Extension } from "@tiptap/react";
 import { EMBED_BACKEND_ORIGIN } from "../../../lib/constants";
 import { getEmbedTypeFromUrl, sanitizeEmbedToken } from "../../../lib/embed";
-import { showToast } from "../../../lib/toast";
 import { extractSpeakerDeckEmbedParams, isFigmaUrl } from "../../../lib/url";
 import type { SpeakerDeckEmbedResponse } from "../../../types";
 
@@ -116,13 +115,9 @@ function createSpeakerDeckNode(view: EditorView, url: string) {
     .catch((error) => {
       deleteTempNode();
       if (typeof error === "string") {
-        showToast(error, "error");
+        console.warn("SpeakerDeck embed error:", error);
       } else {
         console.error("Failed to fetch SpeakerDeck embed:", error);
-        showToast(
-          "ネットワークエラーが発生しました。時間をおいてから再度お試しください。",
-          "error",
-        );
       }
     });
 
