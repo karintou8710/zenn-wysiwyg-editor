@@ -1,6 +1,6 @@
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { findParentNode, InputRule, Node } from "@tiptap/react";
-import { getSliceText } from "@/features/editor/lib/node";
+import { getSliceText } from "../../../lib/node";
 import { extractImageUrlAndAlt, isImageURL } from "../../../lib/url";
 
 export interface SetFigureOptions {

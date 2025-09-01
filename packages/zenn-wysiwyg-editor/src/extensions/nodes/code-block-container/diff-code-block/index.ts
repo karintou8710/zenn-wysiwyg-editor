@@ -1,5 +1,5 @@
 import { Node } from "@tiptap/react";
-import { cn } from "@/lib/utils";
+import clsx from "clsx";
 import { DiffPrismPlugin } from "./diff-prism-plugin";
 
 export interface CodeBlockOptions {
@@ -83,7 +83,7 @@ export const DiffCodeBlock = Node.create<CodeBlockOptions>({
       const pre = document.createElement("pre");
 
       const code = document.createElement("code");
-      code.className = cn(
+      code.className = clsx(
         "diff-highlight",
         node.attrs.language
           ? this.options.languageClassPrefix + node.attrs.language

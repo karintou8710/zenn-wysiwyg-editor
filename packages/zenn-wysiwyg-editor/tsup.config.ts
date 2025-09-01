@@ -9,4 +9,3 @@ export default defineConfig({
   sourcemap: true,
   format: ["esm", "cjs"],
 });
-∑

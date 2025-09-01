@@ -7,10 +7,7 @@ import {
   mergeAttributes,
   Node,
 } from "@tiptap/react";
-import {
-  findClosestVisibleNode,
-  isNodeVisible,
-} from "@/features/editor/lib/node";
+import { findClosestVisibleNode, isNodeVisible } from "../../../lib/node";
 
 declare module "@tiptap/react" {
   interface Commands<ReturnType> {

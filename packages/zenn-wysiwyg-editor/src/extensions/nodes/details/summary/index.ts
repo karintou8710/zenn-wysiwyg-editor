@@ -1,6 +1,6 @@
 import { Selection } from "@tiptap/pm/state";
 import { defaultBlockAt, Node } from "@tiptap/react";
-import { isNodeVisible } from "@/features/editor/lib/node";
+import { isNodeVisible } from "../../../../lib/node";
 
 export const DetailsSummary = Node.create({
   name: "detailsSummary",

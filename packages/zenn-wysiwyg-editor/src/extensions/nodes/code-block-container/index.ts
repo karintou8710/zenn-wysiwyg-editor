@@ -12,7 +12,7 @@ import {
   Node,
   type Range,
 } from "@tiptap/react";
-import { replaceNewlines } from "@/features/editor/lib/node";
+import { replaceNewlines } from "../../../lib/node";
 
 type SetCodeBlockContainerOptions = {
   language?: string;

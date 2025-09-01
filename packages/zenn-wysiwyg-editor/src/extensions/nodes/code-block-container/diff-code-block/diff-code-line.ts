@@ -1,7 +1,7 @@
 import { Fragment, Slice } from "@tiptap/pm/model";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Node } from "@tiptap/react";
-import { isProseMirrorPaste } from "@/features/editor/lib/clipboard";
+import { isProseMirrorPaste } from "../../../../lib/clipboard";
 
 export const DiffCodeLine = Node.create({
   name: "diffCodeLine",
