@@ -1,4 +1,4 @@
-import { EditorContent, useEditor } from "@tiptap/react";
+import { useEditor } from "@tiptap/react";
 import { extensions } from "./extensions";
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
   onChange?: (html: string) => void;
 };
 
-function Editor({ content, onChange }: Props) {
+function useZennEditor({ content, onChange }: Props) {
   const editor = useEditor({
     extensions,
     content: content,
@@ -15,7 +15,7 @@ function Editor({ content, onChange }: Props) {
     },
   });
 
-  return <EditorContent editor={editor} className="znc" />;
+  return editor;
 }
 
-export default Editor;
+export default useZennEditor;

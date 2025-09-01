@@ -1,8 +1,8 @@
 import { DOMParser, Slice } from "@tiptap/pm/model";
 import { Plugin, PluginKey } from "@tiptap/pm/state";
 import { Extension } from "@tiptap/react";
-import { isProseMirrorPaste } from "@/features/editor/lib/clipboard";
-import { fromMarkdown } from "@/features/editor/lib/from-markdown";
+import { isProseMirrorPaste } from "../../../lib/clipboard";
+import { fromMarkdown } from "../../../lib/from-markdown";
 
 export const PasteMarkdown = Extension.create({
   name: "paste-markdown",

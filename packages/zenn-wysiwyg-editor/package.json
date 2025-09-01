@@ -1,14 +1,24 @@
 {
   "name": "zenn-wysiwyg-editor",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Zenn WYSIWYG Editor",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsup"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./dist/index.d.ts",
+        "require": "./dist/index.d.cts"
+      },
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "packageManager": "pnpm@10.15.0",
   "dependencies": {
     "@floating-ui/dom": "^1.7.4",
