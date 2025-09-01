@@ -1,11 +1,22 @@
 import { AlertCircleIcon } from "lucide-react";
-import { Toaster } from "sonner";
-import { Alert, AlertDescription } from "../packages/web/components/ui/alert";
-import usePageTracking from "../packages/web/hooks/use-page-tracking";
-import Editor from "./features/editor/editor";
+import { useState } from "react";
+import { EditorContent, Toaster, useZennEditor } from "zenn-wysiwyg-editor";
+import { Alert, AlertDescription } from "./components/ui/alert";
+import usePageTracking from "./hooks/use-page-tracking";
+
+import "./editor.css";
+import "zenn-content-css";
 
 function App() {
   usePageTracking();
+
+  const [content, setContent] = useState("<p>Hello, Zenn!</p>");
+  const editor = useZennEditor({
+    initialContent: content,
+    onChange: (content) => {
+      setContent(content);
+    },
+  });
 
   return (
     <div className="mt-10 max-w-[800px] mx-auto">
@@ -26,7 +37,7 @@ function App() {
           </AlertDescription>
         </Alert>
       </div>
-      <Editor />
+      <EditorContent editor={editor} className="znc" />
       <Toaster />
     </div>
   );

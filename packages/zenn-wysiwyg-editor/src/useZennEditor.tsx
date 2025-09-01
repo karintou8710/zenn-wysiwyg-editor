@@ -2,14 +2,14 @@ import { useEditor } from "@tiptap/react";
 import { extensions } from "./extensions";
 
 type Props = {
-  content?: string;
+  initialContent?: string;
   onChange?: (html: string) => void;
 };
 
-function useZennEditor({ content, onChange }: Props) {
+export function useZennEditor({ initialContent, onChange }: Props) {
   const editor = useEditor({
+    content: initialContent || "",
     extensions,
-    content: content,
     onUpdate: ({ editor }) => {
       onChange?.(editor.getHTML());
     },
@@ -17,5 +17,3 @@ function useZennEditor({ content, onChange }: Props) {
 
   return editor;
 }
-
-export default useZennEditor;
