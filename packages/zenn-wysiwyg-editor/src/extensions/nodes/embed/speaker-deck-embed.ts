@@ -1,7 +1,7 @@
-import { Node, ReactRenderer } from "@tiptap/react";
-import LoadingCard from "../../../components/loading-card";
+import { Node } from "@tiptap/react";
 import { escapeHtml } from "../../../lib/escape";
 import { extractSpeakerDeckEmbedParams } from "../../../lib/url";
+import { createLoadingCard } from "./loading";
 
 export const SpeakerDeckEmbed = Node.create({
   name: "speakerDeckEmbed",
@@ -76,10 +76,7 @@ export const SpeakerDeckEmbed = Node.create({
       span.setAttribute("class", "embed-block embed-speakerdeck");
 
       if (node.attrs.tempId) {
-        const component = new ReactRenderer(LoadingCard, {
-          editor: this.editor,
-        });
-        return { dom: component.element };
+        return { dom: createLoadingCard() };
       }
 
       const iframe = document.createElement("iframe");

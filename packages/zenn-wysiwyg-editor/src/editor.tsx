@@ -1,36 +1,21 @@
-// @ts-expect-error
-import "zenn-content-css";
-import "./editor.css";
-
 import { EditorContent, useEditor } from "@tiptap/react";
-import { CONTENT_KEY, useLocalStorage } from "@/hooks/use-local-storage";
-import BubbleMenu from "./components/bubble-menu";
-import FixedMenu from "./components/fixed-menu";
-import ImageBubbleMenu from "./components/image-bubble-menu";
 import { extensions } from "./extensions";
-import DragHandle from "./extensions/functionality/drag-handle";
-import { INITIAL_CONTENT } from "./lib/initial-content";
 
-function Editor() {
-  const [content, setContent] = useLocalStorage(CONTENT_KEY, "");
+type Props = {
+  content?: string;
+  onChange?: (html: string) => void;
+};
 
+function Editor({ content, onChange }: Props) {
   const editor = useEditor({
     extensions,
-    content: content || INITIAL_CONTENT,
+    content: content,
     onUpdate: ({ editor }) => {
-      setContent(editor.getHTML());
+      onChange?.(editor.getHTML());
     },
   });
 
-  return (
-    <>
-      <FixedMenu editor={editor} className="mb-2" />
-      <BubbleMenu editor={editor} />
-      <ImageBubbleMenu editor={editor} />
-      <EditorContent editor={editor} className="znc" />
-      <DragHandle editor={editor} />
-    </>
-  );
+  return <EditorContent editor={editor} className="znc" />;
 }
 
 export default Editor;
