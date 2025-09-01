@@ -34,6 +34,8 @@
     "tailwind-merge": "^3.3.1",
     "tailwindcss": "^4.1.11",
     "zenn-content-css": "^0.2.1",
+    "@tiptap/pm": "^3.1.0",
+    "@tiptap/react": "^3.1.0",
     "zenn-markdown-html": "workspace:zenn-markdown-html",
     "zenn-wysiwyg-editor": "workspace:zenn-wysiwyg-editor"
   },
