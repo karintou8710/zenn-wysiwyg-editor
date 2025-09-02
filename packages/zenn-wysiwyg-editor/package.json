@@ -61,7 +61,6 @@
     "zenn-markdown-html": "workspace:zenn-markdown-html"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.2.0",
     "@playwright/test": "^1.55.0",
     "@tailwindcss/postcss": "^4.1.12",
     "@tailwindcss/vite": "^4.1.11",
@@ -74,11 +73,9 @@
     "@vitejs/plugin-react": "^5.0.0",
     "@vitest/browser": "^3.2.4",
     "happy-dom": "^18.0.1",
-    "npm-run-all": "^4.1.5",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.11",
     "tsup": "^8.5.0",
-    "typescript": "~5.8.3",
     "vitest": "^3.2.4",
     "vitest-browser-react": "^1.0.1",
     "zenn-content-css": "^0.2.1"

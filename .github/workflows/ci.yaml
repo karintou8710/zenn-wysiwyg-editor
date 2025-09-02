@@ -86,7 +86,7 @@ jobs:
         run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
 
       - name: Build Module
-        run: pnpm build:module
+        run: pnpm build
 
       - name: Run vitest browser mode tests
         run: pnpm test:browser-mode --project=${{ matrix.browser }}
