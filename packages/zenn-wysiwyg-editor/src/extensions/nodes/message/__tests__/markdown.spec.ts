@@ -2,7 +2,7 @@ import Document from "@tiptap/extension-document";
 import Paragraph from "@tiptap/extension-paragraph";
 import Text from "@tiptap/extension-text";
 import { describe, expect, it } from "vitest";
-import { renderTiptapEditor } from "@/tests/editor";
+import { renderTiptapEditor } from "../../../../tests/editor";
 import { fromMarkdown } from "../../../../lib/from-markdown";
 import { markdownSerializer } from "../../../../lib/to-markdown";
 import { Message } from "../message";
