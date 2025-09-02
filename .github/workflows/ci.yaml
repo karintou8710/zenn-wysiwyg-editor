@@ -81,7 +81,7 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Setup Playwright Browsers
-        run: pnpm exec playwright install --with-deps ${{ matrix.browser }}
+        run: pnpm -F zenn-wysiwyg-editor exec playwright install --with-deps ${{ matrix.browser }}
 
       - name: Build Module
         run: pnpm build
