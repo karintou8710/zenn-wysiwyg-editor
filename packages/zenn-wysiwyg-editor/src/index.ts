@@ -1,4 +1,3 @@
-import "zenn-content-css";
 import "./index.css";
 
 export {useZennEditor} from "./use-zenn-editor"

@@ -312,9 +312,6 @@ importers:
       tailwind-merge:
         specifier: ^3.3.1
         version: 3.3.1
-      zenn-content-css:
-        specifier: ^0.2.1
-        version: 0.2.1
       zenn-markdown-html:
         specifier: workspace:zenn-markdown-html
         version: link:../zenn-markdown-html
@@ -352,6 +349,9 @@ importers:
       typescript:
         specifier: ~5.8.3
         version: 5.8.3
+      zenn-content-css:
+        specifier: ^0.2.1
+        version: 0.2.1
 
 packages:
 

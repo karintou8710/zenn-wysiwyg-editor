@@ -3,6 +3,8 @@
 @import "tailwindcss/theme.css" layer(theme);
 @import "tailwindcss/utilities.css" layer(utilities);
 
+@import "zenn-content-css/lib/index.css";
+
 .tiptap {
   margin: 5rem 0 10rem;
   padding: 40px 2rem;
