@@ -5,7 +5,6 @@ import { Alert, AlertDescription } from "./components/ui/alert";
 import usePageTracking from "./hooks/use-page-tracking";
 import { INITIAL_CONTENT } from "./lib/initial-content";
 
-
 import "zenn-wysiwyg-editor/dist/style.css";
 
 function App() {
