@@ -1,16 +1,17 @@
-import { AlertCircleIcon } from "lucide-react";
-import { useState } from "react";
-import { EditorContent, useZennEditor } from "zenn-wysiwyg-editor";
-import { Alert, AlertDescription } from "./components/ui/alert";
-import usePageTracking from "./hooks/use-page-tracking";
-import { INITIAL_CONTENT } from "./lib/initial-content";
-
 import "zenn-wysiwyg-editor/dist/style.css";
+
+import { AlertCircleIcon } from "lucide-react";
+import { Toaster } from "sonner";
+import { EditorContent, useZennEditor } from "zenn-wysiwyg-editor";
+import FixedMenu from "./components/editor/fixed-menu";
+import { Alert, AlertDescription } from "./components/ui/alert";
+import { CONTENT_KEY, useLocalStorage } from "./hooks/use-local-storage";
+import usePageTracking from "./hooks/use-page-tracking";
 
 function App() {
   usePageTracking();
 
-  const [content, setContent] = useState(INITIAL_CONTENT);
+  const [content, setContent] = useLocalStorage(CONTENT_KEY, "");
   const editor = useZennEditor({
     initialContent: content,
     onChange: (content) => {
@@ -37,7 +38,11 @@ function App() {
           </AlertDescription>
         </Alert>
       </div>
-      <EditorContent editor={editor} />
+      <div>
+        <FixedMenu editor={editor} className="mb-2" />
+        <EditorContent editor={editor} />
+      </div>
+      <Toaster />
     </div>
   );
 }

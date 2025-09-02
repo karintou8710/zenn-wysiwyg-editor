@@ -50,8 +50,8 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Build Module
-        run: pnpm build
+      - name: Build zenn-markdown-html
+        run: pnpm -F zenn-markdown-html build
 
       - name: Run Node.js tests
         run: pnpm -F zenn-wysiwyg-editor test:node
@@ -83,8 +83,8 @@ jobs:
       - name: Setup Playwright Browsers
         run: pnpm -F zenn-wysiwyg-editor exec playwright install --with-deps ${{ matrix.browser }}
 
-      - name: Build Module
-        run: pnpm build
+      - name: Build zenn-markdown-html
+        run: pnpm -F zenn-markdown-html build
 
       - name: Run vitest browser mode tests
         run: pnpm -F zenn-wysiwyg-editor test:browser-mode --project=${{ matrix.browser }}

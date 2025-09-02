@@ -14,6 +14,11 @@ declare module "prosemirror-markdown" {
   }
 }
 
+export function renderMarkdown(node: Node) {
+  const markdown = markdownSerializer.serialize(node);
+  return markdown;
+}
+
 const markdownSerializer = new MarkdownSerializer(
   {
     paragraph(state, node) {
