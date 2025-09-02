@@ -5,7 +5,7 @@ on:
     branches: [main, develop]
 
 jobs:
-  format-check:
+  check-lint:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,10 +27,8 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Run lint
-        run: pnpm check:lint
+        run: pnpm lint
 
-      - name: Run format check
-        run: pnpm check:format
   test-unit:
     runs-on: ubuntu-latest
 
@@ -53,10 +51,10 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Module
-        run: pnpm build:module
+        run: pnpm build
 
       - name: Run Node.js tests
-        run: pnpm test:node
+        run: pnpm -F zenn-wysiwyg-editor test:node
 
   test-browser:
     runs-on: ubuntu-latest
@@ -89,7 +87,7 @@ jobs:
         run: pnpm build
 
       - name: Run vitest browser mode tests
-        run: pnpm test:browser-mode --project=${{ matrix.browser }}
+        run: pnpm -F zenn-wysiwyg-editor test:browser-mode --project=${{ matrix.browser }}
 
   build:
     runs-on: ubuntu-latest
