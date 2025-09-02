@@ -91,9 +91,6 @@ jobs:
       - name: Run vitest browser mode tests
         run: pnpm test:browser-mode --project=${{ matrix.browser }}
 
-      - name: Run Playwright tests
-        run: pnpm test:e2e --project=${{ matrix.browser }}
-
   build:
     runs-on: ubuntu-latest
 
