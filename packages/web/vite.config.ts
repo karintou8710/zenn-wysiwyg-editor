@@ -7,7 +7,20 @@ import { defineConfig } from "vite";
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
+    react({
+      // TODO: zenn-wysiwyg-editorに含める
+      babel: {
+        plugins: [
+          [
+            "prismjs",
+            {
+              languages: "all",
+              plugins: ["diff-highlight"],
+            },
+          ],
+        ],
+      },
+    }),
     tailwindcss(),
   ],
   resolve: {
