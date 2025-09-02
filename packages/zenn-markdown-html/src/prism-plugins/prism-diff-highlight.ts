@@ -1,4 +1,4 @@
-import Prism, { TokenStream } from 'prismjs';
+import Prism, { TokenStream } from "prismjs";
 
 /**
  * PrismJSのDiff構文を使用できるようにするためのプラグイン
@@ -17,25 +17,25 @@ export function enableDiffHighlight() {
       /__/g,
       function () {
         return HTML_TAG.source;
-      }
+      },
     ),
-    'gi'
+    "gi",
   );
 
   let warningLogged = false;
 
-  Prism.hooks.add('before-sanity-check', function (env) {
+  Prism.hooks.add("before-sanity-check", function (env) {
     const lang = env.language;
     if (LANGUAGE_REGEX.test(lang) && !env.grammar) {
       env.grammar = Prism.languages[lang] = Prism.languages.diff;
     }
   });
-  Prism.hooks.add('before-tokenize', function (env) {
+  Prism.hooks.add("before-tokenize", function (env) {
     if (!warningLogged && !Prism.languages.diff && !Prism.plugins.autoloader) {
       warningLogged = true;
       console.warn(
         "Prism's Diff Highlight plugin requires the Diff language definition (prism-diff.js)." +
-          "Make sure the language definition is loaded or use Prism's Autoloader plugin."
+          "Make sure the language definition is loaded or use Prism's Autoloader plugin.",
       );
     }
 
@@ -45,11 +45,11 @@ export function enableDiffHighlight() {
     }
   });
 
-  Prism.hooks.add('wrap', function (env) {
-    let diffLanguage = '',
+  Prism.hooks.add("wrap", function (env) {
+    let diffLanguage = "",
       diffGrammar;
 
-    if (env.language !== 'diff') {
+    if (env.language !== "diff") {
       const langMatch = LANGUAGE_REGEX.exec(env.language);
       if (!langMatch) {
         return; // not a language specific diff
@@ -65,12 +65,12 @@ export function enableDiffHighlight() {
      * @type {Object<string, string>}
      */
     const DIFF_PREFIXES = {
-      'deleted-sign': '-',
-      'deleted-arrow': '<',
-      'inserted-sign': '+',
-      'inserted-arrow': '>',
-      unchanged: ' ',
-      diff: '!',
+      "deleted-sign": "-",
+      "deleted-arrow": "<",
+      "inserted-sign": "+",
+      "inserted-arrow": ">",
+      unchanged: " ",
+      diff: "!",
     };
 
     const PREFIXES = Prism.languages.diff && DIFF_PREFIXES;
@@ -80,13 +80,13 @@ export function enableDiffHighlight() {
     // one of the diff tokens without any nested tokens
     if (PREFIXES && env.type in PREFIXES) {
       /** @type {string} */
-      const content = env.content.replace(HTML_TAG, ''); // remove all HTML tags
+      const content = env.content.replace(HTML_TAG, ""); // remove all HTML tags
 
       /** @type {string} */
-      const decoded = content.replace(/&lt;/g, '<').replace(/&amp;/g, '&');
+      const decoded = content.replace(/&lt;/g, "<").replace(/&amp;/g, "&");
 
       // remove any one-character prefix
-      const code = decoded.replace(/(^|[\r\n])./g, '$1');
+      const code = decoded.replace(/(^|[\r\n])./g, "$1");
 
       // highlight, if possible
       let highlighted: string | TokenStream;
@@ -98,9 +98,9 @@ export function enableDiffHighlight() {
 
       // get the HTML source of the prefix token
       const prefixToken = new Prism.Token(
-        'prefix',
+        "prefix",
         PREFIXES[env.type as PREFIXEKeys],
-        [(/\w+/.exec(env.type) as string[])[0]]
+        [(/\w+/.exec(env.type) as string[])[0]],
       );
       const prefix = Prism.Token.stringify(prefixToken, env.language);
 
@@ -115,10 +115,10 @@ export function enableDiffHighlight() {
         // because both "+a\n+" and "+a\n" will map to "a\n" after the line prefixes are removed
         lines.push(prefix);
       }
-      env.content = lines.join('');
+      env.content = lines.join("");
 
       if (diffGrammar) {
-        env.classes.push('language-' + diffLanguage);
+        env.classes.push("language-" + diffLanguage);
       }
     }
   });

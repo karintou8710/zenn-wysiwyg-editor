@@ -1,4 +1,4 @@
-import type { EmbedGeneratorList } from './embed';
+import type { EmbedGeneratorList } from "./embed";
 
 /**
  * Markdown 変換時のオプション型

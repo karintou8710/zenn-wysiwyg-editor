@@ -2,12 +2,12 @@
  * forked from https://github.com/goessner/markdown-it-mdKatex
  */
 
-import MarkdownIt from 'markdown-it';
+import MarkdownIt from "markdown-it";
 
 type PreHandler = (str: string, begin: number) => boolean;
 type PostHandler = (str: string, begin: number) => boolean;
 
-const katexClassName = 'zenn-katex';
+const katexClassName = "zenn-katex";
 
 const preHandler: PreHandler = function (str, beg) {
   const prv = beg > 0 ? str[beg - 1].charCodeAt(0) : false;
@@ -34,21 +34,21 @@ type HandlingRule = {
 
 const inlineRules: HandlingRule[] = [
   {
-    name: 'math_inline_double',
+    name: "math_inline_double",
     // maybe unused.
     rex: /\${2}((?:\S)|(?:\S(?!.*\]\(http).*?\S))\${2}/gy,
     tmpl: `<section class="${katexClassName}"><embed-katex display-mode="1"><eqn>$1</eqn></embed-katex></section>`,
-    tag: '$$',
+    tag: "$$",
     pre: preHandler,
     post: postHandler,
   },
   {
-    name: 'math_inline',
+    name: "math_inline",
     // fixed so that the expression [$something](https://something.com/$example) is skipped.
     // (?:\S(?![^$]*\]\(http.*) means something like "](https://hoge.com/hoge)"
     rex: /\$((?:\S)|(?:\S(?![^$]*\]\(http.*).*?\S))\$/gy,
     tmpl: `<embed-katex><eq class="${katexClassName}">$1</eq></embed-katex>`,
-    tag: '$',
+    tag: "$",
     pre: preHandler,
     post: postHandler,
   },
@@ -56,22 +56,22 @@ const inlineRules: HandlingRule[] = [
 
 const blockRules: HandlingRule[] = [
   {
-    name: 'math_block_eqno',
+    name: "math_block_eqno",
     rex: /\${2}([^$]+?)\${2}\s*?\(([^)\s]+?)\)/gmy,
     tmpl: `<section class="${katexClassName} eqno code-line" $3><eqn><embed-katex display-mode="1">$1</embed-katex></eqn><span>($2)</span></section>`,
-    tag: '$$',
+    tag: "$$",
   },
   {
-    name: 'math_block',
+    name: "math_block",
     rex: /\${2}([^$]+?)\${2}/gmy,
     tmpl: `<section class="${katexClassName} code-line" $3><eqn><embed-katex display-mode="1">$1</embed-katex></eqn></section>`,
-    tag: '$$',
+    tag: "$$",
   },
 ];
 
 export function mdKatex(md: MarkdownIt) {
   for (const rule of inlineRules) {
-    md.inline.ruler.before('escape', rule.name, function (state, silent) {
+    md.inline.ruler.before("escape", rule.name, function (state, silent) {
       const pos = state.pos;
       const str = state.src;
       const pre =
@@ -85,7 +85,7 @@ export function mdKatex(md: MarkdownIt) {
 
       if (res) {
         if (!silent && match) {
-          const token = state.push(rule.name, 'math', 0);
+          const token = state.push(rule.name, "math", 0);
           token.content = match[1];
           token.markup = rule.tag;
         }
@@ -99,7 +99,7 @@ export function mdKatex(md: MarkdownIt) {
 
   for (const rule of blockRules) {
     md.block.ruler.before(
-      'fence',
+      "fence",
       rule.name,
       function block(state, begLine, endLine, silent) {
         const pos = state.bMarks[begLine] + state.tShift[begLine];
@@ -132,21 +132,21 @@ export function mdKatex(md: MarkdownIt) {
           const oldParentType = state.parentType;
           state.lineMax = curline;
           // eslint-disable-next-line
-          state.parentType = 'math' as any;
+          state.parentType = "math" as any;
 
-          if (oldParentType === 'blockquote') {
+          if (oldParentType === "blockquote") {
             // remove all leading '>' inside multiline formula
-            match[1] = match[1].replace(/(\n*?^(?:\s*>)+)/gm, '');
+            match[1] = match[1].replace(/(\n*?^(?:\s*>)+)/gm, "");
           }
           // begin token
-          let token = state.push(rule.name, 'math', 1); // 'math_block'
+          let token = state.push(rule.name, "math", 1); // 'math_block'
           token.block = true;
           token.markup = rule.tag;
           token.content = match[1];
           token.info = match[match.length - 1]; // eq.no
           token.map = [begLine, curline];
           // end token
-          token = state.push(rule.name + '_end', 'math', -1);
+          token = state.push(rule.name + "_end", "math", -1);
           token.block = true;
           token.markup = rule.tag;
 
@@ -155,13 +155,13 @@ export function mdKatex(md: MarkdownIt) {
           state.line = curline + 1;
         }
         return res;
-      }
+      },
     ); // ! important for ```math delimiters
 
     md.renderer.rules[rule.name] = (tokens, idx) =>
       rule.tmpl
         .replace(/\$2/, md.utils.escapeHtml(tokens[idx].info)) // equation number .. ?
         .replace(/\$1/, md.utils.escapeHtml(tokens[idx].content))
-        .replace(/\$3/, 'data-line="' + tokens[idx].attrGet('data-line') + '"');
+        .replace(/\$3/, 'data-line="' + tokens[idx].attrGet("data-line") + '"');
   }
 }

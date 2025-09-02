@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "web:dev": "pnpm -F web dev",
-    "build": "turbo build"
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "fix": "turbo fix"
   },
   "devDependencies": {
     "@biomejs/biome": "2.2.0",

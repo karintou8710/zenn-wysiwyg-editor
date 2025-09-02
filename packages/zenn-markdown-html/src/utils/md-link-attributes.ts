@@ -9,7 +9,7 @@ export function mdLinkAttributes(md: MarkdownIt) {
     {
       matcher(href: string) {
         return href.match(
-          /^(?:https:\/\/zenn\.dev$)|(?:https:\/\/zenn\.dev\/.*$)/
+          /^(?:https:\/\/zenn\.dev$)|(?:https:\/\/zenn\.dev\/.*$)/,
         );
       },
       attrs: {

@@ -1,3 +1,3 @@
-import { parseToc } from './toc';
+import { parseToc } from "./toc";
 
 export { parseToc };

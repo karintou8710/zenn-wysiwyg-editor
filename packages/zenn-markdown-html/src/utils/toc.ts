@@ -1,4 +1,4 @@
-import * as cheerio from 'cheerio';
+import * as cheerio from "cheerio";
 
 type Toc = {
   text: string;
@@ -9,12 +9,12 @@ type Toc = {
 
 export function parseToc(html: string): Toc[] {
   const $ = cheerio.load(html);
-  const headings = $('body > h1, body > h2, body > h3').toArray();
+  const headings = $("body > h1, body > h2, body > h3").toArray();
   const headingsToc = headings.map((heading) => ({
     level: parseInt(heading.name.slice(1), 10),
 
     // eslint-disable-next-line no-control-regex
-    text: $(heading).text().replace(/\x08/g, '').trim(),
+    text: $(heading).text().replace(/\x08/g, "").trim(),
 
     id: heading.attribs.id,
     children: [],

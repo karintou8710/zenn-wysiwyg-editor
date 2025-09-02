@@ -1,7 +1,7 @@
 /**
  * forked from https://github.com/iktakahiro/markdown-it-br
  */
-import MarkdownIt from 'markdown-it';
+import MarkdownIt from "markdown-it";
 
 /**
  * Return case-sensitive matched br tag
@@ -21,8 +21,8 @@ function matchBR(state: any, start: number): string | null {
 export function mdBr(md: MarkdownIt): void {
   // Tokenize
   md.inline.ruler.before(
-    'emphasis',
-    'br',
+    "emphasis",
+    "br",
     // eslint-disable-next-line
     function tokenize(state: any, silent): boolean {
       const max = state.posMax;
@@ -38,8 +38,8 @@ export function mdBr(md: MarkdownIt): void {
         return false;
       }
       state.scanDelims(state.pos, true);
-      const token = state.push('text', '', 0);
-      token.content = '<br>';
+      const token = state.push("text", "", 0);
+      token.content = "<br>";
       state.delimiters.push({
         marker: token.content,
         jump: 0,
@@ -54,11 +54,11 @@ export function mdBr(md: MarkdownIt): void {
       state.pos += br.length;
 
       return true;
-    }
+    },
   );
 
   // Walk through delimiter list and replace text tokens with tags
-  md.inline.ruler2.before('emphasis', 'br', function postProcess(state) {
+  md.inline.ruler2.before("emphasis", "br", function postProcess(state) {
     let i;
     let delim;
     let token;
@@ -67,15 +67,15 @@ export function mdBr(md: MarkdownIt): void {
 
     for (i = 0; i < max; i++) {
       delim = delimiters[i];
-      const marker = delim.marker as number | '<br>';
+      const marker = delim.marker as number | "<br>";
 
-      if (marker === '<br>') {
+      if (marker === "<br>") {
         token = state.tokens[delim.token];
-        token.type = 'br_openclose';
-        token.tag = 'br';
+        token.type = "br_openclose";
+        token.tag = "br";
         token.nesting = 1;
-        token.markup = '<br>';
-        token.content = '';
+        token.markup = "<br>";
+        token.content = "";
       }
     }
 

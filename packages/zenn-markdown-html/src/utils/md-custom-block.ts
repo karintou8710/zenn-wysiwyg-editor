@@ -1,25 +1,25 @@
-import MarkdownIt from 'markdown-it';
-import { MarkdownOptions } from '../types';
-import { generateEmbedHTML, isEmbedType } from './embed-helper';
+import MarkdownIt from "markdown-it";
+import { MarkdownOptions } from "../types";
+import { generateEmbedHTML, isEmbedType } from "./embed-helper";
 
 // Forked from: https://github.com/posva/markdown-it-custom-block
 export function mdCustomBlock(md: MarkdownIt, options?: MarkdownOptions) {
   md.renderer.rules.custom = function tokenizeBlock(tokens, idx) {
     const { tag, arg }: any = tokens[idx].info; // eslint-disable-line @typescript-eslint/no-explicit-any
 
-    if (!isEmbedType(tag)) return '';
-    if (typeof arg !== 'string') return '';
+    if (!isEmbedType(tag)) return "";
+    if (typeof arg !== "string") return "";
 
     try {
-      return generateEmbedHTML(tag, arg, options || {}) + '\n';
+      return generateEmbedHTML(tag, arg, options || {}) + "\n";
     } catch (e) {
-      return '';
+      return "";
     }
   };
 
   md.block.ruler.before(
-    'fence',
-    'custom',
+    "fence",
+    "custom",
     function customEmbed(state, startLine, endLine, silent) {
       const startPos = state.bMarks[startLine] + state.tShift[startLine];
       const maxPos = state.eMarks[startLine];
@@ -63,7 +63,7 @@ export function mdCustomBlock(md: MarkdownIt, options?: MarkdownOptions) {
 
       if (pointer.line >= endLine) return false;
       if (!silent) {
-        const token = state.push('custom', 'div', 0);
+        const token = state.push("custom", "div", 0);
         token.markup = state.src.slice(startPos, pointer.pos);
         // eslint-disable-next-line
         token.info = { arg, tag } as any;
@@ -74,6 +74,6 @@ export function mdCustomBlock(md: MarkdownIt, options?: MarkdownOptions) {
 
       return true;
     },
-    { alt: ['paragraph', 'reference', 'blockquote', 'list'] }
+    { alt: ["paragraph", "reference", "blockquote", "list"] },
   );
 }

@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "check:lint": "biome lint ./src",
     "check:format": "biome format ./src",
-    "check": "run-s check:*",
+    "lint": "run-s check:*",
     "fix": "biome check --write ./src"
   },
   "dependencies": {

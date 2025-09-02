@@ -10,7 +10,7 @@
     "build": "tsup",
     "check:lint": "biome lint ./src",
     "check:format": "biome format ./src",
-    "check": "run-s check:*",
+    "lint": "run-s check:*",
     "fix": "biome check --write ./src",
     "test:node": "vitest run",
     "test:browser-mode": "vitest run --config=vitest.browser.config.ts",
