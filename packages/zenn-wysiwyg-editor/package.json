@@ -9,7 +9,7 @@
   "scripts": {
     "build": "tsup",
     "test:node": "vitest run",
-    "test:browser-mode": "vitest run --config=vitest.browser.config.ts"
+    "test:browser": "vitest run --config=vitest.browser.config.ts"
   },
   "exports": {
     ".": {
