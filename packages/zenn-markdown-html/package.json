@@ -4,7 +4,6 @@
   "license": "MIT",
   "description": "Convert markdown to zenn flavor html.",
   "type": "module",
-  "module": "lib/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/zenn-dev/zenn-editor.git",
