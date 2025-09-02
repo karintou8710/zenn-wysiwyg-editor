@@ -1,10 +1,10 @@
 declare module "zenn-content-css" {
-  const content: any;
+  const content: string;
   export default content;
 }
 
 declare module "*.css" {
-  const content: Record<string, string>;
+  const content: string;
   export default content;
 }
 
