@@ -1,5 +1,10 @@
 # zenn-wysiwyg-editor
 
+zenn-editor をフォークしたレポジトリで開発を進めます  
+https://github.com/karintou8710/zenn-editor
+
+---
+
 Zenn の記事を WYSIWYG で編集可能なエディタです（非公式）  
 編集後はコピーボタンで対応するマークダウンのエクスポートが可能となります。
 
